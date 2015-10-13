@@ -16,13 +16,13 @@ public class Device {
                     useVid,
                     //init settings
                     notFirstLaunch;
-    //Peripheral list
+    //todo Peripheral list
 //    private thermometer therm;
 //    private microphone mic;
 //    private video vid;
 
     //Constructor
-        //CURRENTLY DOES NOT ACCOUNT FOR PERIPHERALS
+        //todo CURRENTLY DOES NOT ACCOUNT FOR PERIPHERALS
         //WILL BE MORE ADVANCED THAN THIS
     public Device(boolean notFirstLaunch, String name, long idNum, boolean useTemp, boolean useMic, boolean useVid) {
         this.notFirstLaunch = notFirstLaunch;
@@ -34,7 +34,7 @@ public class Device {
     }
 
     //toString
-        //CURRENTLY DOES NOT ACCOUNT FOR PERIPHERALS
+        //todo CURRENTLY DOES NOT ACCOUNT FOR PERIPHERALS
     @Override
     public String toString() {
         return "Device{" +
