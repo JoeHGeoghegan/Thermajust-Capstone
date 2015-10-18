@@ -2,14 +2,15 @@
 
     <!-- These settings headers are only used on tablets. -->
 
-    <header android:fragment="capstone.thermajust.Main_Settings_Page$GeneralPreferenceFragment"
+    <header android:fragment="capstone.thermajust.Power_Setup_Activity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" android:icon="@drawable/ic_info_black_24dp" />
 
-    <header android:fragment="capstone.thermajust.Main_Settings_Page$NotificationPreferenceFragment"
+    <header
+        android:fragment="capstone.thermajust.Power_Setup_Activity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications"
         android:icon="@drawable/ic_notifications_black_24dp" />
 
-    <header android:fragment="capstone.thermajust.Main_Settings_Page$DataSyncPreferenceFragment"
+    <header android:fragment="capstone.thermajust.Power_Setup_Activity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" android:icon="@drawable/ic_sync_black_24dp" />
 
 </preference-headers>

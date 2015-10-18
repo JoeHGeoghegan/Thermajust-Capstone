@@ -22,6 +22,22 @@
             android:name=".Main_Settings_Page"
             android:label="@string/title_activity_main__settings__page" >
         </activity>
+        <activity
+            android:name=".Device_Setup_Activity"
+            android:label="@string/title_activity_device__setup_" >
+        </activity>
+        <activity
+            android:name=".GroupSetupActivity"
+            android:label="@string/title_activity_group_setup" >
+        </activity>
+        <activity
+            android:name=".ScheduleSetupActivity"
+            android:label="@string/title_activity_schedule_setup" >
+        </activity>
+        <activity
+            android:name=".Power_Setup_Activity"
+            android:label="@string/title_activity_power__setup_" >
+        </activity>
     </application>
 
 </manifest>

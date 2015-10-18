@@ -1,5 +1,6 @@
 package capstone.thermajust;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -58,8 +59,20 @@ public class Main_Tabbed_View extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "The current tab is " + mSectionsPagerAdapter.getPageTitle(tabLayout.getSelectedTabPosition()), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "The current tab is " + mSectionsPagerAdapter.getPageTitle(tabLayout.getSelectedTabPosition()), Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                switch(tabLayout.getSelectedTabPosition()) {
+                    case 0:
+                        toDeviceSetup(view);
+//                        toGroupSetup(view);
+                        break;
+                    case 1:
+                        toScheduleSetup(view);
+                        break;
+                    case 2:
+                        toPowerSetup(view);
+                        break;
+                }
             }
         });
 
@@ -159,5 +172,31 @@ public class Main_Tabbed_View extends AppCompatActivity {
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    public void toSettings(MenuItem menuItem) {
+        Intent myIntent = new Intent(Main_Tabbed_View.this, Main_Settings_Page.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        Main_Tabbed_View.this.startActivity(myIntent);
+    }
+    public void toDeviceSetup(View view) {
+        Intent myIntent = new Intent(Main_Tabbed_View.this, Device_Setup_Activity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        Main_Tabbed_View.this.startActivity(myIntent);
+    }
+    public void toGroupSetup(View view) {
+        Intent myIntent = new Intent(Main_Tabbed_View.this, GroupSetupActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        Main_Tabbed_View.this.startActivity(myIntent);
+    }
+    public void toScheduleSetup(View view) {
+        Intent myIntent = new Intent(Main_Tabbed_View.this, ScheduleSetupActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        Main_Tabbed_View.this.startActivity(myIntent);
+    }
+    public void toPowerSetup(View view) {
+        Intent myIntent = new Intent(Main_Tabbed_View.this, Power_Setup_Activity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        Main_Tabbed_View.this.startActivity(myIntent);
     }
 }
