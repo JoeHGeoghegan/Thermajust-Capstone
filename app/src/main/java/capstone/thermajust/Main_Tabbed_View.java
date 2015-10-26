@@ -1,5 +1,10 @@
 package capstone.thermajust;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -63,7 +68,8 @@ public class Main_Tabbed_View extends AppCompatActivity {
 //                        .setAction("Action", null).show();
                 switch(tabLayout.getSelectedTabPosition()) {
                     case 0:
-                        toDeviceSetup(view);
+                        showDeviceGroupDialog();
+//                        toDeviceSetup(view);
 //                        toGroupSetup(view);
                         break;
                     case 1:
@@ -174,29 +180,63 @@ public class Main_Tabbed_View extends AppCompatActivity {
         }
     }
 
+    public static class deviceGroupDiologFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.deviceGroupCreate)
+                    .setNegativeButton(R.string.device, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //toDevice
+                            toDeviceSetup();
+                        }
+                    })
+                    .setPositiveButton(R.string.group, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //toGroup
+                            toGroupSetup();
+                        }
+                    })
+                    .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Cancel
+                        }
+                    });
+            return builder.create();
+        }
+
+        public static deviceGroupDiologFragment newInstance(int title) {
+            deviceGroupDiologFragment frag = new deviceGroupDiologFragment();
+            Bundle args = new Bundle();
+            args.putInt("title",title);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        public void toDeviceSetup() {
+            Intent myIntent = new Intent(getActivity(), Device_Setup.class);
+            getActivity().startActivity(myIntent);
+        }
+        public void toGroupSetup() {
+            Intent myIntent = new Intent(getActivity(), Group_Setup.class);
+            getActivity().startActivity(myIntent);
+        }
+    }
+    void showDeviceGroupDialog() {
+        DialogFragment newFragment = deviceGroupDiologFragment.newInstance(R.string.deviceGroupCreate);
+        newFragment.show(getFragmentManager(), "deviceGroupDiologFragment");
+    }
+
     public void toSettings(MenuItem menuItem) {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Main_Settings_Page.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        Main_Tabbed_View.this.startActivity(myIntent);
-    }
-    public void toDeviceSetup(View view) {
-        Intent myIntent = new Intent(Main_Tabbed_View.this, Device_Setup_Activity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        Main_Tabbed_View.this.startActivity(myIntent);
-    }
-    public void toGroupSetup(View view) {
-        Intent myIntent = new Intent(Main_Tabbed_View.this, GroupSetupActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
         Main_Tabbed_View.this.startActivity(myIntent);
     }
     public void toScheduleSetup(View view) {
-        Intent myIntent = new Intent(Main_Tabbed_View.this, ScheduleSetupActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
+        Intent myIntent = new Intent(Main_Tabbed_View.this, Schedule_Setup.class);
         Main_Tabbed_View.this.startActivity(myIntent);
     }
     public void toPowerSetup(View view) {
-        Intent myIntent = new Intent(Main_Tabbed_View.this, Power_Setup_Activity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
+        Intent myIntent = new Intent(Main_Tabbed_View.this, Power_Setup.class);
         Main_Tabbed_View.this.startActivity(myIntent);
     }
 }

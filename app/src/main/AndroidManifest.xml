@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+        <!-- Main Activity -->
         <activity
             android:name=".Main_Tabbed_View"
             android:label="@string/app_name"
@@ -18,25 +19,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Preference Activity -->
         <activity
             android:name=".Main_Settings_Page"
             android:label="@string/title_activity_main__settings__page" >
         </activity>
+
+        <!-- Setup Activities -->
         <activity
-            android:name=".Device_Setup_Activity"
-            android:label="@string/title_activity_device__setup_" >
+            android:name=".Device_Setup"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".GroupSetupActivity"
-            android:label="@string/title_activity_group_setup" >
+            android:name=".Group_Setup"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".ScheduleSetupActivity"
-            android:label="@string/title_activity_schedule_setup" >
+            android:name=".Schedule_Setup"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".Power_Setup_Activity"
-            android:label="@string/title_activity_power__setup_" >
+            android:name=".Power_Setup"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
