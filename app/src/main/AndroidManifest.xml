@@ -29,18 +29,25 @@
         <!-- Setup Activities -->
         <activity
             android:name=".Device_Setup"
+            android:label="Device Setup"
             android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Tabbed_View"/>
         </activity>
         <activity
             android:name=".Group_Setup"
+            android:label="Group Setup"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".Schedule_Setup"
+            android:label="Schedule Setup"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".Power_Setup"
+            android:label="Power Setup"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
