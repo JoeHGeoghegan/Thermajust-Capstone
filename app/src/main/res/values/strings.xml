@@ -20,6 +20,23 @@
     <string name="device">Device</string>
     <string name="group">Group</string>
 
+    <!-- Setup Strings -->
+    <string name="findBluetooth">Find BlueTooth</string>
+    <string name="name">Name</string>
+    <string name="id">ID Code</string>
+    <string name="peripherals">Peripherals - Enable the devices you have attached to your Thermajust</string>
+    <string name="title_activity_device__setup">Device_Setup</string>
+    <string name="device_name_hint">Enter Preferred Device Name here.</string>
+    <string name="peripheral">Peripherals</string>
+    <string name="thermometer">Thermometer</string>
+    <string name="microphone">Microphone</string>
+    <string name="video_camera">Video Camera</string>
+    <string name="wifi">WiFi</string>
+    <string name="wifi_hint">Enter WiFi Name Here</string>
+    <string name="wifi_password">WiFi Password</string>
+    <string name="wifi_password_hint">Enter password for given WiFi</string>
+    <string name="save">Save</string>
+
     <!-- Setting Preference Strings -->
     <string name="pref_header_notifications">Notifications</string>
     <string name="pref_title_new_message_notifications">New message notifications</string>
@@ -63,5 +80,4 @@
         <item>0</item>
         <item>-1</item>
     </string-array>
-    <string name="title_activity_device__setup">Device_Setup</string>
 </resources>
