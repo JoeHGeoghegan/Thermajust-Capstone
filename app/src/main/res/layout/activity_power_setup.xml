@@ -15,4 +15,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical">
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize" />
+
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

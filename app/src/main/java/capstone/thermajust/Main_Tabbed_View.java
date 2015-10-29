@@ -213,6 +213,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
             return frag;
         }
 
+        //Dialog Switching
         public void toDeviceSetup() {
             Intent myIntent = new Intent(getActivity(), Device_Setup.class);
             getActivity().startActivity(myIntent);
@@ -227,10 +228,17 @@ public class Main_Tabbed_View extends AppCompatActivity {
         newFragment.show(getFragmentManager(), "deviceGroupDiologFragment");
     }
 
+    //Menu Switching
     public void toSettings(MenuItem menuItem) {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Main_Settings_Page.class);
         Main_Tabbed_View.this.startActivity(myIntent);
     }
+    public void toDefaultWifi(MenuItem menuItem) {
+        Intent myIntent = new Intent(Main_Tabbed_View.this, WiFi_Default.class);
+        Main_Tabbed_View.this.startActivity(myIntent);
+    }
+
+    //FAB Switching
     public void toScheduleSetup(View view) {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Schedule_Setup.class);
         Main_Tabbed_View.this.startActivity(myIntent);

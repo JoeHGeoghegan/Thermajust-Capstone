@@ -2,12 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="capstone.thermajust" >
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+
         <!-- Main Activity -->
         <activity
             android:name=".Main_Tabbed_View"
@@ -33,22 +39,39 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Main_Tabbed_View"/>
+                android:value=".Main_Tabbed_View" />
         </activity>
         <activity
             android:name=".Group_Setup"
             android:label="Group Setup"
             android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Tabbed_View" />
         </activity>
         <activity
             android:name=".Schedule_Setup"
             android:label="Schedule Setup"
             android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Tabbed_View" />
         </activity>
         <activity
             android:name=".Power_Setup"
             android:label="Power Setup"
             android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Tabbed_View" />
+        </activity>
+        <activity
+            android:name=".WiFi_Default"
+            android:label="@string/title_activity_wifi__default"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Tabbed_View" />
         </activity>
     </application>
 

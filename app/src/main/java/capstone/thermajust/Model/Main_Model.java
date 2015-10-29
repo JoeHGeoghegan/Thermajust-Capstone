@@ -12,8 +12,23 @@ import java.util.ArrayList;
  *      every object in an array.
  */
 public class Main_Model {
+
+    /* List Array Data and their management functions */
     ArrayList<Device> deviceList = new ArrayList<Device>();
     ArrayList<Group> groupList = new ArrayList<Group>();
 //    ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
 //    ArrayList<Power> powerList = new ArrayList<Power>();
+
+    /* WiFi related data and its management functions */
+    private String WiFiDefaultName;
+    private String WiFiDefaultPassword;
+
+    public void setWifiDefaults(String name, String password){
+        WiFiDefaultName = name;
+        WiFiDefaultPassword = password;
+    }
+    public String getWiFiDefaultName() { return WiFiDefaultName; }
+    public String getWiFiDefaultPassword() { return WiFiDefaultPassword; }
+
+    
 }

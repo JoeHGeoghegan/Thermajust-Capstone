@@ -5,4 +5,8 @@
         android:orderInCategory="100" app:showAsAction="never"
         android:onClick="toSettings"
         />
+    <item android:id="@+id/action_defaultWifi" android:title="@string/title_activity_wifi__default"
+        android:orderInCategory="101" app:showAsAction="never"
+        android:onClick="toDefaultWifi"
+        />
 </menu>
