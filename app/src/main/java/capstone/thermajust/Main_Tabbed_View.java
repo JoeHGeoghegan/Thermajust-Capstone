@@ -25,8 +25,14 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class Main_Tabbed_View extends AppCompatActivity {
+import java.io.Serializable;
 
+import capstone.thermajust.Model.Main_Model;
+
+public class Main_Tabbed_View extends AppCompatActivity {
+    //Data structure attribute
+    public static Main_Model model = new Main_Model(); //this will load all the data on creation
+//    public Main_Model getModel() { return model; }
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -82,6 +88,8 @@ public class Main_Tabbed_View extends AppCompatActivity {
             }
         });
 
+
+        model.loadAll(this); //This will load all data from file into the model
     }
 
 

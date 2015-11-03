@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.io.File;
+
+import capstone.thermajust.Main_Tabbed_View;
 
 /**
  * Created by Joe Geoghegan on 10/27/2015.
@@ -23,6 +23,7 @@ import java.io.File;
  *       every object in an array.
  */
 public class Main_Model {
+
     /*******************
      * ATTRIBUTES
      *******************/
@@ -45,12 +46,12 @@ public class Main_Model {
     /* loadAll will load and process everything on application launch
             The functions are all at the bottom to make main components cleaner
      */
-    public void loadAll(Context content) {
-        loadOptions(content);
-        loadDevice(content);
-        loadGroup(content);
-//        loadSchedule(content);
-//        loadPower(content);
+    public void loadAll(Context context) {
+        loadOptions(context);
+//        loadDevice(context);
+//        loadGroup(context);
+//        loadSchedule(context);
+//        loadPower(context);
     }
 
     /* WiFi  management functions */
@@ -73,18 +74,25 @@ public class Main_Model {
      *      as class file attributes (excluding the arrayLists of classes of course)
      **/
     public void loadOptions(Context context) {
-        String file = "ThermajustOptionsSave.txt";
+        String file = "ThermajustOptionSave.txt";
         AssetManager assetManager = context.getAssets();
         BufferedReader bufferedReader = null;
         try {
             bufferedReader = new BufferedReader(
                     new InputStreamReader(assetManager.open(file)));
             String mLine;
+            int count = 0;
             while ((mLine = bufferedReader.readLine()) != null) {
                 //process line
-
-
-
+                switch(count) {
+                    case 0: //wifi default name
+                        WiFiDefaultName = mLine;
+                        break;
+                    case 1: //wifi default password
+                        WiFiDefaultPassword = mLine;
+                        break;
+                }
+                count++;
             }
         } catch (FileNotFoundException e) {
             //Create File, first use
@@ -118,6 +126,7 @@ public class Main_Model {
             String mLine;
             while ((mLine = bufferedReader.readLine()) != null) {
                 //process line
+
 
 
 
@@ -250,6 +259,92 @@ public class Main_Model {
                     //log this somehow
                 }
             }
+        }
+    }
+
+    /**
+     * Save Functions, for arrays combines the toString of all members of the array and writes that
+     *      to file
+     *  For non-array attributes, saves a string version of the attributes
+     */
+    public void saveOptions(Context context) {
+        String saveWrite = "";
+        String fileName = "ThermajustOptionSave.txt";
+        FileOutputStream outputStream;
+
+        saveWrite = getWiFiDefaultName() + "/n" +
+                    getWiFiDefaultPassword();
+
+        try {
+            outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(saveWrite.getBytes());
+            outputStream.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveDevices(Context context) {
+        String saveWrite = "";
+        String fileName = "ThermajustDeviceSave.txt";
+        FileOutputStream outputStream;
+
+
+
+        try {
+            outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(saveWrite.getBytes());
+            outputStream.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveGroups(Context context) {
+        String saveWrite = "";
+        String fileName = "ThermajustGroupSave.txt";
+        FileOutputStream outputStream;
+
+
+
+        try {
+            outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(saveWrite.getBytes());
+            outputStream.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveSchedule(Context context) {
+        String saveWrite = "";
+        String fileName = "ThermajustScheduleSave.txt";
+        FileOutputStream outputStream;
+
+
+
+        try {
+            outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(saveWrite.getBytes());
+            outputStream.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void savePower(Context context) {
+        String saveWrite = "";
+        String fileName = "ThermajustPowerSave.txt";
+        FileOutputStream outputStream;
+
+
+
+        try {
+            outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(saveWrite.getBytes());
+            outputStream.close();
+        }catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }
