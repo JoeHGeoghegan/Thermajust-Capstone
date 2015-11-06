@@ -54,7 +54,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView_device_DeviceID_Field"
+            android:id="@+id/editText_device_DeviceID_Field"
             android:hint="@string/id"
             android:clickable="false"
             android:cursorVisible="false"

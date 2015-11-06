@@ -28,11 +28,11 @@ public class WiFi_Default extends AppCompatActivity {
 
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                name.getText().toString();
-//                password.getText().toString();
                 Main_Tabbed_View.model.setWifiDefaults(name.getText().toString(),
-                                                        password.getText().toString());
+                        password.getText().toString());
                 Main_Tabbed_View.model.saveOptions(getApplicationContext());
+                Snackbar snackbar = Snackbar.make(view,"WiFi Settings Saved",Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 
@@ -57,9 +57,5 @@ public class WiFi_Default extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void save() {
-
     }
 }

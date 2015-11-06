@@ -1,13 +1,17 @@
 package capstone.thermajust.Model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
+import android.support.design.widget.Snackbar;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import capstone.thermajust.Main_Tabbed_View;
@@ -29,10 +33,10 @@ public class Main_Model {
      *******************/
 
     /* List Array attributes */
-    ArrayList<Device> deviceList = new ArrayList<>();
-    ArrayList<Group> groupList = new ArrayList<>();
-//    ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
-//    ArrayList<Power> powerList = new ArrayList<Power>();
+    public ArrayList<Device> deviceList = new ArrayList<>();
+    public ArrayList<Group> groupList = new ArrayList<>();
+//    public ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
+//    public ArrayList<Power> powerList = new ArrayList<Power>();
 
     /* WiFi related attributes */
     private String WiFiDefaultName;
@@ -59,6 +63,8 @@ public class Main_Model {
         WiFiDefaultName = name;
         WiFiDefaultPassword = password;
     }
+    public void setWiFiDefaultName(String wiFiDefaultName) { WiFiDefaultName = wiFiDefaultName; }
+    public void setWiFiDefaultPassword(String wiFiDefaultPassword) { WiFiDefaultPassword = wiFiDefaultPassword; }
     public String getWiFiDefaultName() { return WiFiDefaultName; }
     public String getWiFiDefaultPassword() { return WiFiDefaultPassword; }
 
@@ -74,46 +80,29 @@ public class Main_Model {
      *      as class file attributes (excluding the arrayLists of classes of course)
      **/
     public void loadOptions(Context context) {
-        String file = "ThermajustOptionSave.txt";
-        AssetManager assetManager = context.getAssets();
-        BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(assetManager.open(file)));
-            String mLine;
+            FileInputStream fis = context.openFileInput("ThermajustOptionSave.txt");
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            String line;
             int count = 0;
-            while ((mLine = bufferedReader.readLine()) != null) {
-                //process line
+            while ((line = bufferedReader.readLine()) != null) {
                 switch(count) {
-                    case 0: //wifi default name
-                        WiFiDefaultName = mLine;
+                    case 0:
+                        setWiFiDefaultName(line);
                         break;
-                    case 1: //wifi default password
-                        WiFiDefaultPassword = mLine;
+                    case 1:
+                        setWiFiDefaultPassword(line);
                         break;
                 }
                 count++;
             }
-        } catch (FileNotFoundException e) {
-            //Create File, first use
-            try {
-                FileOutputStream fileOutputStream =
-                        context.openFileOutput(file, Context.MODE_PRIVATE);
-                fileOutputStream.write("".getBytes());
-                fileOutputStream.close();
-            }catch (IOException ex) {
-                e.printStackTrace();
-            }
-        } catch(IOException e) {
-            //log this somehow
-        }finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch(IOException e) {
-                    //log this somehow
-                }
-            }
+        } catch (FileNotFoundException e0) {
+            e0.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (IOException e2) {
+            e2.printStackTrace();
         }
     }
     public void loadDevice(Context context) {
@@ -143,12 +132,14 @@ public class Main_Model {
             }
         } catch(IOException e) {
             //log this somehow
+            e.printStackTrace();
         }finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch(IOException e) {
                     //log this somehow
+                    e.printStackTrace();
                 }
             }
         }
@@ -179,12 +170,14 @@ public class Main_Model {
             }
         } catch(IOException e) {
             //log this somehow
+            e.printStackTrace();
         }finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch(IOException e) {
                     //log this somehow
+                    e.printStackTrace();
                 }
             }
         }
@@ -215,12 +208,14 @@ public class Main_Model {
             }
         } catch(IOException e) {
             //log this somehow
+            e.printStackTrace();
         }finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch(IOException e) {
                     //log this somehow
+                    e.printStackTrace();
                 }
             }
         }
@@ -251,12 +246,14 @@ public class Main_Model {
             }
         } catch(IOException e) {
             //log this somehow
+            e.printStackTrace();
         }finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch(IOException e) {
                     //log this somehow
+                    e.printStackTrace();
                 }
             }
         }
@@ -272,7 +269,7 @@ public class Main_Model {
         String fileName = "ThermajustOptionSave.txt";
         FileOutputStream outputStream;
 
-        saveWrite = getWiFiDefaultName() + "/n" +
+        saveWrite = getWiFiDefaultName() + "\n" +
                     getWiFiDefaultPassword();
 
         try {
@@ -289,7 +286,9 @@ public class Main_Model {
         String fileName = "ThermajustDeviceSave.txt";
         FileOutputStream outputStream;
 
-
+        for (int i = 0 ; i < deviceList.size() ; i++) {
+            saveWrite = saveWrite + deviceList.get(i).toString();
+        }
 
         try {
             outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);

@@ -88,8 +88,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
             }
         });
 
-
-        model.loadAll(this); //This will load all data from file into the model
+        model.loadAll(getApplicationContext()); //This will load all data from file into the model
     }
 
 
