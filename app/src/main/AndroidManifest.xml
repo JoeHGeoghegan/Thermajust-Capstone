@@ -75,6 +75,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main_Tabbed_View" />
         </activity>
+        <activity
+            android:name=".bluetooth_connect"
+            android:label="@string/title_activity_bluetooth_connect"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Device_Setup" />
+        </activity>
     </application>
 
 </manifest>

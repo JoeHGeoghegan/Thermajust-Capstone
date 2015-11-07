@@ -14,6 +14,7 @@
     <string name="title_activity_schedule_setup">Schedule Setup</string>
     <string name="title_activity_power__setup_">Power Group Setup</string>
     <string name="title_activity_wifi__default">Set WiFi Default</string>
+    <string name="title_activity_bluetooth_connect">Connect to Bluetooth Device</string>
 
     <!-- Dialog Strings -->
     <string name="cancel">Cancel</string>

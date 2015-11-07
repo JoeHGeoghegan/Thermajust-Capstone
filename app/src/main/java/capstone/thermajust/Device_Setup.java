@@ -40,6 +40,8 @@ public class Device_Setup extends AppCompatActivity {
         final EditText wifiPassword = (EditText)findViewById(R.id.editText_device_wifi_password_field);
         final Button save = (Button)findViewById(R.id.button_device_save);
 
+        final Button clear = (Button)findViewById(R.id.button_device_clear);
+
         //Switch onChecked
         microphone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -72,7 +74,7 @@ public class Device_Setup extends AppCompatActivity {
         //Button OnClicks
         findBluetooth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Main_Tabbed_View.model.loadAll(getApplicationContext());
+                toBluetoothConnect();
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +92,16 @@ public class Device_Setup extends AppCompatActivity {
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
 
                 Snackbar snackbar = Snackbar.make(view,"Device Saved",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        clear.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Main_Tabbed_View.model.deviceList.clear();
+
+                Main_Tabbed_View.model.saveDevices(getApplicationContext());
+
+                Snackbar snackbar = Snackbar.make(view,"Devices cleared!!!",Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
@@ -115,5 +127,10 @@ public class Device_Setup extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void toBluetoothConnect() {
+        Intent myIntent = new Intent(Device_Setup.this, bluetooth_connect.class);
+        Device_Setup.this.startActivity(myIntent);
     }
 }
