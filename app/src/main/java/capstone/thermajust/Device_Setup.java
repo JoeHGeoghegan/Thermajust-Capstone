@@ -86,7 +86,8 @@ public class Device_Setup extends AppCompatActivity {
                         microphoneBool,
                         videoBool,
                         wifiName.getText().toString(),
-                        wifiPassword.getText().toString()
+                        wifiPassword.getText().toString(),
+                        null //TODO fix this? Maybe just create & save when settings for it are actually done
                 ));
 
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());

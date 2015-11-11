@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import capstone.thermajust.Main_Tabbed_View;
 
@@ -31,6 +32,7 @@ public class Main_Model {
     /*******************
      * ATTRIBUTES
      *******************/
+    Boolean firstRun = true;
 
     /* List Array attributes */
     public ArrayList<Device> deviceList = new ArrayList<>();
@@ -51,11 +53,23 @@ public class Main_Model {
             The functions are all at the bottom to make main components cleaner
      */
     public void loadAll(Context context) {
-        loadOptions(context);
-//        loadDevice(context);
-//        loadGroup(context);
-//        loadSchedule(context);
-//        loadPower(context);
+        if (firstRun) {
+            loadOptions(context);
+            loadDevice(context);
+//            loadGroup(context);
+//            loadSchedule(context);
+//            loadPower(context);
+        }
+        firstRun = false;
+    }
+
+    //returns the list of names of all devices, used to list them in UI
+    public ArrayList<String> getDeviceNames() {
+        ArrayList nameList = new ArrayList<String>();
+        for (int i = 0 ; i < deviceList.size() ; i++) {
+            nameList.add(deviceList.get(i).getName());
+        }
+        return nameList;
     }
 
     /* WiFi  management functions */
@@ -106,157 +120,58 @@ public class Main_Model {
         }
     }
     public void loadDevice(Context context) {
-        String file = "ThermajustDeviceSave.txt";
-        AssetManager assetManager = context.getAssets();
-        BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(assetManager.open(file)));
-            String mLine;
-            while ((mLine = bufferedReader.readLine()) != null) {
+            FileInputStream fis = context.openFileInput("ThermajustDeviceSave.txt");
+            String delim = ",";
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
                 //process line
+                String[] tokens = line.split(delim);
 
-
-
-
-            }
-        } catch (FileNotFoundException e) {
-            //Create File, first use
-            try {
-                FileOutputStream fileOutputStream =
-                        context.openFileOutput(file, Context.MODE_PRIVATE);
-                fileOutputStream.write("".getBytes());
-                fileOutputStream.close();
-            }catch (IOException ex) {
-                e.printStackTrace();
-            }
-        } catch(IOException e) {
-            //log this somehow
-            e.printStackTrace();
-        }finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch(IOException e) {
-                    //log this somehow
-                    e.printStackTrace();
+                int num = 0;
+                String name  = tokens[num++];
+                String idNum  = tokens[num++];
+                boolean useTemp = Boolean.parseBoolean(tokens[num++]);
+                thermometer therm = null;
+                if (useTemp) {
+                    therm = new thermometer(Integer.parseInt(tokens[num++]));
                 }
+                boolean useMic = Boolean.parseBoolean(tokens[num++]);
+//                microphone mic = null;
+//                if (useMic) {
+//                    mic = new microphone();
+//                }
+                boolean useVid = Boolean.parseBoolean(tokens[num++]);
+//                video vid = null;
+//                if (useVid) {
+//                    vid = new video();
+//                }
+                String wifiName  = tokens[num++];
+                String wifiPassword  = tokens[num++];
+
+                deviceList.add(new Device(name, idNum, useTemp, useMic, useVid, wifiName, wifiPassword, therm
+//                        , mic
+//                        , vid
+                ));
             }
+        } catch (FileNotFoundException e0) {
+            e0.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (IOException e2) {
+            e2.printStackTrace();
         }
     }
     public void loadGroup(Context context) {
-        String file = "ThermajustGroupSave.txt";
-        AssetManager assetManager = context.getAssets();
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(assetManager.open(file)));
-            String mLine;
-            while ((mLine = bufferedReader.readLine()) != null) {
-                //process line
-
-
-
-            }
-        } catch (FileNotFoundException e) {
-            //Create File, first use
-            try {
-                FileOutputStream fileOutputStream =
-                        context.openFileOutput(file, Context.MODE_PRIVATE);
-                fileOutputStream.write("".getBytes());
-                fileOutputStream.close();
-            }catch (IOException ex) {
-                e.printStackTrace();
-            }
-        } catch(IOException e) {
-            //log this somehow
-            e.printStackTrace();
-        }finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch(IOException e) {
-                    //log this somehow
-                    e.printStackTrace();
-                }
-            }
-        }
+//        "ThermajustGroupSave.txt";
     }
     public void loadSchedule(Context context) {
-        String file = "ThermajustScheduleSave.txt";
-        AssetManager assetManager = context.getAssets();
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(assetManager.open(file)));
-            String mLine;
-            while ((mLine = bufferedReader.readLine()) != null) {
-                //process line
-
-
-
-            }
-        } catch (FileNotFoundException e) {
-            //Create File, first use
-            try {
-                FileOutputStream fileOutputStream =
-                        context.openFileOutput(file, Context.MODE_PRIVATE);
-                fileOutputStream.write("".getBytes());
-                fileOutputStream.close();
-            }catch (IOException ex) {
-                e.printStackTrace();
-            }
-        } catch(IOException e) {
-            //log this somehow
-            e.printStackTrace();
-        }finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch(IOException e) {
-                    //log this somehow
-                    e.printStackTrace();
-                }
-            }
-        }
+//        "ThermajustScheduleSave.txt";
     }
     public void loadPower(Context context) {
-        String file = "ThermajustPowerSave.txt";
-        AssetManager assetManager = context.getAssets();
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(
-                    new InputStreamReader(assetManager.open(file)));
-            String mLine;
-            while ((mLine = bufferedReader.readLine()) != null) {
-                //process line
-
-
-
-            }
-        } catch (FileNotFoundException e) {
-            //Create File, first use
-            try {
-                FileOutputStream fileOutputStream =
-                        context.openFileOutput(file, Context.MODE_PRIVATE);
-                fileOutputStream.write("".getBytes());
-                fileOutputStream.close();
-            }catch (IOException ex) {
-                e.printStackTrace();
-            }
-        } catch(IOException e) {
-            //log this somehow
-            e.printStackTrace();
-        }finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch(IOException e) {
-                    //log this somehow
-                    e.printStackTrace();
-                }
-            }
-        }
+//        "ThermajustPowerSave.txt";
     }
 
     /**
@@ -280,7 +195,6 @@ public class Main_Model {
             e.printStackTrace();
         }
     }
-
     public void saveDevices(Context context) {
         String saveWrite = "";
         String fileName = "ThermajustDeviceSave.txt";
@@ -298,7 +212,6 @@ public class Main_Model {
             e.printStackTrace();
         }
     }
-
     public void saveGroups(Context context) {
         String saveWrite = "";
         String fileName = "ThermajustGroupSave.txt";
@@ -314,7 +227,6 @@ public class Main_Model {
             e.printStackTrace();
         }
     }
-
     public void saveSchedule(Context context) {
         String saveWrite = "";
         String fileName = "ThermajustScheduleSave.txt";
@@ -330,7 +242,6 @@ public class Main_Model {
             e.printStackTrace();
         }
     }
-
     public void savePower(Context context) {
         String saveWrite = "";
         String fileName = "ThermajustPowerSave.txt";

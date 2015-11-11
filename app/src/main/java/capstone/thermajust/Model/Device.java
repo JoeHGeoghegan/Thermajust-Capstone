@@ -21,14 +21,15 @@ public class Device {
 //    private video vid;
 
     public Device(String name, String idNum, boolean useTemp, boolean useMic,
-                  boolean useVid, String wifiName, String wifiPassword) { //TODO needs to take in string tokens for classes and pass them into their respective generators
-        this.wifiPassword = wifiPassword;
+                  boolean useVid, String wifiName, String wifiPassword, thermometer therm) {
         this.name = name;
         this.idNum = idNum;
         this.useTemp = useTemp;
         this.useMic = useMic;
         this.useVid = useVid;
         this.wifiName = wifiName;
+        this.wifiPassword = wifiPassword;
+        this.therm = therm;
     }
 
     //Getters and Setters

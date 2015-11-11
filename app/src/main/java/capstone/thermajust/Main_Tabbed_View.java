@@ -23,6 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.Serializable;
@@ -180,9 +183,38 @@ public class Main_Tabbed_View extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             View rootView = inflater.inflate(R.layout.fragment_main__tabbed__view, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+//            textView.setText(getString(R.string.section_format, sectionNumber));
+
+            String[] testList = {"error in syntax", "haiku dot j line two", "too few syllables"};
+
+            ListView listView = (ListView) rootView.findViewById(R.id.listView_mainTabFrag_list);
+            ArrayAdapter arrayAdapter;
+            switch (sectionNumber-1) {
+                case 0: //Devices and groups
+                    textView.setText(getString(R.string.device));
+                    arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                            android.R.layout.simple_list_item_1, model.getDeviceNames());
+                    break;
+                case 1: //Schedules
+                   arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                            android.R.layout.simple_list_item_1, testList);
+                    break;
+                case 2: //Power
+                    arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                            android.R.layout.simple_list_item_1, testList);
+                    break;
+                default:
+                    textView.setText(getString(R.string.section_format, sectionNumber));
+                    arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                            android.R.layout.simple_list_item_1, testList);
+                    break;
+            }
+            listView.setAdapter(arrayAdapter);
+
+
             return rootView;
         }
     }
