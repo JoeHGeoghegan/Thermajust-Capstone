@@ -79,9 +79,13 @@ public class Device_Setup extends AppCompatActivity {
         });
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                String deviceIDadjusted;
+                if (deviceID.getText().toString().isEmpty()) { //if there is no bluetooth established
+                    deviceIDadjusted = "NoBluetoothSet" + Main_Tabbed_View.model.deviceList.size(); //generate an ID until
+                } else { deviceIDadjusted = deviceID.getText().toString(); }//else put in devices ID
                 Main_Tabbed_View.model.deviceList.add(new Device(
                         name.getText().toString(),
-                        deviceID.getText().toString(),
+                        deviceIDadjusted,
                         thermometerBool,
                         microphoneBool,
                         videoBool,

@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -132,7 +133,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return ListholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -158,7 +159,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class ListholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -169,15 +170,15 @@ public class Main_Tabbed_View extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static ListholderFragment newInstance(int sectionNumber) {
+            ListholderFragment fragment = new ListholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public PlaceholderFragment() {
+        public ListholderFragment() {
         }
 
         @Override
@@ -190,7 +191,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
             String[] testList = {"error in syntax", "haiku dot j line two", "too few syllables"};
 
-            ListView listView = (ListView) rootView.findViewById(R.id.listView_mainTabFrag_list);
+            final ListView listView = (ListView) rootView.findViewById(R.id.listView_mainTabFrag_list);
             ArrayAdapter arrayAdapter;
             switch (sectionNumber-1) {
                 case 0: //Devices and groups
@@ -214,6 +215,18 @@ public class Main_Tabbed_View extends AppCompatActivity {
             }
             listView.setAdapter(arrayAdapter);
 
+            listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    String item = listView.getItemAtPosition(position).toString();
+
+                    //This is where you would go to a new activity!
+                    Snackbar snackbar = Snackbar.make(view,"Selected Device ID: " +
+                            model.deviceList.get(position).getIdNum()
+                            ,Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            });
 
             return rootView;
         }
