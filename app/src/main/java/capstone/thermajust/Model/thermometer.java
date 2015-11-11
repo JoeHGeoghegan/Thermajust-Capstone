@@ -9,6 +9,10 @@ package capstone.thermajust.Model;
 public class thermometer {
     int setTemp;
 
+    public thermometer(int setTemp) {
+        this.setTemp = setTemp;
+    }
+
     //this could take in tokens which are the collection of a thermometers attributes
         //on creation
 //    public thermometer(int setTemp) {
