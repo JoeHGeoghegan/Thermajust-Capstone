@@ -28,7 +28,9 @@ public class Device {
         this.useMic = useMic;
         this.useVid = useVid;
         this.wifiName = wifiName;
-        this.wifiPassword = wifiPassword;
+        if (wifiPassword.compareTo("<!>end<!>") != 0) {
+            this.wifiPassword = wifiPassword;
+        } else { this.wifiPassword = null; }
         this.therm = therm;
     }
 
@@ -56,10 +58,10 @@ public class Device {
             if (getUseTemp()) {
                 write = write + getUseTemp() + "," + therm.toString() + ",";
             }else { write = write + getUseTemp() + ","; }
-        }else { write = write + getUseTemp() + "," + "-999"; }
+        }else { write = write + getUseTemp() + ",-999,"; } //a thermometer exists but not set up
 
         write = write + getUseMic() + "," + getUseVid() + ",";
-        //TODO enable these and remove above line when implemented
+        //TODO enable below and remove above line when implemented
 //        if (getUseMic()) {
 //            write = write + getUseMic() + "," + mic.toString() + ",";
 //        }else { write = write + getUseMic() + ","; }
@@ -68,6 +70,6 @@ public class Device {
 //        }else { write = write + getUseVid() + ","; }
         return  write +
                 getWifiName() + "," +
-                getWifiPassword() + "\n";
+                getWifiPassword() + ",<!>end<!>\n";
     }
 }
