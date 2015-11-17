@@ -3,7 +3,6 @@ package capstone.thermajust;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -26,10 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import java.io.Serializable;
 
 import capstone.thermajust.Model.Main_Model;
 
@@ -196,20 +192,20 @@ public class Main_Tabbed_View extends AppCompatActivity {
             switch (sectionNumber-1) {
                 case 0: //Devices and groups
                     textView.setText(getString(R.string.device));
-                    arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
                             android.R.layout.simple_list_item_1, model.getDeviceNames());
                     break;
                 case 1: //Schedules
-                   arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                   arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
                             android.R.layout.simple_list_item_1, testList);
                     break;
                 case 2: //Power
-                    arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
                             android.R.layout.simple_list_item_1, testList);
                     break;
                 default:
                     textView.setText(getString(R.string.section_format, sectionNumber));
-                    arrayAdapter = new ArrayAdapter<String>(rootView.getContext(),
+                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
                             android.R.layout.simple_list_item_1, testList);
                     break;
             }
@@ -221,7 +217,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                     String item = listView.getItemAtPosition(position).toString();
 
                     //This is where you would go to a new activity!
-                    Snackbar snackbar = Snackbar.make(view,"Selected Device ID: " +
+                    Snackbar snackbar = Snackbar.make(view,"Selected device " + item + " has ID: " +
                             model.deviceList.get(position).getIdNum()
                             ,Snackbar.LENGTH_LONG);
                     snackbar.show();

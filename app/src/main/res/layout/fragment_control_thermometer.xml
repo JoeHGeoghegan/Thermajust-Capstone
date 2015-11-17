@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="capstone.thermajust.Model.ControlFrag_Thermometer">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp Up"
+        android:id="@+id/button_thermfrag_temp_up"
+        android:layout_gravity="left|top" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_gravity="left|center_vertical" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp Down"
+        android:id="@+id/button_thermfrag_temp_down"
+        android:layout_gravity="left|bottom" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Override"
+        android:id="@+id/toggleButton_thermfrag_override"
+        android:layout_gravity="right|top" />
+
+    <!-- cooling, heating, both -->
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cooling"
+            android:id="@+id/radioButton_thermfrag_radio_cooling" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Heating"
+            android:id="@+id/radioButton_thermfrag_radio_heating" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cooling and Heathing"
+            android:id="@+id/radioButton_thermfrag_radio_coolheat" />
+    </RadioGroup>
+
+</FrameLayout>
