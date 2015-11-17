@@ -26,6 +26,28 @@ android:layout_gravity="center_vertical">
     android:layout_width="wrap_content"
     android:layout_height="?attr/actionBarSize" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth Label to be updated.."
+        android:id="@+id/textView_bluetoothconnect_myLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth Status to be updated..."
+        android:id="@+id/textView_bluetoothconnect_bluetoothStatus" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_bluetoothconnect_myTextbox" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView_bluetoothconnect_devices" />
+
 
 </LinearLayout>
 

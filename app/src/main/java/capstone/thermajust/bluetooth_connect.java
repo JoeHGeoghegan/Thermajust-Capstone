@@ -36,6 +36,15 @@ public class bluetooth_connect extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        myLabel = (TextView) findViewById(R.id.textView_bluetoothconnect_myLabel);
+        txt_bluetoothStatus = (TextView) findViewById(R.id.textView_bluetoothconnect_bluetoothStatus);
+        myTextbox = (EditText) findViewById(R.id.editText_bluetoothconnect_myTextbox);
+        listview_devices = (ListView) findViewById(R.id.listView_bluetoothconnect_devices);
+
+        //find BT list
+
+//        listview_devices.setAdapter();
     }
 
     void findBT(){
