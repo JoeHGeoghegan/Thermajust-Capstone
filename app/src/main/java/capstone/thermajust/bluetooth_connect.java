@@ -19,7 +19,6 @@ public class bluetooth_connect extends AppCompatActivity {
 
     TextView myLabel;
     TextView txt_bluetoothStatus;
-    EditText myTextbox;
     BluetoothAdapter btAdapter;
     private ListView listview_devices;
     public Set<BluetoothDevice> device;
