@@ -8,7 +8,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -83,6 +86,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Device_Setup" />
+        </activity>
+        <activity
+            android:name=".Base_Controller"
+            android:label="@string/title_activity_base_controller"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bluetooth_connect" />
         </activity>
     </application>
 

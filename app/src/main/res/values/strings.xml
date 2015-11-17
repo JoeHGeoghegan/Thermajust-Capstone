@@ -15,6 +15,7 @@
     <string name="title_activity_power__setup_">Power Group Setup</string>
     <string name="title_activity_wifi__default">Set WiFi Default</string>
     <string name="title_activity_bluetooth_connect">Connect to Bluetooth Device</string>
+    <string name="title_activity_base_controller">Controller</string>
 
     <!-- Dialog Strings -->
     <string name="cancel">Cancel</string>
@@ -95,4 +96,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Strings related to controller -->
+    <string name="main_power">Main Power</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
