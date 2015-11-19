@@ -18,6 +18,7 @@ import java.util.UUID;
 public class bluetooth_connect extends AppCompatActivity {
 
     TextView myLabel;
+    EditText myTextbox;
     TextView txt_bluetoothStatus;
     BluetoothAdapter btAdapter;
     private ListView listview_devices;
@@ -96,6 +97,14 @@ public class bluetooth_connect extends AppCompatActivity {
 
     void ListenForData(){
 
+    }
+
+    void sendData() throws IOException
+    {
+        String msg = myTextbox.getText().toString();
+        msg += "\n";
+        OutStream.write(msg.getBytes());
+        myLabel.setText("Data is Sent");
     }
 
     void closeBT() throws IOException
