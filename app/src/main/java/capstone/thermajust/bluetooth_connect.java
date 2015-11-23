@@ -126,4 +126,10 @@ public class bluetooth_connect extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void openController() {
+        Intent myIntent = new Intent(bluetooth_connect.this, Base_Controller.class);
+        myIntent.putExtra("selection", Main_Tabbed_View.model.deviceList.size());
+        bluetooth_connect.this.startActivity(myIntent);
+    }
 }

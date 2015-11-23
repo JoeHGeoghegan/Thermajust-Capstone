@@ -1,4 +1,4 @@
-package capstone.thermajust.Model;
+package capstone.thermajust.ControlFragments;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import capstone.thermajust.Model.Device;
 import capstone.thermajust.R;
 
 /**
@@ -28,7 +29,7 @@ public class ControlFrag_Thermometer extends Fragment {
      * @return A new instance of fragment ControlFrag_Thermometer.
      */
     // TODO: Rename and change types and number of parameters
-    public static ControlFrag_Thermometer newInstance(String param1, String param2) {
+    public static ControlFrag_Thermometer newInstance(Device device) {
         ControlFrag_Thermometer fragment = new ControlFrag_Thermometer();
         Bundle args = new Bundle();
         fragment.setArguments(args);
