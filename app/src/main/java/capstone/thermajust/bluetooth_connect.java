@@ -1,6 +1,7 @@
 package capstone.thermajust;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,10 @@ public class bluetooth_connect extends AppCompatActivity {
     BluetoothSocket Socket;
     OutputStream OutStream;
     InputStream InStream;
+    volatile boolean stopWorker;
+    Thread workerThread;
+    byte[] readBuffer;
+    int readBufferPos;
 
 
     @Override
@@ -96,7 +101,59 @@ public class bluetooth_connect extends AppCompatActivity {
     }
 
     void ListenForData(){
+        final Handler handler = new Handler();
+        final byte delimiter = 10; //ASCII code for a newline character
 
+        stopWorker = false;
+        readBufferPos = 0;
+        readBuffer = new byte[1024];
+        workerThread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                while(!Thread.currentThread().isInterrupted() && !stopWorker)
+                {
+                    try
+                    {
+                        int bytesAvailable = InStream.available();
+                        if(bytesAvailable > 0)
+                        {
+                            byte[] packetBytes = new byte[bytesAvailable];
+                            InStream.read(packetBytes);
+                            for(int i=0;i<bytesAvailable;i++)
+                            {
+                                byte b = packetBytes[i];
+                                if(b == delimiter)
+                                {
+                                    byte[] encodedBytes = new byte[readBufferPos];
+                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                    final String data = new String(encodedBytes, "US-ASCII");
+                                    readBufferPos = 0;
+
+                                    handler.post(new Runnable()
+                                    {
+                                        public void run()
+                                        {
+                                            myLabel.setText(data);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    readBuffer[readBufferPos++] = b;
+                                }
+                            }
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        stopWorker = true;
+                    }
+                }
+            }
+        });
+
+        workerThread.start();
     }
 
     void sendData() throws IOException
@@ -109,6 +166,7 @@ public class bluetooth_connect extends AppCompatActivity {
 
     void closeBT() throws IOException
     {
+        stopWorker = true;
         OutStream.close();
         InStream.close();
         Socket.close();
