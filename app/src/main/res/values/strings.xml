@@ -100,6 +100,12 @@
     <!-- Strings related to controller -->
     <string name="main_power">Main Power</string>
 
+    <!-- Strings related to bluetooth connect -->
+    <string name="bluetooth_open">Open Bluetooth Connection</string>
+    <string name="bluetooth_send">Send</string>
+    <string name="bluetooth_device_control">Control through Bluetooth</string>
+    <string name="bluetooth_device_control_specify">Will control device as if it is the one selected.</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

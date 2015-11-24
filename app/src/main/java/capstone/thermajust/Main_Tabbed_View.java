@@ -180,7 +180,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             View rootView = inflater.inflate(R.layout.fragment_main__tabbed__view, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 //            textView.setText(getString(R.string.section_format, sectionNumber));
@@ -196,13 +196,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                             android.R.layout.simple_list_item_1, model.getDeviceNames());
                     break;
                 case 1: //Schedules
-                   arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
-                            android.R.layout.simple_list_item_1, testList);
-                    break;
                 case 2: //Power
-                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
-                            android.R.layout.simple_list_item_1, testList);
-                    break;
                 default:
                     textView.setText(getString(R.string.section_format, sectionNumber));
                     arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
@@ -213,14 +207,26 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
             listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String item = listView.getItemAtPosition(position).toString();
 
-                    //This is where you would go to a new activity!
-                    Snackbar snackbar = Snackbar.make(view,"Selected device " + item + " has ID: " +
-                            model.deviceList.get(position).getIdNum()
-                            ,Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    switch (sectionNumber - 1) {
+                        case 0:
+                            //This is where you would go to a new activity!
+                            Snackbar snackbar = Snackbar.make(view, "Selected device " + item + " has ID: " +
+                                    model.deviceList.get(position).getIdNum()
+                                    , Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                            break;
+                        case 1:
+                        case 2:
+                        default:
+                            //This is where you would go to a new activity!
+                            Snackbar snackbarDefault = Snackbar.make(view, "Not yet implemented."
+                                    , Snackbar.LENGTH_LONG);
+                            snackbarDefault.show();
+                            break;
+                    }
                 }
             });
 

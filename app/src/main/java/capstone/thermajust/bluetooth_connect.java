@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.bluetooth. *;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,11 +22,16 @@ import java.util.UUID;
 
 public class bluetooth_connect extends AppCompatActivity {
 
+    //UI elements
     TextView myLabel;
-    EditText myTextbox;
     TextView txt_bluetoothStatus;
-    BluetoothAdapter btAdapter;
+    Button openBT;
+    EditText myTextbox;
+    Button send;
     private ListView listview_devices;
+
+    //connection elements
+    BluetoothAdapter btAdapter;
     public Set<BluetoothDevice> device;
     BluetoothDevice myDevice;
     BluetoothSocket Socket;
@@ -43,14 +52,46 @@ public class bluetooth_connect extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //all view elements that need to be edited
         myLabel = (TextView) findViewById(R.id.textView_bluetoothconnect_myLabel);
         txt_bluetoothStatus = (TextView) findViewById(R.id.textView_bluetoothconnect_bluetoothStatus);
+        openBT = (Button) findViewById(R.id.button_bluetoothconnect_openBT);
         myTextbox = (EditText) findViewById(R.id.editText_bluetoothconnect_myTextbox);
+        send = (Button) findViewById(R.id.button_bluetoothconnect_send);
         listview_devices = (ListView) findViewById(R.id.listView_bluetoothconnect_devices);
 
-        //find BT list
+        //button listeners
+        openBT.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                try {
+                    openBT();
+                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                    e.printStackTrace();
+                }
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                try {
+                    sendData();
+                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                    e.printStackTrace();
+                }
+            }
+        });
 
-//        listview_devices.setAdapter();
+        //list set
+        ArrayAdapter arrayAdapter;
+        arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, Main_Tabbed_View.model.getDeviceNames());
+        listview_devices.setAdapter(arrayAdapter);
+        //list listener
+        listview_devices.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openController(position);
+            }
+        });
     }
 
     void findBT(){
@@ -185,9 +226,9 @@ public class bluetooth_connect extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openController() {
+    public void openController(int position) {
         Intent myIntent = new Intent(bluetooth_connect.this, Base_Controller.class);
-        myIntent.putExtra("selection", Main_Tabbed_View.model.deviceList.size());
+        myIntent.putExtra("selection", position);
         bluetooth_connect.this.startActivity(myIntent);
     }
 }
