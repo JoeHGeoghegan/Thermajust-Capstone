@@ -86,6 +86,7 @@ public class Device_Setup extends AppCompatActivity {
                 Main_Tabbed_View.model.deviceList.add(new Device(
                         name.getText().toString(),
                         deviceIDadjusted,
+                        false, //devices start off
                         thermometerBool,
                         microphoneBool,
                         videoBool,

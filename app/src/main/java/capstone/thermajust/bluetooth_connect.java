@@ -118,7 +118,9 @@ public class bluetooth_connect extends AppCompatActivity {
 
         if (pairedDevices.size() > 0){
             for(BluetoothDevice device : pairedDevices){
-                if(device.getName().equals("Thermajust")){
+                String[] tokens = device.getName().split("-"); //Thermajust1-ID#
+                if(tokens[0].equals("Thermajust1")){
+//                    tokens[1];
                     myDevice = device;
                     break;
                 }

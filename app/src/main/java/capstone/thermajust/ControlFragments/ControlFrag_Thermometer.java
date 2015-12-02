@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import capstone.thermajust.Base_Controller;
+import capstone.thermajust.Main_Tabbed_View;
 import capstone.thermajust.Model.Device;
 import capstone.thermajust.R;
+import capstone.thermajust.bluetooth_connect;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +64,14 @@ public class ControlFrag_Thermometer extends Fragment {
         downTemp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
+            }
+        });
+
+        Button updateTemp = (Button) rootView.findViewById(R.id.button_thermfrag_tempUpdate);
+        updateTemp.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+//                bluetooth_connect.sendText = "TEMP GET";
+//                bluetooth_connect.sendData();
             }
         });
     }

@@ -1,40 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="capstone.thermajust.ControlFragments.ControlFrag_Thermometer">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Temp Up"
-        android:id="@+id/button_thermfrag_temp_up"
-        android:layout_gravity="left|top" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_gravity="left|center_vertical" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Temp Down"
-        android:id="@+id/button_thermfrag_temp_down"
-        android:layout_gravity="left|bottom" />
-
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Override"
-        android:id="@+id/toggleButton_thermfrag_override"
-        android:layout_gravity="right|top" />
-
     <!-- cooling, heating, both -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temp Up"
+            android:id="@+id/button_thermfrag_temp_up"
+            android:layout_gravity="center"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="70"
+            android:id="@+id/editText"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temp Down"
+            android:id="@+id/button_thermfrag_temp_down"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Temperature"
+            android:id="@+id/textView_thermfrag_tempText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="#60abe3"
+            android:textColor="#eeeeee"
+            android:text="Update!"
+            android:layout_gravity="center"
+            android:id="@+id/textView_thermfrag_temp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Temp"
+            android:id="@+id/button_thermfrag_tempUpdate" />
+
+    </LinearLayout>
+
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical">
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_gravity="center">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -55,4 +96,4 @@
             android:id="@+id/radioButton_thermfrag_radio_coolheat" />
     </RadioGroup>
 
-</FrameLayout>
+</GridLayout>

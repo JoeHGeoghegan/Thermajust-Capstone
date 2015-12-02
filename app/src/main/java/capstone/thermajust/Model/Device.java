@@ -11,19 +11,29 @@ public class Device {
     //Basic information about the device
     private String name;
     private String idNum;
+
+    //main settings
+    private boolean onoff;
+
+    //peripheral information
     private boolean useTemp;
     private boolean useMic;
     private boolean useVid;
+
+    //network information
     private String wifiName,
                     wifiPassword;
+
+    //peripheral classes
     private thermometer therm;
 //    private microphone mic;
 //    private video vid;
 
-    public Device(String name, String idNum, boolean useTemp, boolean useMic,
+    public Device(String name, String idNum, boolean onoff, boolean useTemp, boolean useMic,
                   boolean useVid, String wifiName, String wifiPassword, thermometer therm) {
         this.name = name;
         this.idNum = idNum;
+        this.onoff = onoff;
         this.useTemp = useTemp;
         this.useMic = useMic;
         this.useVid = useVid;
@@ -39,6 +49,8 @@ public class Device {
     public void setName(String name) { this.name = name; }
     public String getIdNum() { return idNum; }
     public void setIdNum(String idNum) { this.idNum = idNum; }
+    public boolean getOnoff() { return onoff; }
+    public void setOnoff(boolean onoff) { this.onoff = onoff; }
     public boolean getUseTemp() { return useTemp; }
     public void setUseTemp(boolean useTemp) { this.useTemp = useTemp; }
     public boolean getUseMic() { return useMic; }
@@ -53,12 +65,13 @@ public class Device {
     @Override
     public String toString() {
         String write = getName() + "," +
-                        getIdNum() + ",";
+                        getIdNum() + "," +
+                        getOnoff() + ",";
         if (therm != null) {
             if (getUseTemp()) {
                 write = write + getUseTemp() + "," + therm.toString() + ",";
             }else { write = write + getUseTemp() + ","; }
-        }else { write = write + getUseTemp() + ",-999,"; } //a thermometer exists but not set up
+        }else { write = write + getUseTemp() + ",70,false,1"; } //a thermometer exists but not set up, these are default values
 
         write = write + getUseMic() + "," + getUseVid() + ",";
         //TODO enable below and remove above line when implemented

@@ -8,19 +8,21 @@ package capstone.thermajust.Model;
  */
 public class thermometer {
     int setTemp;
+    boolean override;
+    int mode;
 
-    public thermometer(int setTemp) {
+    final int cool = 1; //if the device can cool
+    final int heat = 2; //if the device can heat
+    final int coolheat = 3; //if the device can do both
+
+    public thermometer(int setTemp, boolean override, int mode) {
         this.setTemp = setTemp;
+        this.override = override;
+        this.mode = mode;
     }
-
-    //this could take in tokens which are the collection of a thermometers attributes
-        //on creation
-//    public thermometer(int setTemp) {
-//        this.setTemp = setTemp;
-//    }
 
     @Override
     public String toString() {
-        return "" + setTemp; // separate values with ,
+        return "" + setTemp + "," + override + "," + mode;
     }
 }

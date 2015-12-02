@@ -45,6 +45,7 @@ public class Base_Controller extends AppCompatActivity {
                 }
             }
         });
+        toggle.setChecked(device.getOnoff()); //sets the current mode
 
         if (device.getUseTemp()) {
             ControlFrag_Thermometer.newInstance(device);

@@ -3,6 +3,7 @@ package capstone.thermajust.Model;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteBindOrColumnIndexOutOfRangeException;
 import android.support.design.widget.Snackbar;
 
 import java.io.BufferedReader;
@@ -133,10 +134,14 @@ public class Main_Model {
                 int num = 0;
                 String name  = tokens[num++];
                 String idNum  = tokens[num++];
+                Boolean onoff  = Boolean.parseBoolean(tokens[num++]);
                 boolean useTemp = Boolean.parseBoolean(tokens[num++]);
                 thermometer therm = null;
                 if (useTemp) {
-                    therm = new thermometer(Integer.parseInt(tokens[num++]));
+                    therm = new thermometer(Integer.parseInt(tokens[num++]), //setTemp
+                            Boolean.parseBoolean(tokens[num++]), //override
+                            Integer.parseInt(tokens[num++]) //mode
+                            );
                 }
                 boolean useMic = Boolean.parseBoolean(tokens[num++]);
 //                microphone mic = null;
@@ -151,7 +156,7 @@ public class Main_Model {
                 String wifiName  = tokens[num++];
                 String wifiPassword  = tokens[num++];
 
-                deviceList.add(new Device(name, idNum, useTemp, useMic, useVid, wifiName, wifiPassword, therm
+                deviceList.add(new Device(name, idNum, onoff, useTemp, useMic, useVid, wifiName, wifiPassword, therm
 //                        , mic
 //                        , vid
                 ));
@@ -162,6 +167,10 @@ public class Main_Model {
             e1.printStackTrace();
         } catch (IOException e2) {
             e2.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e3) {
+            //TODO will clear devices if file format is invalid. This code should be cleared away in final version
+            deviceList.clear();
+            saveDevices(context);
         }
     }
     public void loadGroup(Context context) {
