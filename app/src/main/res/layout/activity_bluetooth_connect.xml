@@ -41,6 +41,12 @@ android:layout_gravity="center_vertical">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/findBluetooth"
+        android:id="@+id/button_bluetoothconnect_findBT" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/bluetooth_open"
         android:id="@+id/button_bluetoothconnect_openBT" />
 

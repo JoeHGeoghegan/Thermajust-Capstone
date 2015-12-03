@@ -25,6 +25,7 @@ public class bluetooth_connect extends AppCompatActivity {
     //UI elements
     TextView myLabel;
     TextView txt_bluetoothStatus;
+    Button findBT;
     Button openBT;
     EditText myTextbox;
     Button send;
@@ -56,11 +57,23 @@ public class bluetooth_connect extends AppCompatActivity {
         myLabel = (TextView) findViewById(R.id.textView_bluetoothconnect_myLabel);
         txt_bluetoothStatus = (TextView) findViewById(R.id.textView_bluetoothconnect_bluetoothStatus);
         openBT = (Button) findViewById(R.id.button_bluetoothconnect_openBT);
+        findBT = (Button) findViewById(R.id.button_bluetoothconnect_findBT);
         myTextbox = (EditText) findViewById(R.id.editText_bluetoothconnect_myTextbox);
         send = (Button) findViewById(R.id.button_bluetoothconnect_send);
         listview_devices = (ListView) findViewById(R.id.listView_bluetoothconnect_devices);
 
         //button listeners
+
+        findBT.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                try {
+                    findBT();
+                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                    e.printStackTrace();
+                }
+            }
+        });
+
         openBT.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
@@ -119,7 +132,7 @@ public class bluetooth_connect extends AppCompatActivity {
         if (pairedDevices.size() > 0){
             for(BluetoothDevice device : pairedDevices){
                 String[] tokens = device.getName().split("-"); //Thermajust1-ID#
-                if(tokens[0].equals("Thermajust1")){
+                if(tokens[0].equals("dragon")){
 //                    tokens[1];
                     myDevice = device;
                     break;
