@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import capstone.thermajust.Base_Controller;
 import capstone.thermajust.Main_Tabbed_View;
@@ -70,10 +73,12 @@ public class ControlFrag_Thermometer extends Fragment {
         Button updateTemp = (Button) rootView.findViewById(R.id.button_thermfrag_tempUpdate);
         updateTemp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                bluetooth_connect.sendText = "TEMP GET";
-//                bluetooth_connect.sendData();
+                updateCurrentTemperature();
             }
         });
+
+        final TextView currentTemp = (TextView) rootView.findViewById(R.id.textView_thermfrag_temp);
+        updateCurrentTemperature();
     }
 
     @Override
@@ -111,4 +116,9 @@ public class ControlFrag_Thermometer extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    public void updateCurrentTemperature() {
+//        bluetooth_connect.sendText = "TEMP GET";
+//        bluetooth_connect.sendData();
+//        currentTemp.setText();
+    }
 }
