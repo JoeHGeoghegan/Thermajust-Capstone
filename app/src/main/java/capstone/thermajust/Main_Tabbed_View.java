@@ -72,7 +72,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
             public void onClick(View view) {
 //                Snackbar.make(view, "The current tab is " + mSectionsPagerAdapter.getPageTitle(tabLayout.getSelectedTabPosition()), Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                switch(tabLayout.getSelectedTabPosition()) {
+                switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
                         showDeviceGroupDialog();
 //                        toDeviceSetup(view);
@@ -189,7 +189,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
             final ListView listView = (ListView) rootView.findViewById(R.id.listView_mainTabFrag_list);
             ArrayAdapter arrayAdapter;
-            switch (sectionNumber-1) {
+            switch (sectionNumber - 1) {
                 case 0: //Devices and groups
                     textView.setText(getString(R.string.device));
                     arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
@@ -262,7 +262,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
         public static deviceGroupDiologFragment newInstance(int title) {
             deviceGroupDiologFragment frag = new deviceGroupDiologFragment();
             Bundle args = new Bundle();
-            args.putInt("title",title);
+            args.putInt("title", title);
             frag.setArguments(args);
             return frag;
         }
@@ -272,11 +272,13 @@ public class Main_Tabbed_View extends AppCompatActivity {
             Intent myIntent = new Intent(getActivity(), Device_Setup.class);
             getActivity().startActivity(myIntent);
         }
+
         public void toGroupSetup() {
             Intent myIntent = new Intent(getActivity(), Group_Setup.class);
             getActivity().startActivity(myIntent);
         }
     }
+
     void showDeviceGroupDialog() {
         DialogFragment newFragment = deviceGroupDiologFragment.newInstance(R.string.deviceGroupCreate);
         newFragment.show(getFragmentManager(), "deviceGroupDiologFragment");
@@ -287,6 +289,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Main_Settings_Page.class);
         Main_Tabbed_View.this.startActivity(myIntent);
     }
+
     public void toDefaultWifi(MenuItem menuItem) {
         Intent myIntent = new Intent(Main_Tabbed_View.this, WiFi_Default.class);
         Main_Tabbed_View.this.startActivity(myIntent);
@@ -297,6 +300,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Schedule_Setup.class);
         Main_Tabbed_View.this.startActivity(myIntent);
     }
+
     public void toPowerSetup(View view) {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Power_Setup.class);
         Main_Tabbed_View.this.startActivity(myIntent);

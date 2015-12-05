@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
-import capstone.thermajust.ControlFragments.ControlFrag_Thermometer;
 import capstone.thermajust.Model.Device;
 
 public class Base_Controller extends AppCompatActivity {
@@ -40,21 +39,23 @@ public class Base_Controller extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
+                    device.setOnoff(true);
                 } else {
                     // The toggle is disabled
+                    device.setOnoff(false);
                 }
+                Main_Tabbed_View.model.saveDevices(getApplicationContext());
             }
         });
         toggle.setChecked(device.getOnoff()); //sets the current mode
 
-        if (device.getUseTemp()) {
-            ControlFrag_Thermometer.newInstance(device);
-        }
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Main_Tabbed_View.model.saveDevices(this);
                 finish();
                 break;
 

@@ -15,29 +15,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center_vertical">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:layout_gravity="center_vertical">
 
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize" />
+        <Space android:layout_width="wrap_content" android:layout_height="?attr/actionBarSize" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_power"
-            android:id="@+id/textView_controller_power"
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/main_power" android:id="@+id/textView_controller_power"
             android:layout_gravity="center_horizontal" />
 
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Power"
-            android:id="@+id/toggleButton_controller_power"
+        <ToggleButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Power" android:id="@+id/toggleButton_controller_power"
             android:layout_gravity="center_horizontal" />
 
 

@@ -2,9 +2,8 @@ package capstone.thermajust.Model;
 
 /**
  * Created by Joe Geoghegan on 11/5/2015.
- *
+ * <p/>
  * The thermometer class is created to be used in conjunction with the rest of the Thermajust code files.
- *
  */
 public class thermometer {
     int setTemp;
@@ -20,6 +19,9 @@ public class thermometer {
         this.override = override;
         this.mode = mode;
     }
+
+    public int getSetTemp() { return setTemp; }
+    public void setSetTemp(int setTemp) { this.setTemp = setTemp; }
 
     @Override
     public String toString() {

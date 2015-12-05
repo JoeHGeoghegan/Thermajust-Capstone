@@ -22,16 +22,16 @@ public class WiFi_Default extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Fields to access
-        final EditText name = (EditText)findViewById(R.id.editText_wifi_default_field);
-        final EditText password = (EditText)findViewById(R.id.editText_wifi_default_password_field);
-        final Button save = (Button)findViewById(R.id.button_wifi_default_save);
+        final EditText name = (EditText) findViewById(R.id.editText_wifi_default_field);
+        final EditText password = (EditText) findViewById(R.id.editText_wifi_default_password_field);
+        final Button save = (Button) findViewById(R.id.button_wifi_default_save);
 
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Main_Tabbed_View.model.setWifiDefaults(name.getText().toString(),
                         password.getText().toString());
                 Main_Tabbed_View.model.saveOptions(getApplicationContext());
-                Snackbar snackbar = Snackbar.make(view,"WiFi Settings Saved",Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(view, "WiFi Settings Saved", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });

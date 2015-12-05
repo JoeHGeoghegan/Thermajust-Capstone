@@ -16,6 +16,7 @@
     <string name="title_activity_wifi__default">Set WiFi Default</string>
     <string name="title_activity_bluetooth_connect">Connect to Bluetooth Device</string>
     <string name="title_activity_base_controller">Controller</string>
+    <string name="title_activity_therm_controller">Controller</string>
 
     <!-- Dialog Strings -->
     <string name="cancel">Cancel</string>
@@ -106,6 +107,6 @@
     <string name="bluetooth_device_control">Control through Bluetooth</string>
     <string name="bluetooth_device_control_specify">Will control device as if it is the one selected.</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
