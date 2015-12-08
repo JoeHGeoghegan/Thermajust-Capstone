@@ -62,6 +62,12 @@ android:layout_gravity="center_vertical">
         android:id="@+id/button_bluetoothconnect_send"
         android:layout_gravity="right" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close Bluetooth"
+        android:id="@+id/button_bluetoothconnect_closeBT" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

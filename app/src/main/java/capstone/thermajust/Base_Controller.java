@@ -12,6 +12,7 @@ import capstone.thermajust.Model.Device;
 
 public class Base_Controller extends AppCompatActivity {
     Device device;
+    private boolean connected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,10 @@ public class Base_Controller extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 device = null;
+                connected = false;
             } else {
                 device = Main_Tabbed_View.model.deviceList.get(extras.getInt("selection"));
+                connected = extras.getBoolean("connected");
             }
         } else {
             //hopefully will not happen
@@ -40,9 +43,11 @@ public class Base_Controller extends AppCompatActivity {
                 if (isChecked) {
                     // The toggle is enabled
                     device.setOnoff(true);
+                    sendMsg("LED ON");
                 } else {
                     // The toggle is disabled
                     device.setOnoff(false);
+                    sendMsg("LED OFF");
                 }
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
             }
@@ -52,10 +57,26 @@ public class Base_Controller extends AppCompatActivity {
 
     }
 
+    void sendMsg(String msg) {
+        if (connected) {
+            try {
+                bluetooth_connect.sendDataOutActivity(msg);
+            }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                e.printStackTrace();
+            }
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 Main_Tabbed_View.model.saveDevices(this);
+                try {
+                    bluetooth_connect.closeBT();
+                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                    e.printStackTrace();
+                }
+
                 finish();
                 break;
 

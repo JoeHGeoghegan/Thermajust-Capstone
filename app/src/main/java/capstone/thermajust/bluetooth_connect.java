@@ -23,26 +23,30 @@ import java.util.UUID;
 public class bluetooth_connect extends AppCompatActivity {
 
     //UI elements
-    TextView myLabel;
+    static TextView myLabel;
     TextView txt_bluetoothStatus;
     Button findBT;
     Button openBT;
     EditText myTextbox;
     Button send;
+    Button closeBT;
     private ListView listview_devices;
 
     //connection elements
-    BluetoothAdapter btAdapter;
-    public Set<BluetoothDevice> device;
-    BluetoothDevice myDevice;
-    BluetoothSocket Socket;
-    OutputStream OutStream;
-    InputStream InStream;
-    volatile boolean stopWorker;
-    Thread workerThread;
-    byte[] readBuffer;
-    int readBufferPos;
+    static BluetoothAdapter btAdapter;
+    static public Set<BluetoothDevice> device;
+    static BluetoothDevice myDevice;
+    static BluetoothSocket Socket;
+    static OutputStream OutStream;
+    static InputStream InStream;
+    static volatile boolean stopWorker;
+    static Thread workerThread;
+    static byte[] readBuffer;
+    static int readBufferPos;
 
+    //message
+    static String message;
+    static Boolean connected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,10 @@ public class bluetooth_connect extends AppCompatActivity {
         findBT = (Button) findViewById(R.id.button_bluetoothconnect_findBT);
         myTextbox = (EditText) findViewById(R.id.editText_bluetoothconnect_myTextbox);
         send = (Button) findViewById(R.id.button_bluetoothconnect_send);
+        closeBT = (Button) findViewById(R.id.button_bluetoothconnect_closeBT);
         listview_devices = (ListView) findViewById(R.id.listView_bluetoothconnect_devices);
+
+        connected = false;
 
         //button listeners
 
@@ -78,6 +85,7 @@ public class bluetooth_connect extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     openBT();
+                    connected = true;
                 }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
                     e.printStackTrace();
                 }
@@ -86,7 +94,16 @@ public class bluetooth_connect extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
-                    sendData();
+                    sendDataInActivity();
+                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                    e.printStackTrace();
+                }
+            }
+        });
+        closeBT.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                try {
+                    closeBT();
                 }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
                     e.printStackTrace();
                 }
@@ -212,15 +229,78 @@ public class bluetooth_connect extends AppCompatActivity {
         workerThread.start();
     }
 
-    void sendData() throws IOException
+    static void listenForDataInController() {
+        final Handler handler = new Handler();
+        final byte delimiter = 10; //ASCII code for a newline character
+
+        stopWorker = false;
+        readBufferPos = 0;
+        readBuffer = new byte[1024];
+        workerThread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                while(!Thread.currentThread().isInterrupted() && !stopWorker)
+                {
+                    try
+                    {
+                        int bytesAvailable = InStream.available();
+                        if(bytesAvailable > 0)
+                        {
+                            byte[] packetBytes = new byte[bytesAvailable];
+                            InStream.read(packetBytes);
+                            for(int i=0;i<bytesAvailable;i++)
+                            {
+                                byte b = packetBytes[i];
+                                if(b == delimiter)
+                                {
+                                    byte[] encodedBytes = new byte[readBufferPos];
+                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                    final String data = new String(encodedBytes, "US-ASCII");
+                                    readBufferPos = 0;
+
+                                    handler.post(new Runnable()
+                                    {
+                                        public void run()
+                                        {
+                                            therm_controller.currentTemp.setText(data);
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    readBuffer[readBufferPos++] = b;
+                                }
+                            }
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        stopWorker = true;
+                    }
+                }
+            }
+        });
+
+        workerThread.start();
+    }
+
+    void sendDataInActivity() throws IOException
     {
-        String msg = myTextbox.getText().toString();
-        msg += "\n";
-        OutStream.write(msg.getBytes());
+        message = myTextbox.getText().toString();
+        message += "\n";
+        OutStream.write(message.getBytes());
         myLabel.setText("Data is Sent");
     }
 
-    void closeBT() throws IOException
+    static void sendDataOutActivity(String msg) throws IOException
+    {
+        message = msg;
+        message += "\n";
+        OutStream.write(message.getBytes());
+    }
+
+    static void closeBT() throws IOException
     {
         stopWorker = true;
         OutStream.close();
@@ -229,9 +309,29 @@ public class bluetooth_connect extends AppCompatActivity {
         myLabel.setText("Bluetooth Closed");
     }
 
+    public void openController(int position) {
+        if (Main_Tabbed_View.model.deviceList.get(position).getUseTemp()) {
+            Intent myIntent = new Intent(bluetooth_connect.this, therm_controller.class);
+            myIntent.putExtra("selection", position);
+            myIntent.putExtra("connected", connected);
+            bluetooth_connect.this.startActivity(myIntent);
+        } else {
+            Intent myIntent = new Intent(bluetooth_connect.this, Base_Controller.class);
+            myIntent.putExtra("selection", position);
+            myIntent.putExtra("connected", connected);
+            bluetooth_connect.this.startActivity(myIntent);
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                try {
+                    closeBT();
+                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                    e.printStackTrace();
+                }
+
                 finish();
                 break;
 
@@ -239,11 +339,5 @@ public class bluetooth_connect extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void openController(int position) {
-        Intent myIntent = new Intent(bluetooth_connect.this, Base_Controller.class);
-        myIntent.putExtra("selection", position);
-        bluetooth_connect.this.startActivity(myIntent);
     }
 }

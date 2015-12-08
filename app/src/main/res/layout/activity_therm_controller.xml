@@ -68,7 +68,8 @@
         </LinearLayout>
 
         <RadioGroup android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_row="0" android:layout_column="2" android:layout_gravity="center">
+            android:layout_row="0" android:layout_column="2" android:layout_gravity="center"
+            android:id="@+id/radioGroup_thermControl_group_mode" >
 
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Cooling" android:id="@+id/radioButton_thermControl_radio_cooling" />

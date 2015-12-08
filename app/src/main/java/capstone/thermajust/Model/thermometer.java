@@ -8,6 +8,7 @@ package capstone.thermajust.Model;
 public class thermometer {
     int setTemp;
     boolean override;
+
     int mode;
 
     final int cool = 1; //if the device can cool
@@ -22,7 +23,17 @@ public class thermometer {
 
     public int getSetTemp() { return setTemp; }
     public void setSetTemp(int setTemp) { this.setTemp = setTemp; }
-
+    public int getMode() { return mode; }
+    public void setMode(int mode) { this.mode = mode; }
+    public void setMode(String mode) {
+        if (mode.compareTo("cool") == 0){
+            this.mode = cool;
+        } else if (mode.compareTo("heat") == 0){
+            this.mode = heat;
+        } else {
+            this.mode = coolheat;
+        }
+    }
     @Override
     public String toString() {
         return "" + setTemp + "," + override + "," + mode;
