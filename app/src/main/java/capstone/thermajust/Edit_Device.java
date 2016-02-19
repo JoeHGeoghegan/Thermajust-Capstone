@@ -1,13 +1,9 @@
 package capstone.thermajust;
 
-//import android.app.ActionBar;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,33 +13,43 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import capstone.thermajust.Model.Device;
-import capstone.thermajust.Model.Main_Model;
 
-public class Device_Setup extends AppCompatActivity {
+public class Edit_Device extends AppCompatActivity {
     boolean microphoneBool, thermometerBool, videoBool;
-//    int nextDevice;
+    int deviceSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_setup);
+        setContentView(R.layout.activity_edit_device);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //getting and setting device
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                deviceSelected = Main_Tabbed_View.model.deviceList.size(); //puts at the end if you are somehow editing a non existent device
+            } else {
+                deviceSelected = extras.getInt("selectedDevice");
+            }
+        } else {
+            //hopefully will not happen
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //establish assets
-        final Button findBluetooth = (Button) findViewById(R.id.button_device_Bluetooth);
-        final EditText name = (EditText) findViewById(R.id.editText_device_DeviceName);
-        final EditText deviceID = (EditText) findViewById(R.id.editText_device_DeviceID_Field);
-        final Switch microphone = (Switch) findViewById(R.id.switch_device_microphone);
-        final Switch thermometer = (Switch) findViewById(R.id.switch_device_thermometer);
-        final Switch video = (Switch) findViewById(R.id.switch_device_video);
-        final EditText wifiName = (EditText) findViewById(R.id.editText_device_wifi_field);
-        final EditText wifiPassword = (EditText) findViewById(R.id.editText_device_wifi_password_field);
-        final Button save = (Button) findViewById(R.id.button_device_save);
-
-        final Button clear = (Button) findViewById(R.id.button_device_clear);
+        final Button findBluetooth = (Button) findViewById(R.id.button_deviceEdit_Bluetooth);
+        final EditText name = (EditText) findViewById(R.id.editText_deviceEdit_DeviceName);
+        final EditText deviceID = (EditText) findViewById(R.id.editText_deviceEdit_DeviceID_Field);
+        final Switch microphone = (Switch) findViewById(R.id.switch_deviceEdit_microphone);
+        final Switch thermometer = (Switch) findViewById(R.id.switch_deviceEdit_thermometer);
+        final Switch video = (Switch) findViewById(R.id.switch_deviceEdit_video);
+        final EditText wifiName = (EditText) findViewById(R.id.editText_deviceEdit_wifi_field);
+        final EditText wifiPassword = (EditText) findViewById(R.id.editText_deviceEdit_wifi_password_field);
+        final Button save = (Button) findViewById(R.id.button_deviceEdit_save);
+        final Button delete = (Button) findViewById(R.id.button_deviceEdit_delete);
 
         //Switch onChecked
         microphone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -68,19 +74,19 @@ public class Device_Setup extends AppCompatActivity {
         //Button OnClicks
         findBluetooth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                toBluetoothConnect();
             }
         });
+
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String deviceIDadjusted;
                 if (deviceID.getText().toString().isEmpty()) { //if there is no bluetooth established
-                    deviceIDadjusted = "Debug" +
-                            Main_Tabbed_View.model.getCurrentDebugID_increment(getApplicationContext()); //generate a debug ID
+                    deviceIDadjusted = "NoBluetoothSet" + Main_Tabbed_View.model.deviceList.size(); //generate an ID until
                 } else {
-                    deviceIDadjusted = deviceID.getText().toString();//else put in devices ID
-                }
-                Main_Tabbed_View.model.deviceList.add(new Device(
+                    deviceIDadjusted = deviceID.getText().toString();
+                }//else put in devices ID
+
+                Main_Tabbed_View.model.deviceList.set(deviceSelected, new Device(
                         name.getText().toString(),
                         deviceIDadjusted,
                         false, //devices start off
@@ -89,7 +95,7 @@ public class Device_Setup extends AppCompatActivity {
                         videoBool,
                         wifiName.getText().toString(),
                         wifiPassword.getText().toString(),
-                        null //therm object
+                        null //TODO fix this? Maybe just create & save when settings for it are actually done
                 ));
 
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
@@ -98,18 +104,20 @@ public class Device_Setup extends AppCompatActivity {
                 snackbar.show();
             }
         });
-        clear.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Main_Tabbed_View.model.deviceList.clear();
-
-                Main_Tabbed_View.model.saveDevices(getApplicationContext());
-
-                Snackbar snackbar = Snackbar.make(view, "Devices cleared!!!", Snackbar.LENGTH_LONG);
-                snackbar.show();
+                Main_Tabbed_View.model.deviceList.remove(deviceSelected);
+                finish(); //closes device edit
             }
         });
 
-        //set wifi defaults
+        //set defaults
+        Device temp = Main_Tabbed_View.model.deviceList.get(deviceSelected);
+        name.setText(temp.getName());
+        deviceID.setText(temp.getIdNum());
+        microphone.setChecked(temp.getUseMic());
+        thermometer.setChecked(temp.getUseTemp());
+        video.setChecked(temp.getUseVid());
         String wifiDefaultName = Main_Tabbed_View.model.getWiFiDefaultName();
         String wifiDefaultPassword = Main_Tabbed_View.model.getWiFiDefaultPassword();
         if (wifiDefaultName != null) {
@@ -133,7 +141,7 @@ public class Device_Setup extends AppCompatActivity {
     }
 
     public void toBluetoothConnect() {
-        Intent myIntent = new Intent(Device_Setup.this, bluetooth_connect.class);
-        Device_Setup.this.startActivity(myIntent);
+        Intent myIntent = new Intent(Edit_Device.this, bluetooth_connect.class);
+        Edit_Device.this.startActivity(myIntent);
     }
 }

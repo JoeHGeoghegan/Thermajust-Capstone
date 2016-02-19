@@ -10,6 +10,7 @@
     <!-- Title Strings -->
     <string name="title_activity_main__settings__page">Settings</string>
     <string name="title_activity_device__setup_">Device Setup</string>
+    <string name="title_activity_device_edit">Edit Device</string>
     <string name="title_activity_group_setup">Group Setup</string>
     <string name="title_activity_schedule_setup">Schedule Setup</string>
     <string name="title_activity_power__setup_">Power Group Setup</string>
@@ -23,9 +24,12 @@
     <string name="deviceGroupCreate">Do you want to create a Device or a Group?</string>
     <string name="device">Device</string>
     <string name="group">Group</string>
+    <string name="schedule">Schedule</string>
+    <string name="power_meter">Power Meter</string>
 
     <!-- Setup Strings -->
     <string name="findBluetooth">Find BlueTooth</string>
+    <string name="connectBluetoothController">Connect To BT Controller</string>
     <string name="name">Name</string>
     <string name="id">ID Code</string>
     <string name="peripherals">Peripherals - Enable the devices you have attached to your Thermajust</string>

@@ -26,8 +26,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import capstone.thermajust.Model.CA_group_control;
+import capstone.thermajust.Model.Group;
 import capstone.thermajust.Model.Main_Model;
+import capstone.thermajust.Model.node;
 
 public class Main_Tabbed_View extends AppCompatActivity {
     //Data structure attribute
@@ -75,8 +81,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
                         showDeviceGroupDialog();
-//                        toDeviceSetup(view);
-//                        toGroupSetup(view);
                         break;
                     case 1:
                         toScheduleSetup(view);
@@ -146,7 +150,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                 case 1:
                     return "Automation";
                 case 2:
-                    return "Power Info";
+                    return "Power Usage";
             }
             return null;
         }
@@ -181,54 +185,140 @@ public class Main_Tabbed_View extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-            View rootView = inflater.inflate(R.layout.fragment_main__tabbed__view, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, sectionNumber));
+            View rootView;
+            String[] testList = {"I am a peach cobbler", "No wait I am mistaken", "I am a placeholder", "My apologies..."}; //palceholder list
 
-            String[] testList = {"error in syntax", "haiku dot j line two", "too few syllables"};
+            //layout Setup
+            if (model.groupList.size() > 0 && sectionNumber - 1 == 0) {                             //groups do exist, and the tab is devices/group need two lists
+                //define view to have the two list layout
+                rootView = inflater.inflate(R.layout.fragment_mtabview_twolist, container, false);
+                ArrayAdapter arrayAdapter1; //and the array adapters for the list
+                CA_group_control arrayAdapter2;
 
-            final ListView listView = (ListView) rootView.findViewById(R.id.listView_mainTabFrag_list);
-            ArrayAdapter arrayAdapter;
-            switch (sectionNumber - 1) {
-                case 0: //Devices and groups
-                    textView.setText(getString(R.string.device));
+                //define all elements needed to be edited
+                TextView text1 = (TextView) rootView.findViewById(R.id.textView_twolist_header1);
+                ListView list1 = (ListView) rootView.findViewById(R.id.listView_twolist_list1);
+                TextView text2 = (TextView) rootView.findViewById(R.id.textView_twolist_header2);
+                ListView list2 = (ListView) rootView.findViewById(R.id.listView_twolist_list2);
+
+                //edit text
+                text1.setText(getString(R.string.device));
+                text2.setText(getString(R.string.group));
+
+                //fill content list 1
+                arrayAdapter1 = new ArrayAdapter<>(rootView.getContext(),
+                        android.R.layout.simple_list_item_1, model.getDeviceNames());
+                //fill content list 2
+                ArrayList<node.groupControl> groupControlNodes = new ArrayList<node.groupControl>();
+                for (int i = 0; i < model.groupList.size(); i++) {
+                    Group temp = model.groupList.get(i);
+                    groupControlNodes.add(new node.groupControl(temp.getName(), i));
+                }
+                arrayAdapter2 = new CA_group_control(getActivity(),
+                        groupControlNodes,
+                        getResources());
+
+                //init list 1
+                list1.setAdapter(arrayAdapter1);
+
+                //init list 2
+                list2.setAdapter(arrayAdapter2);
+
+                //list 1 onclick
+                list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //                    String item = listView.getItemAtPosition(position).toString();
+                        //opens up device's edit page
+                        Intent myIntent = new Intent(getActivity(), Edit_Device.class);
+                        myIntent.putExtra("selectedDevice", position);
+                        getActivity().startActivity(myIntent);
+                    }
+                });
+
+                //list 2 onclick
+                list2.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //This is where you would go to a new activity!
+                        Snackbar snackbarGroup = Snackbar.make(view, "Group Editing not yet implemented."
+                                , Snackbar.LENGTH_LONG);
+                        snackbarGroup.show();
+                    }
+                });
+
+
+            } else {                                                                                //we only require one list
+                //define view to have the one list layout
+                rootView = inflater.inflate(R.layout.fragment_mtabview_onelist, container, false);
+                ArrayAdapter arrayAdapter; //and the array adapter for the list
+
+                //define all elements needed to be edited
+                TextView text1 = (TextView) rootView.findViewById(R.id.textView_onelist_header1);
+                ListView list1 = (ListView) rootView.findViewById(R.id.listView_onelist_list);
+                if (sectionNumber - 1 == 0) { //Device tab
+                    //edit text
+                    text1.setText(getString(R.string.device));
+                    //edit list 1
                     arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
                             android.R.layout.simple_list_item_1, model.getDeviceNames());
-                    break;
-                case 1: //Schedules
-                case 2: //Power
-                default:
-                    textView.setText(getString(R.string.section_format, sectionNumber));
+
+                    //init list
+                    list1.setAdapter(arrayAdapter);
+
+                    //list onclick
+                    list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent myIntent = new Intent(getActivity(), Edit_Device.class);
+                            myIntent.putExtra("selectedDevice", position);
+                            getActivity().startActivity(myIntent);
+                        }
+                    });
+
+                } else if (sectionNumber - 1 == 1) {                                                //schedule tab
+                    //edit text
+                    text1.setText(getString(R.string.schedule));
+                    //edit list 1
                     arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
                             android.R.layout.simple_list_item_1, testList);
-                    break;
-            }
-            listView.setAdapter(arrayAdapter);
 
-            listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String item = listView.getItemAtPosition(position).toString();
+                    //init list
+                    list1.setAdapter(arrayAdapter);
 
-                    switch (sectionNumber - 1) {
-                        case 0:
+                    //list onclick
+                    list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             //This is where you would go to a new activity!
-                            Snackbar snackbar = Snackbar.make(view, "Selected device " + item + " has ID: " +
-                                    model.deviceList.get(position).getIdNum()
+                            Snackbar snackbarSchedule = Snackbar.make(view, "Schedules not yet implemented."
                                     , Snackbar.LENGTH_LONG);
-                            snackbar.show();
-                            break;
-                        case 1:
-                        case 2:
-                        default:
-                            //This is where you would go to a new activity!
-                            Snackbar snackbarDefault = Snackbar.make(view, "Not yet implemented."
-                                    , Snackbar.LENGTH_LONG);
-                            snackbarDefault.show();
-                            break;
-                    }
+                            snackbarSchedule.show();
+                        }
+                    });
                 }
-            });
+                else {                                                                              //power tab (also default)
+                    //edit text
+                    text1.setText(getString(R.string.power_meter));
+                    //edit list 1
+                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
+                            android.R.layout.simple_list_item_1, model.getDeviceNames());
+
+                    //init list
+                    list1.setAdapter(arrayAdapter);
+
+                    //list onclick
+                    list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //This is where you would go to a new activity!
+                            Snackbar snackbarPower = Snackbar.make(view, "Power Monitoring not yet implemented."
+                                    , Snackbar.LENGTH_LONG);
+                            snackbarPower.show();
+                        }
+                    });
+                }
+            }
 
             return rootView;
         }
@@ -275,6 +365,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
         public void toGroupSetup() {
             Intent myIntent = new Intent(getActivity(), Group_Setup.class);
+            myIntent.putExtra("mode", 1); //creating a new group
             getActivity().startActivity(myIntent);
         }
     }

@@ -8,7 +8,7 @@ package capstone.thermajust.Model;
  * USE: This class holds data which defines a class.
  */
 public class Device {
-    //Basic information about the device
+    //Basic information about the groupCheck
     private String name;
     private String idNum;
 
@@ -96,9 +96,7 @@ public class Device {
     public String getWifiName() {
         return wifiName;
     }
-    public void setWifiName(String wifiName) {
-        this.wifiName = wifiName;
-    }
+    public void setWifiName(String wifiName) { this.wifiName = wifiName; }
     public thermometer getTherm() { return therm; }
 
     @Override

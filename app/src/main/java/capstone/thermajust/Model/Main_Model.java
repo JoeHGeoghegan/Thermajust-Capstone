@@ -45,9 +45,22 @@ public class Main_Model {
     private String WiFiDefaultName;
     private String WiFiDefaultPassword;
 
+    /* System Settings */
+    private int currentDebugID;
+
     /*******************
      * MANAGEMENT FUNCTIONS
      *******************/
+    //if given an id will return the corresponding groupCheck (the first one if not unique)
+    public Device getDeviceByID (String id) {
+        for (int i = 0; i < deviceList.size() ; i++) {
+            if (deviceList.get(i).getIdNum().compareTo(id) == 0) {
+                return deviceList.get(i);
+            }
+        }
+        return null;
+    }
+
 
     /* ArrayList management functions */
     /* loadAll will load and process everything on application launch
@@ -57,7 +70,7 @@ public class Main_Model {
         if (firstRun) {
             loadOptions(context);
             loadDevice(context);
-//            loadGroup(context);
+            loadGroup(context);
 //            loadSchedule(context);
 //            loadPower(context);
         }
@@ -95,8 +108,15 @@ public class Main_Model {
         return WiFiDefaultPassword;
     }
 
+    public int getCurrentDebugID_increment(Context context) {
+        currentDebugID++;
+        saveOptions(context);
+        return currentDebugID - 1;
+    }
+    public int getCurrentDebugID() {return currentDebugID;}
+    public void setCurrentDebugID(int currentDebugID) { this.currentDebugID = currentDebugID; }
 
-    /* LOAD FUNCTIONS */
+/* LOAD FUNCTIONS */
 
     /**
      * Besides loadOptions, these all work the same way;
@@ -114,17 +134,25 @@ public class Main_Model {
             InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
             BufferedReader bufferedReader = new BufferedReader(isr);
             String line;
-            int count = 0;
             while ((line = bufferedReader.readLine()) != null) {
-                switch (count) {
-                    case 0:
-                        setWiFiDefaultName(line);
-                        break;
-                    case 1:
-                        setWiFiDefaultPassword(line);
-                        break;
+                int num = 0;
+                //process line
+                String[] tokens = line.split(":"); //will split each line into identifier and value
+                String identifier = tokens[0];
+                String value = tokens[1];
+                if (!(value.compareTo("null")==0)) {
+                    switch (identifier) {
+                        case "WiFiDefaultName":
+                            setWiFiDefaultName(tokens[1]);
+                            break;
+                        case "WiFiDefaultPassword":
+                            setWiFiDefaultPassword(tokens[1]);
+                            break;
+                        case "CurrentDebugID":
+                            setCurrentDebugID(Integer.parseInt(tokens[1]));
+                            break;
+                    };
                 }
-                count++;
             }
         } catch (FileNotFoundException e0) {
             e0.printStackTrace();
@@ -190,7 +218,42 @@ public class Main_Model {
     }
 
     public void loadGroup(Context context) {
-//        "ThermajustGroupSave.txt";
+        try {
+            FileInputStream fis = context.openFileInput("ThermajustGroupSave.txt");
+            String delim = ",";
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                //process line
+                String[] tokens = line.split(delim);
+
+                //initialize groupCheck array
+                ArrayList<Device> devices = new ArrayList<Device>();
+
+                int num = 0;
+                String name = tokens[num++];
+                int numDevices = Integer.parseInt(tokens[num++]);
+                for (int i = 0; i < numDevices ; i++) {
+                    Device temp = getDeviceByID(tokens[num++]);
+                    if (temp != null){
+                        devices.add(temp);
+                    }
+                }
+
+                groupList.add(new Group(name, devices));
+            }
+        } catch (FileNotFoundException e0) {
+            e0.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e3) {
+            //TODO will clear devices if file format is invalid. This code should be cleared away in final version
+            groupList.clear();
+            saveGroups(context);
+        }
     }
 
     public void loadSchedule(Context context) {
@@ -211,8 +274,10 @@ public class Main_Model {
         String fileName = "ThermajustOptionSave.txt";
         FileOutputStream outputStream;
 
-        saveWrite = getWiFiDefaultName() + "\n" +
-                getWiFiDefaultPassword();
+        saveWrite =
+                "WiFiDefaultName:" + getWiFiDefaultName() + "\n" +
+                "WiFiDefaultPassword:" + getWiFiDefaultPassword() + "\n" +
+                "CurrentDebugID:" + getCurrentDebugID();
 
         try {
             outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -246,6 +311,9 @@ public class Main_Model {
         String fileName = "ThermajustGroupSave.txt";
         FileOutputStream outputStream;
 
+        for (int i = 0; i < groupList.size(); i++) {
+            saveWrite = saveWrite + groupList.get(i).toString();
+        }
 
         try {
             outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);

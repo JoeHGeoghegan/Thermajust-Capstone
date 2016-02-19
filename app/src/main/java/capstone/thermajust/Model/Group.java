@@ -13,53 +13,62 @@ import java.util.Arrays;
  * settings can be done quickly and only to the devices that the operation can be done to.
  */
 public class Group {
+    public String name;
     public ArrayList<Device> devices;
-    private short[] tempEnabled;
-    private short[] micEnabled;
-    private short[] vidEnabled;
+    private ArrayList<Integer> tempEnabled;
+    private ArrayList<Integer> micEnabled;
+    private ArrayList<Integer> vidEnabled;
 
 
-    public Group(short[] vidEnabled, ArrayList<Device> devices, short[] tempEnabled, short[] micEnabled) {
-        this.vidEnabled = vidEnabled;
+    public Group(String name, ArrayList<Device> devices) {
+        this.name = name;
         this.devices = devices;
-        this.tempEnabled = tempEnabled;
-        this.micEnabled = micEnabled;
+
+        for (int i = 0; i < devices.size(); i++) {
+            if (devices.get(i).getUseTemp()) {
+                tempEnabled.add(i);
+            }
+            if (devices.get(i).getUseMic()) {
+                micEnabled.add(i);
+            }
+            if (devices.get(i).getUseVid()) {
+                vidEnabled.add(i);
+            }
+
+        }
     }
 
-    //toString
-    //todo CURRENTLY FORMATTED BADLY (mainly because of devices.toString)
-    @Override
-    public String toString() {
-        return "Group{" +
-                "devices=" + devices.toString() +
-                ", tempEnabled=" + Arrays.toString(tempEnabled) +
-                ", micEnabled=" + Arrays.toString(micEnabled) +
-                ", vidEnabled=" + Arrays.toString(vidEnabled) +
-                '}';
+    public int findDevicePos(Device device) {
+        if (devices.contains(device)) {
+            for (int i = 0; i < devices.size() ; i++) {
+                if (devices.get(i) == device) {
+                    return i;
+                }
+            }
+        }
+        return -1; //not in array
     }
 
     //Getters and Setters
-    public short[] getVidEnabled() {
-        return vidEnabled;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setVidEnabled(short[] vidEnabled) {
-        this.vidEnabled = vidEnabled;
-    }
+    public ArrayList<Integer> getVidEnabled() { return vidEnabled; }
+    public void setVidEnabled(ArrayList<Integer> vidEnabled) { this.vidEnabled = vidEnabled; }
 
-    public short[] getTempEnabled() {
-        return tempEnabled;
-    }
+    public ArrayList<Integer> getTempEnabled() { return tempEnabled; }
+    public void setTempEnabled(ArrayList<Integer> tempEnabled) { this.tempEnabled = tempEnabled; }
 
-    public void setTempEnabled(short[] tempEnabled) {
-        this.tempEnabled = tempEnabled;
-    }
+    public ArrayList<Integer> getMicEnabled() { return micEnabled; }
+    public void setMicEnabled(ArrayList<Integer> micEnabled) { this.micEnabled = micEnabled; }
 
-    public short[] getMicEnabled() {
-        return micEnabled;
-    }
-
-    public void setMicEnabled(short[] micEnabled) {
-        this.micEnabled = micEnabled;
+    @Override
+    public String toString() {
+        String write = getName() + ","
+                + devices.size() + ",";
+        for (int i = 0; i < devices.size(); i++) {
+            write = write + devices.get(i).getIdNum() + ",";
+        }
+        return write + "<!>end<!>\n";
     }
 }

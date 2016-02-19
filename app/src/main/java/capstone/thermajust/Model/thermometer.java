@@ -11,9 +11,9 @@ public class thermometer {
 
     int mode;
 
-    final int cool = 1; //if the device can cool
-    final int heat = 2; //if the device can heat
-    final int coolheat = 3; //if the device can do both
+    final int cool = 1; //if the groupCheck can cool
+    final int heat = 2; //if the groupCheck can heat
+    final int coolheat = 3; //if the groupCheck can do both
 
     public thermometer(int setTemp, boolean override, int mode) {
         this.setTemp = setTemp;
