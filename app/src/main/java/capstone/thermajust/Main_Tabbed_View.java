@@ -26,14 +26,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import capstone.thermajust.Model.CA_group_control;
+import capstone.thermajust.ListAdapterElements.CA_device_control;
+import capstone.thermajust.ListAdapterElements.CA_group_control;
+import capstone.thermajust.Model.Device;
 import capstone.thermajust.Model.Group;
 import capstone.thermajust.Model.Main_Model;
-import capstone.thermajust.Model.node;
+import capstone.thermajust.ListAdapterElements.node;
 
 public class Main_Tabbed_View extends AppCompatActivity {
     //Data structure attribute
@@ -192,7 +193,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
             if (model.groupList.size() > 0 && sectionNumber - 1 == 0) {                             //groups do exist, and the tab is devices/group need two lists
                 //define view to have the two list layout
                 rootView = inflater.inflate(R.layout.fragment_mtabview_twolist, container, false);
-                ArrayAdapter arrayAdapter1; //and the array adapters for the list
+                CA_device_control arrayAdapter1; //and the array adapters for the list
                 CA_group_control arrayAdapter2;
 
                 //define all elements needed to be edited
@@ -206,8 +207,14 @@ public class Main_Tabbed_View extends AppCompatActivity {
                 text2.setText(getString(R.string.group));
 
                 //fill content list 1
-                arrayAdapter1 = new ArrayAdapter<>(rootView.getContext(),
-                        android.R.layout.simple_list_item_1, model.getDeviceNames());
+                ArrayList<node.deviceControl> deviceControlNodes = new ArrayList<node.deviceControl>();
+                for (int i = 0; i < model.deviceList.size(); i++) {
+                    Device temp = model.deviceList.get(i);
+                    deviceControlNodes.add(new node.deviceControl(temp.getName(), temp.getIdNum(), i));
+                }
+                arrayAdapter1 = new CA_device_control(getActivity(),
+                        deviceControlNodes,
+                        getResources());
                 //fill content list 2
                 ArrayList<node.groupControl> groupControlNodes = new ArrayList<node.groupControl>();
                 for (int i = 0; i < model.groupList.size(); i++) {

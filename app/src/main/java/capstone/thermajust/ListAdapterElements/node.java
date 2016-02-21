@@ -1,4 +1,4 @@
-package capstone.thermajust.Model;
+package capstone.thermajust.ListAdapterElements;
 
 import android.widget.Toast;
 
@@ -10,7 +10,27 @@ import capstone.thermajust.Main_Tabbed_View;
  */
 public class node {
     /** ON MAIN TABBED VIEW
-     * This subclass acts as a buffer between a list and the actual group so function calls can be made easier through this
+     * This subclass acts as a buffer between a list and the actual
+     * device so function calls can be made easier through this
+     */
+    public static class deviceControl {
+        String name;
+        String id;
+        int pos;
+
+        public deviceControl(String name, String id, int pos) {
+            this.name = name;
+            this.id = id;
+            this.pos = pos;
+        }
+
+        public String getName() { return name; }
+        public String getId() { return id; }
+    }
+
+    /** ON MAIN TABBED VIEW
+     * This subclass acts as a buffer between a list and the actual
+     * group so function calls can be made easier through this
      */
     public static class groupControl {
         String name;
@@ -51,5 +71,27 @@ public class node {
 
         public boolean getChecked() { return checked; }
         public String getName() { return name; }
+    }
+
+    /** ON MAIN TABBED VIEW
+     * This subclass acts as a buffer between a list and the actual
+     * device so function calls can be made easier through this
+     */
+    public static class powerRead {
+        String name;
+        String read;
+        String symbol;
+        int pos;
+
+        public powerRead(String name, String read, String symbol, int pos) {
+            this.name = name;
+            this.read = read;
+            this.symbol = symbol;
+            this.pos = pos;
+        }
+
+        public String getName() { return name; }
+        public String getSymbol() { return symbol; }
+        public String getRead() { return read; }
     }
 }

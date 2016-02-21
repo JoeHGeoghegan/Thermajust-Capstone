@@ -9,14 +9,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import capstone.thermajust.Model.CA_group_checklist;
+import capstone.thermajust.ListAdapterElements.CA_group_checklist;
 import capstone.thermajust.Model.Device;
 import capstone.thermajust.Model.Group;
-import capstone.thermajust.Model.node;
+import capstone.thermajust.ListAdapterElements.node;
 
 public class Group_Setup extends AppCompatActivity {
 
