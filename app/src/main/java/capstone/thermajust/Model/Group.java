@@ -71,4 +71,12 @@ public class Group {
         }
         return write + "<!>end<!>\n";
     }
+    public String toStringSched() {
+        String write = getName() + ","
+                + devices.size() + ",";
+        for (int i = 0; i < devices.size(); i++) {
+            write = write + devices.get(i).getIdNum() + ",";
+        }
+        return write;
+    }
 }

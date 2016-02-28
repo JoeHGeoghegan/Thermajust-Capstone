@@ -8,17 +8,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="TextToBeReplaced"
         android:id="@+id/textView_group_control_row_name" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton_device_row"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/switch_group_control_row_switch"
+        android:layout_toStartOf="@+id/switch_group_control_row_switch"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:src= "@drawable/control_group_button"/>
+
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_gravity="right"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:id="@+id/switch_group_control_row_switch" />
     </RelativeLayout>
 

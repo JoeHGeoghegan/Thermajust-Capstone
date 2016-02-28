@@ -2,17 +2,23 @@ package capstone.thermajust.ListAdapterElements;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import capstone.thermajust.Base_Controller;
+import capstone.thermajust.Edit_Device;
+import capstone.thermajust.Main_Tabbed_View;
 import capstone.thermajust.R;
+import capstone.thermajust.therm_controller;
 
 /**
  * Created by Joe Geoghegan on 2/18/2016.
@@ -31,7 +37,7 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
     public CA_device_control(Activity activity, ArrayList arrayList, Resources resources) {
 
         /********** Take passed values **********/
-        activity = activity;
+        this.activity = activity;
         data=arrayList;
         res = resources;
 
@@ -61,6 +67,7 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
 
         public TextView name;
         public TextView id;
+        public ImageButton controlButton;
 
     }
 
@@ -79,6 +86,7 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
             holder = new ViewHolder();
             holder.name = (TextView) vi.findViewById(R.id.textView_device_row_name);
             holder.id = (TextView) vi.findViewById(R.id.textView_device_row_id);
+            holder.controlButton = (ImageButton) vi.findViewById(R.id.imageButton_device_row);
 
             /************  Set holder with LayoutInflater ************/
             vi.setTag( holder );
@@ -97,17 +105,31 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
             holder.id.setText((deviceNode.getId()));
 
 
-//            holder.checkBox.setOnClickListener(new View.OnClickListener() {
-//                public void onClick(View v) {
-//                    CheckBox cb = (CheckBox) v ;
-//                    groupCheck.setChecked(cb.isChecked());
-//                }
-//            });
+            holder.name.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(activity, Edit_Device.class);
+                    myIntent.putExtra("selectedDevice", position);
+                    activity.startActivity(myIntent);
+                }
+            });
+            holder.controlButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+//                    if (Main_Tabbed_View.model.deviceList.get(position).getUseTemp()) {
+//                        Intent myIntent = new Intent(activity, therm_controller.this);
+//                        myIntent.putExtra("selectedDevice", position);
+//                        activity.startActivity(myIntent);
+//                    } else {
+//                        Intent myIntent = new Intent(activity, Base_Controller.this);
+//                        myIntent.putExtra("selectedDevice", position);
+//                        activity.startActivity(myIntent);
+//                    }
+                }
+            });
 
 
             /******** Set Item Click Listner for LayoutInflater for each row *******/
 
-            vi.setOnClickListener(new OnItemClickListener( position ));
+            vi.setOnClickListener(new OnItemClickListener(position));
         }
         else
             holder.name.setText("No Data");

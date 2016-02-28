@@ -28,6 +28,18 @@
             android:id="@+id/textView_device_row_id"/>
     </LinearLayout>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton_device_row"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/switch_device_row"
+        android:layout_toStartOf="@+id/switch_device_row"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:src= "@drawable/control_button"/>
+
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

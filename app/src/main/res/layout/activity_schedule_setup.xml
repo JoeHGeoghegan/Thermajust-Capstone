@@ -36,13 +36,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:id="@+id/textView_schedule_name" />
+            android:text="Name" />
 
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_schedule_name" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText_schedule_name" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:id="@+id/button_schedule_save"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
@@ -54,8 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Start Time"
-            android:id="@+id/textView_schedule_start_label" />
+            android:text="Start Time" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -133,7 +144,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="12:00 PM"
             android:id="@+id/textView_schedule_timeStart"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="showTimePickerDialog" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -143,20 +155,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Do: "
-                android:id="@+id/textView_schedule_start_do" />
+                android:text="Set: "/>
 
-            <Switch
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Power:"
-                android:id="@+id/switch_schedule_start_power" />
+                android:id="@+id/toggle_schedule_start_power" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Temp:"
-                android:id="@+id/textView_schedule_start_temp_label" />
+                android:text="Temp:" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -174,8 +184,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="End Time"
-            android:id="@+id/textView_schedule_end_label" />
+            android:text="End Time" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -253,7 +262,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="12:01 PM"
             android:id="@+id/textView_schedule_timeEnd"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="showTimePickerDialog" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -263,20 +273,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Do: "
-                android:id="@+id/textView_schedule_end_do" />
+                android:text="Set: " />
 
-            <Switch
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Power:"
-                android:id="@+id/switch_schedule_end_power" />
+                android:id="@+id/toggle_schedule_end_power" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Temp:"
-                android:id="@+id/textView_schedule_end_temp_label" />
+                android:text="Temp:" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -285,12 +293,18 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:id="@+id/button_schedule_save"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Schedule applies to:" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView_schedule_list"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

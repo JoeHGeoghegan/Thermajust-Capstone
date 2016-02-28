@@ -38,7 +38,7 @@ public class Main_Model {
     /* List Array attributes */
     public ArrayList<Device> deviceList = new ArrayList<>();
     public ArrayList<Group> groupList = new ArrayList<>();
-//    public ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
+    public ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
 //    public ArrayList<Power> powerList = new ArrayList<Power>();
 
     /* WiFi related attributes */

@@ -1,5 +1,6 @@
 package capstone.thermajust;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 
 import capstone.thermajust.ListAdapterElements.CA_device_control;
 import capstone.thermajust.ListAdapterElements.CA_group_control;
+import capstone.thermajust.ListAdapterElements.CA_power_read;
 import capstone.thermajust.Model.Device;
 import capstone.thermajust.Model.Group;
 import capstone.thermajust.Model.Main_Model;
@@ -231,17 +233,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
                 //init list 2
                 list2.setAdapter(arrayAdapter2);
 
-                //list 1 onclick
-                list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //                    String item = listView.getItemAtPosition(position).toString();
-                        //opens up device's edit page
-                        Intent myIntent = new Intent(getActivity(), Edit_Device.class);
-                        myIntent.putExtra("selectedDevice", position);
-                        getActivity().startActivity(myIntent);
-                    }
-                });
 
                 //list 2 onclick
                 list2.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
@@ -258,17 +249,24 @@ public class Main_Tabbed_View extends AppCompatActivity {
             } else {                                                                                //we only require one list
                 //define view to have the one list layout
                 rootView = inflater.inflate(R.layout.fragment_mtabview_onelist, container, false);
-                ArrayAdapter arrayAdapter; //and the array adapter for the list
 
                 //define all elements needed to be edited
                 TextView text1 = (TextView) rootView.findViewById(R.id.textView_onelist_header1);
                 ListView list1 = (ListView) rootView.findViewById(R.id.listView_onelist_list);
                 if (sectionNumber - 1 == 0) { //Device tab
+                    CA_device_control arrayAdapter; //and the array adapters for the list
                     //edit text
                     text1.setText(getString(R.string.device));
-                    //edit list 1
-                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
-                            android.R.layout.simple_list_item_1, model.getDeviceNames());
+
+                    //fill content list 1
+                    ArrayList<node.deviceControl> deviceControlNodes = new ArrayList<node.deviceControl>();
+                    for (int i = 0; i < model.deviceList.size(); i++) {
+                        Device temp = model.deviceList.get(i);
+                        deviceControlNodes.add(new node.deviceControl(temp.getName(), temp.getIdNum(), i));
+                    }
+                    arrayAdapter = new CA_device_control(getActivity(),
+                            deviceControlNodes,
+                            getResources());
 
                     //init list
                     list1.setAdapter(arrayAdapter);
@@ -277,13 +275,16 @@ public class Main_Tabbed_View extends AppCompatActivity {
                     list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //                    String item = listView.getItemAtPosition(position).toString();
+                            //opens up device's edit page
                             Intent myIntent = new Intent(getActivity(), Edit_Device.class);
                             myIntent.putExtra("selectedDevice", position);
                             getActivity().startActivity(myIntent);
                         }
                     });
-
-                } else if (sectionNumber - 1 == 1) {                                                //schedule tab
+                }
+                else if (sectionNumber - 1 == 1) {                                                //schedule tab
+                    ArrayAdapter arrayAdapter; //and the array adapter for the list
                     //edit text
                     text1.setText(getString(R.string.schedule));
                     //edit list 1
@@ -304,12 +305,18 @@ public class Main_Tabbed_View extends AppCompatActivity {
                         }
                     });
                 }
-                else {                                                                              //power tab (also default)
+                else {                                                                              //power tab
+                    CA_power_read arrayAdapter; //and the array adapter for the list
                     //edit text
                     text1.setText(getString(R.string.power_meter));
                     //edit list 1
-                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
-                            android.R.layout.simple_list_item_1, model.getDeviceNames());
+                    ArrayList<node.powerRead> powerReadNodes = new ArrayList<node.powerRead>();
+                    for (int i = 0; i < model.deviceList.size() ; i++) {
+                        powerReadNodes.add(new node.powerRead(model.deviceList.get(i).getName(), "0", "W", i));
+                    }
+                    arrayAdapter = new CA_power_read(getActivity(),
+                            powerReadNodes,
+                            getResources());
 
                     //init list
                     list1.setAdapter(arrayAdapter);
