@@ -38,7 +38,7 @@ public class Main_Model {
     /* List Array attributes */
     public ArrayList<Device> deviceList = new ArrayList<>();
     public ArrayList<Group> groupList = new ArrayList<>();
-    public ArrayList<Schedule> scheduleList = new ArrayList<Schedule>();
+    public ArrayList<Schedule> scheduleList = new ArrayList<>();
 //    public ArrayList<Power> powerList = new ArrayList<Power>();
 
     /* WiFi related attributes */
@@ -79,7 +79,7 @@ public class Main_Model {
 
     //returns the list of names of all devices, used to list them in UI
     public ArrayList<String> getDeviceNames() {
-        ArrayList nameList = new ArrayList<String>();
+        ArrayList<String> nameList = new ArrayList<>();
         for (int i = 0; i < deviceList.size(); i++) {
             nameList.add(deviceList.get(i).getName());
         }
@@ -151,7 +151,7 @@ public class Main_Model {
                         case "CurrentDebugID":
                             setCurrentDebugID(Integer.parseInt(tokens[1]));
                             break;
-                    };
+                    }
                 }
             }
         } catch (FileNotFoundException e0) {
@@ -211,7 +211,6 @@ public class Main_Model {
         } catch (IOException e2) {
             e2.printStackTrace();
         } catch (ArrayIndexOutOfBoundsException e3) {
-            //TODO will clear devices if file format is invalid. This code should be cleared away in final version
             deviceList.clear();
             saveDevices(context);
         }
@@ -250,7 +249,6 @@ public class Main_Model {
         } catch (IOException e2) {
             e2.printStackTrace();
         } catch (ArrayIndexOutOfBoundsException e3) {
-            //TODO will clear devices if file format is invalid. This code should be cleared away in final version
             groupList.clear();
             saveGroups(context);
         }
@@ -281,7 +279,6 @@ public class Main_Model {
         } catch (IOException e2) {
             e2.printStackTrace();
         } catch (ArrayIndexOutOfBoundsException e3) {
-            //TODO will clear devices if file format is invalid. This code should be cleared away in final version
             scheduleList.clear();
             saveSchedule(context);
         }

@@ -44,8 +44,6 @@ public class therm_controller extends AppCompatActivity {
                 device = Main_Tabbed_View.model.deviceList.get(extras.getInt("selection"));
                 connected = extras.getBoolean("connected");
             }
-        } else {
-            //hopefully will not happen
         }
 
         ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton_thermControl_power);
@@ -152,7 +150,7 @@ public class therm_controller extends AppCompatActivity {
         if (connected) {
             try {
                 bluetooth_connect.sendDataOutActivity(msg);
-            }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+            }catch(Exception e){
                 e.printStackTrace();
             }
         }

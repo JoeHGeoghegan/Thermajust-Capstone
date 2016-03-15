@@ -34,8 +34,6 @@ public class Edit_Device extends AppCompatActivity {
             } else {
                 deviceSelected = extras.getInt("selectedDevice");
             }
-        } else {
-            //hopefully will not happen
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,7 +94,7 @@ public class Edit_Device extends AppCompatActivity {
                         videoBool,
                         wifiName.getText().toString(),
                         wifiPassword.getText().toString(),
-                        null //TODO fix this? Maybe just create & save when settings for it are actually done
+                        null
                 ));
 
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());

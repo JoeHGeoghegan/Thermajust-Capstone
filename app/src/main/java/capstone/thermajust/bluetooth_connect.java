@@ -76,7 +76,7 @@ public class bluetooth_connect extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     findBT();
-                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                }catch(Exception e){
                     e.printStackTrace();
                 }
             }
@@ -87,7 +87,7 @@ public class bluetooth_connect extends AppCompatActivity {
                 try {
                     openBT();
                     connected = true;
-                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                }catch(Exception e){
                     e.printStackTrace();
                 }
             }
@@ -96,7 +96,7 @@ public class bluetooth_connect extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     sendDataInActivity();
-                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                }catch(Exception e){
                     e.printStackTrace();
                 }
             }
@@ -105,7 +105,7 @@ public class bluetooth_connect extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     closeBT();
-                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                }catch(Exception e){
                     e.printStackTrace();
                 }
             }
@@ -330,7 +330,7 @@ public class bluetooth_connect extends AppCompatActivity {
             case android.R.id.home:
                 try {
                     closeBT();
-                }catch(Exception e){ //TODO NEED TO PROPERLY HANDLE THIS
+                }catch(Exception e){
                     e.printStackTrace();
                 }
 

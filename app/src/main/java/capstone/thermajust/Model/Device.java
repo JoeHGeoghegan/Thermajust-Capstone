@@ -115,7 +115,6 @@ public class Device {
         } //a thermometer exists but not set up, these are default values
 
         write = write + getUseMic() + "," + getUseVid() + ",";
-        //TODO enable below and remove above line when implemented
 //        if (getUseMic()) {
 //            write = write + getUseMic() + "," + mic.toString() + ",";
 //        }else { write = write + getUseMic() + ","; }

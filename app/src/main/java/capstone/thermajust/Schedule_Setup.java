@@ -121,6 +121,7 @@ public class Schedule_Setup extends AppCompatActivity {
             thuS.setText((schedule.isThuS()) ? ThuU : "Thu");
             friS.setText((schedule.isFriS()) ? FriU : "Fri");
             satS.setText((schedule.isSatS()) ? SatU : "Sat");
+            tempS.setText(schedule.getStartTempSet());
             powS.setChecked(schedule.isStartPower());
             sunE.setText((schedule.isSunE()) ? SunU : "Sun");
             monE.setText((schedule.isMonE()) ? MonU : "Mon");
@@ -129,6 +130,7 @@ public class Schedule_Setup extends AppCompatActivity {
             thuE.setText((schedule.isThuE()) ? ThuU : "Thu");
             friE.setText((schedule.isFriE()) ? FriU : "Fri");
             satE.setText((schedule.isSatE()) ? SatU : "Sat");
+            tempS.setText(schedule.getEndTempSet());
             powE.setChecked(schedule.isEndPower());
         } else {
             schedule = new Schedule();
@@ -179,9 +181,10 @@ public class Schedule_Setup extends AppCompatActivity {
                 schedule.setName(name.getText().toString());
                 schedule.setStartHour(Integer.parseInt(timeS.getText().toString().split(":")[0]));
                 schedule.setStartMinute(Integer.parseInt(timeS.getText().toString().split(":")[1]));
-                schedule.setStartTempSet(Integer.parseInt(tempS.getText().toString()));
                 schedule.setEndHour(Integer.parseInt(timeE.getText().toString().split(":")[0]));
                 schedule.setEndMinute(Integer.parseInt(timeE.getText().toString().split(":")[1]));
+
+                schedule.setStartTempSet(Integer.parseInt(tempS.getText().toString()));
                 schedule.setEndTempSet(Integer.parseInt(tempE.getText().toString()));
                 switch (mode) {
                     case 0: //editing
