@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -84,7 +85,7 @@ public class therm_controller extends AppCompatActivity {
         });
         setTemp.setText("" + device.getTherm().getSetTemp());
 
-        Button upTemp = (Button) findViewById(R.id.button_thermControl_temp_up);
+        ImageButton upTemp = (ImageButton) findViewById(R.id.button_thermControl_temp_up);
         upTemp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 int temp = Integer.parseInt(setTemp.getText().toString());
@@ -95,7 +96,7 @@ public class therm_controller extends AppCompatActivity {
             }
         });
 
-        Button downTemp = (Button) findViewById(R.id.button_thermControl_temp_down);
+        ImageButton downTemp = (ImageButton) findViewById(R.id.button_thermControl_temp_down);
         downTemp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 int temp = Integer.parseInt(setTemp.getText().toString());

@@ -77,17 +77,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sun "
+                android:text="Sun"
                 android:id="@+id/textView_schedule_start_sun"
                 android:layout_row="0"
                 android:layout_column="0" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Mon "
-                android:id="@+id/textView_schedule_start_mon"
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
                 android:layout_row="0"
                 android:layout_column="1" />
 
@@ -95,17 +92,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Tue "
-                android:id="@+id/textView_schedule_start_tue"
+                android:text="Mon"
+                android:id="@+id/textView_schedule_start_mon"
                 android:layout_row="0"
                 android:layout_column="2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Wed "
-                android:id="@+id/textView_schedule_start_wed"
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
                 android:layout_row="0"
                 android:layout_column="3" />
 
@@ -113,17 +107,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Thu "
-                android:id="@+id/textView_schedule_start_thu"
+                android:text="Tue"
+                android:id="@+id/textView_schedule_start_tue"
                 android:layout_row="0"
                 android:layout_column="4" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Fri "
-                android:id="@+id/textView_schedule_start_fri"
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
                 android:layout_row="0"
                 android:layout_column="5" />
 
@@ -131,10 +122,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sat "
-                android:id="@+id/textView_schedule_start_sat"
+                android:text="Wed"
+                android:id="@+id/textView_schedule_start_wed"
                 android:layout_row="0"
                 android:layout_column="6" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:layout_row="0"
+                android:layout_column="7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Thu"
+                android:id="@+id/textView_schedule_start_thu"
+                android:layout_row="0"
+                android:layout_column="8" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:layout_row="0"
+                android:layout_column="9" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Fri"
+                android:id="@+id/textView_schedule_start_fri"
+                android:layout_row="0"
+                android:layout_column="10" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:layout_row="0"
+                android:layout_column="11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Sat"
+                android:id="@+id/textView_schedule_start_sat"
+                android:layout_row="0"
+                android:layout_column="12" />
 
         </GridLayout>
 
@@ -142,10 +178,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="12:00 PM"
+            android:text="12:00"
             android:id="@+id/textView_schedule_timeStart"
             android:layout_gravity="center_horizontal"
-            android:onClick="showTimePickerDialog" />
+            android:onClick="showTimePickerDialogS" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -195,17 +231,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sun "
+                android:text="Sun"
                 android:id="@+id/textView_schedule_end_sun"
                 android:layout_row="0"
                 android:layout_column="0" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Mon "
-                android:id="@+id/textView_schedule_end_mon"
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
                 android:layout_row="0"
                 android:layout_column="1" />
 
@@ -213,17 +246,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Tue "
-                android:id="@+id/textView_schedule_end_tue"
+                android:text="Mon"
+                android:id="@+id/textView_schedule_end_mon"
                 android:layout_row="0"
                 android:layout_column="2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Wed "
-                android:id="@+id/textView_schedule_end_wed"
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
                 android:layout_row="0"
                 android:layout_column="3" />
 
@@ -231,17 +261,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Thu "
-                android:id="@+id/textView_schedule_end_thu"
+                android:text="Tue"
+                android:id="@+id/textView_schedule_end_tue"
                 android:layout_row="0"
                 android:layout_column="4" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Fri "
-                android:id="@+id/textView_schedule_end_fri"
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
                 android:layout_row="0"
                 android:layout_column="5" />
 
@@ -249,10 +276,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sat "
-                android:id="@+id/textView_schedule_end_sat"
+                android:text="Wed"
+                android:id="@+id/textView_schedule_end_wed"
                 android:layout_row="0"
                 android:layout_column="6" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:layout_row="0"
+                android:layout_column="7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Thu"
+                android:id="@+id/textView_schedule_end_thu"
+                android:layout_row="0"
+                android:layout_column="8" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:layout_row="0"
+                android:layout_column="9" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Fri"
+                android:id="@+id/textView_schedule_end_fri"
+                android:layout_row="0"
+                android:layout_column="10" />
+
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                android:layout_row="0"
+                android:layout_column="11" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Sat"
+                android:id="@+id/textView_schedule_end_sat"
+                android:layout_row="0"
+                android:layout_column="12" />
 
         </GridLayout>
 
@@ -260,10 +332,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="12:01 PM"
+            android:text="13:00"
             android:id="@+id/textView_schedule_timeEnd"
             android:layout_gravity="center_horizontal"
-            android:onClick="showTimePickerDialog" />
+            android:onClick="showTimePickerDialogE" />
 
         <LinearLayout
             android:orientation="horizontal"

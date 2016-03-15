@@ -1,5 +1,9 @@
 package capstone.thermajust.Model;
 
+import java.util.ArrayList;
+
+import capstone.thermajust.Main_Tabbed_View;
+
 /**
  * Created by Joe Geoghegan on 2/23/2016.
  */
@@ -12,16 +16,82 @@ public class Schedule {
     boolean startPower, endPower, startTemp, endTemp;
     int startTempSet, endTempSet;
 
-    Group applied;
+    ArrayList<Device> applied;
 
+    public Schedule() {
+        this.name = null;
+        this.enabled = true;
+        this.sunS = true;
+        this.monS = true;
+        this.tueS = true;
+        this.wedS = true;
+        this.thuS = true;
+        this.friS = true;
+        this.satS = true;
+        this.sunE = true;
+        this.monE = true;
+        this.tueE = true;
+        this.wedE = true;
+        this.thuE = true;
+        this.friE = true;
+        this.satE = true;
+        this.startHour = 12;
+        this.startMinute = 0;
+        this.endHour = 13;
+        this.endMinute = 0;
+        this.startPower = true;
+        this.endPower = false;
+        this.startTemp = false;
+        this.endTemp = false;
+        this.startTempSet = 70;
+        this.endTempSet = 70;
+        this.applied = new ArrayList<Device>();
+    }
 
+    public Schedule(java.lang.String[] tokens) {
+        int num = 0;
+        this.name = tokens[num++];;
+        this.enabled = Boolean.parseBoolean(tokens[num++]);;
+        this.sunS = Boolean.parseBoolean(tokens[num++]);
+        this.monS = Boolean.parseBoolean(tokens[num++]);
+        this.tueS = Boolean.parseBoolean(tokens[num++]);
+        this.wedS = Boolean.parseBoolean(tokens[num++]);
+        this.thuS = Boolean.parseBoolean(tokens[num++]);
+        this.friS = Boolean.parseBoolean(tokens[num++]);
+        this.satS = Boolean.parseBoolean(tokens[num++]);
+        this.sunE = Boolean.parseBoolean(tokens[num++]);
+        this.monE = Boolean.parseBoolean(tokens[num++]);
+        this.tueE = Boolean.parseBoolean(tokens[num++]);
+        this.wedE = Boolean.parseBoolean(tokens[num++]);
+        this.thuE = Boolean.parseBoolean(tokens[num++]);
+        this.friE = Boolean.parseBoolean(tokens[num++]);
+        this.satE = Boolean.parseBoolean(tokens[num++]);
+        this.startHour = Integer.parseInt(tokens[num++]);
+        this.startMinute = Integer.parseInt(tokens[num++]);
+        this.endHour = Integer.parseInt(tokens[num++]);
+        this.endMinute = Integer.parseInt(tokens[num++]);
+        this.startPower = Boolean.parseBoolean(tokens[num++]);
+        this.endPower = Boolean.parseBoolean(tokens[num++]);
+        this.startTemp = Boolean.parseBoolean(tokens[num++]);
+        this.endTemp = Boolean.parseBoolean(tokens[num++]);
+        this.startTempSet = Integer.parseInt(tokens[num++]);
+        this.endTempSet = Integer.parseInt(tokens[num++]);
+
+        int numDev = Integer.parseInt(tokens[num++]);
+        for (int i = 0; i < numDev ; i++) {
+            Device temp = Main_Tabbed_View.model.getDeviceByID(tokens[num++]);
+            if (temp != null){
+                this.applied.add(temp);
+            }
+        }
+    };
     public Schedule(String name, boolean enabled,
                     boolean sunS, boolean monS, boolean tueS, boolean wedS, boolean thuS, boolean friS, boolean satS,
                     boolean sunE, boolean monE, boolean tueE, boolean wedE, boolean thuE, boolean friE, boolean satE,
                     int startHour, int startMinute, int endHour, int endMinute,
                     boolean startPower, boolean endPower, boolean startTemp, boolean endTemp,
                     int startTempSet, int endTempSet,
-                    Group applied) {
+                    ArrayList<Device> applied) {
         this.name = name;
         this.enabled = enabled;
         this.sunS = sunS;
@@ -53,34 +123,42 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return name + ";" +
-                ";" + enabled +
-                ";" + sunS +
-                ";" + monS +
-                ";" + tueS +
-                ";" + wedS +
-                ";" + thuS +
-                ";" + friS +
-                ";" + satS +
-                ";" + sunE +
-                ";" + monE +
-                ";" + tueE +
-                ";" + wedE +
-                ";" + thuE +
-                ";" + friE +
-                ";" + satE +
-                ";" + startHour +
-                ";" + startMinute +
-                ";" + endHour +
-                ";" + endMinute +
-                ";" + startPower +
-                ";" + endPower +
-                ";" + startTemp +
-                ";" + endTemp +
-                ";" + startTempSet +
-                ";" + endTempSet +
-                ";" + applied.toStringSched() +
+        return name + "," +
+                "," + enabled +
+                "," + sunS +
+                "," + monS +
+                "," + tueS +
+                "," + wedS +
+                "," + thuS +
+                "," + friS +
+                "," + satS +
+                "," + sunE +
+                "," + monE +
+                "," + tueE +
+                "," + wedE +
+                "," + thuE +
+                "," + friE +
+                "," + satE +
+                "," + startHour +
+                "," + startMinute +
+                "," + endHour +
+                "," + endMinute +
+                "," + startPower +
+                "," + endPower +
+                "," + startTemp +
+                "," + endTemp +
+                "," + startTempSet +
+                "," + endTempSet +
+                "," + appliedToString() +
                 "<!>end<!>\n";
+    }
+
+    public String appliedToString() {
+        String write = applied.size() + ",";
+        for (int i = 0; i < applied.size(); i++) {
+            write = write + applied.get(i).getIdNum() + ",";
+        }
+        return write;
     }
 
     public String getName() { return name; }
@@ -135,6 +213,6 @@ public class Schedule {
     public void setStartTempSet(int startTempSet) { this.startTempSet = startTempSet; }
     public int getEndTempSet() { return endTempSet; }
     public void setEndTempSet(int endTempSet) { this.endTempSet = endTempSet; }
-    public Group getApplied() { return applied; }
-    public void setApplied(Group applied) { this.applied = applied; }
+    public ArrayList<Device> getApplied() { return applied; }
+    public void setApplied(ArrayList<Device> applied) { this.applied = applied; }
 }

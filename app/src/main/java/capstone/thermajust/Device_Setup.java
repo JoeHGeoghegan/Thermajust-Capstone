@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -106,6 +107,8 @@ public class Device_Setup extends AppCompatActivity {
                 wifiPassword.setText(wifiDefaultPassword);
             }
         }
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

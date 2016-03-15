@@ -4,6 +4,8 @@ import android.widget.Toast;
 
 import capstone.thermajust.Group_Setup;
 import capstone.thermajust.Main_Tabbed_View;
+import capstone.thermajust.Model.Schedule;
+import capstone.thermajust.Schedule_Setup;
 
 /**
  * Created by Joe Geoghegan on 2/18/2016.
@@ -44,6 +46,25 @@ public class node {
         public String getName() { return name; }
     }
 
+    /** ON MAIN TABBED VIEW
+     * This subclass acts as a buffer between a list and the actual
+     * device so function calls can be made easier through this
+     */
+    public static class scheduleControl {
+        String name;
+        boolean enabled;
+        int pos;
+
+        public scheduleControl(String name, boolean enabled, int pos) {
+            this.name = name;
+            this.enabled = enabled;
+            this.pos = pos;
+        }
+
+        public String getName() { return name; }
+        public boolean getEnabled() { return enabled; }
+    }
+
     /** ON GROUP SETUP
      * This subclass acts as a place to hold necessary and the checked information of device list,
      * position is the same as the original device list these will be used on so it does not need
@@ -66,6 +87,35 @@ public class node {
                 Group_Setup.includedDevicesAdd(Main_Tabbed_View.model.deviceList.get(pos));
             } else {
                 Group_Setup.includedDevicesRemove(Main_Tabbed_View.model.deviceList.get(pos));
+            }
+        }
+
+        public boolean getChecked() { return checked; }
+        public String getName() { return name; }
+    }
+
+    /** ON GROUP SETUP
+     * This subclass acts as a place to hold necessary and the checked information of device list,
+     * position is the same as the original device list these will be used on so it does not need
+     * to be stored
+     */
+    public static class schedCheck {
+        String name;
+        int pos;
+        boolean checked;
+
+        public schedCheck(String name, int pos, boolean checked) {
+            this.name = name;
+            this.pos = pos;
+            this.checked = checked;
+        }
+
+        public void setChecked(boolean checked) {
+            this.checked = checked;
+            if (this.checked) {
+                Schedule_Setup.devicesAdd(Main_Tabbed_View.model.deviceList.get(pos));
+            } else {
+                Schedule_Setup.devicesRemove(Main_Tabbed_View.model.deviceList.get(pos));
             }
         }
 

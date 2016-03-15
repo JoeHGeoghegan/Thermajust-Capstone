@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.bluetooth. *;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -122,6 +123,7 @@ public class bluetooth_connect extends AppCompatActivity {
                 openController(position);
             }
         });
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     void findBT(){

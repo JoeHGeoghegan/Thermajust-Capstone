@@ -33,10 +33,12 @@ import java.util.ArrayList;
 import capstone.thermajust.ListAdapterElements.CA_device_control;
 import capstone.thermajust.ListAdapterElements.CA_group_control;
 import capstone.thermajust.ListAdapterElements.CA_power_read;
+import capstone.thermajust.ListAdapterElements.CA_schedule_control;
 import capstone.thermajust.Model.Device;
 import capstone.thermajust.Model.Group;
 import capstone.thermajust.Model.Main_Model;
 import capstone.thermajust.ListAdapterElements.node;
+import capstone.thermajust.Model.Schedule;
 
 public class Main_Tabbed_View extends AppCompatActivity {
     //Data structure attribute
@@ -233,19 +235,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
                 //init list 2
                 list2.setAdapter(arrayAdapter2);
 
-
-                //list 2 onclick
-                list2.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //This is where you would go to a new activity!
-                        Snackbar snackbarGroup = Snackbar.make(view, "Group Editing not yet implemented."
-                                , Snackbar.LENGTH_LONG);
-                        snackbarGroup.show();
-                    }
-                });
-
-
             } else {                                                                                //we only require one list
                 //define view to have the one list layout
                 rootView = inflater.inflate(R.layout.fragment_mtabview_onelist, container, false);
@@ -270,40 +259,23 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
                     //init list
                     list1.setAdapter(arrayAdapter);
-
-                    //list onclick
-                    list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //                    String item = listView.getItemAtPosition(position).toString();
-                            //opens up device's edit page
-                            Intent myIntent = new Intent(getActivity(), Edit_Device.class);
-                            myIntent.putExtra("selectedDevice", position);
-                            getActivity().startActivity(myIntent);
-                        }
-                    });
                 }
                 else if (sectionNumber - 1 == 1) {                                                //schedule tab
-                    ArrayAdapter arrayAdapter; //and the array adapter for the list
+                    CA_schedule_control arrayAdapter; //and the array adapter for the list
                     //edit text
                     text1.setText(getString(R.string.schedule));
                     //edit list 1
-                    arrayAdapter = new ArrayAdapter<>(rootView.getContext(),
-                            android.R.layout.simple_list_item_1, testList);
+                    ArrayList<node.scheduleControl> scheduleControlNodes = new ArrayList<node.scheduleControl>();
+                    for (int i = 0; i < model.scheduleList.size() ; i++) {
+                        Schedule temp = model.scheduleList.get(i);
+                        scheduleControlNodes.add(new node.scheduleControl(temp.getName(), temp.isEnabled(), i));
+                    }
+                    arrayAdapter = new CA_schedule_control(getActivity(),
+                            scheduleControlNodes,
+                            getResources());
 
                     //init list
                     list1.setAdapter(arrayAdapter);
-
-                    //list onclick
-                    list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //This is where you would go to a new activity!
-                            Snackbar snackbarSchedule = Snackbar.make(view, "Schedules not yet implemented."
-                                    , Snackbar.LENGTH_LONG);
-                            snackbarSchedule.show();
-                        }
-                    });
                 }
                 else {                                                                              //power tab
                     CA_power_read arrayAdapter; //and the array adapter for the list
@@ -320,17 +292,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
                     //init list
                     list1.setAdapter(arrayAdapter);
-
-                    //list onclick
-                    list1.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //This is where you would go to a new activity!
-                            Snackbar snackbarPower = Snackbar.make(view, "Power Monitoring not yet implemented."
-                                    , Snackbar.LENGTH_LONG);
-                            snackbarPower.show();
-                        }
-                    });
                 }
             }
 

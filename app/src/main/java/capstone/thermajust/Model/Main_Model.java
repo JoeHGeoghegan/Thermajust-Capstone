@@ -257,7 +257,34 @@ public class Main_Model {
     }
 
     public void loadSchedule(Context context) {
-//        "ThermajustScheduleSave.txt";
+        try {
+            FileInputStream fis = context.openFileInput("ThermajustScheduleSave.txt");
+            String delim = ",";
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                //process line
+                String[] tokens = line.split(delim);
+
+                //initialize groupCheck array
+                ArrayList<Device> devices = new ArrayList<Device>();
+
+                Schedule schedule = new Schedule(tokens);
+
+                scheduleList.add(schedule);
+            }
+        } catch (FileNotFoundException e0) {
+            e0.printStackTrace();
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e3) {
+            //TODO will clear devices if file format is invalid. This code should be cleared away in final version
+            scheduleList.clear();
+            saveSchedule(context);
+        }
     }
 
     public void loadPower(Context context) {
@@ -329,6 +356,9 @@ public class Main_Model {
         String fileName = "ThermajustScheduleSave.txt";
         FileOutputStream outputStream;
 
+        for (int i = 0; i < scheduleList.size(); i++) {
+            saveWrite = saveWrite + scheduleList.get(i).toString();
+        }
 
         try {
             outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);

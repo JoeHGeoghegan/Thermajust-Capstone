@@ -38,16 +38,28 @@
             android:layout_height="wrap_content" android:layout_row="0" android:layout_column="0"
             android:layout_gravity="center">
 
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Temp Up" android:id="@+id/button_thermControl_temp_up"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:src="@drawable/upred" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/textView_thermControl_setTemp" android:layout_gravity="center" />
+            <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="68" android:layout_gravity="center"
+                    android:id="@+id/textView_thermControl_setTemp" />
 
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="°F" />
+            </LinearLayout>
+
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Temp Down" android:id="@+id/button_thermControl_temp_down"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:src="@drawable/downblue" />
         </LinearLayout>
 
         <LinearLayout android:orientation="vertical" android:layout_width="wrap_content"
@@ -57,10 +69,22 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Current Temperature" android:id="@+id/textView_thermControl_tempText" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" android:background="#60abe3"
-                android:textColor="#eeeeee" android:text="Update!" android:layout_gravity="center"
-                android:id="@+id/textView_thermControl_temp" />
+            <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge" android:background="#60abe3"
+                    android:textColor="#eeeeee" android:text="68" android:layout_gravity="center"
+                    android:id="@+id/textView_thermControl_temp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:background="#60abe3"
+                    android:textColor="#eeeeee"
+                    android:text="°F" />
+            </LinearLayout>
 
             <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Update Temp" android:id="@+id/button_thermControl_tempUpdate" />
@@ -83,6 +107,38 @@
         </RadioGroup>
 
     </GridLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Peripherals" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open Microphone Viewer"
+            android:id="@+id/button_term_control_mic_peripherals" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open Video Viewer"
+            android:id="@+id/button_vid_therm_control_peripherals" />
+
 
     </LinearLayout>
 
