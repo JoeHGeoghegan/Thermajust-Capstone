@@ -26,7 +26,7 @@
         android:layout_gravity="center_horizontal" />
 
     <ToggleButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Power" android:id="@+id/toggleButton_thermControl_power"
+        android:text="Power" android:id="@+id/toggleButton_control_power"
         android:layout_gravity="center_horizontal" />
 
     <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"

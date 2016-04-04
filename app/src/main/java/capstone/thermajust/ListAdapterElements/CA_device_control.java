@@ -1,9 +1,14 @@
 package capstone.thermajust.ListAdapterElements;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +19,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import capstone.thermajust.Base_Controller;
 import capstone.thermajust.Edit_Device;
+import capstone.thermajust.Joined_Controller;
 import capstone.thermajust.Main_Tabbed_View;
 import capstone.thermajust.R;
-import capstone.thermajust.therm_controller;
 
 /**
  * Created by Joe Geoghegan on 2/18/2016.
@@ -32,6 +36,8 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
     public Resources res;
     node.deviceControl deviceNode = null;
     int i=0;
+    static String type;
+    static int positionHold;
 
     /*************  CA_group_checklist Constructor *****************/
     public CA_device_control(Activity activity, ArrayList arrayList, Resources resources) {
@@ -114,15 +120,8 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
             });
             holder.controlButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-//                    if (Main_Tabbed_View.model.deviceList.get(position).getUseTemp()) {
-//                        Intent myIntent = new Intent(activity, therm_controller.this);
-//                        myIntent.putExtra("selectedDevice", position);
-//                        activity.startActivity(myIntent);
-//                    } else {
-//                        Intent myIntent = new Intent(activity, Base_Controller.this);
-//                        myIntent.putExtra("selectedDevice", position);
-//                        activity.startActivity(myIntent);
-//                    }
+                    positionHold = position;
+                    showControlTypeDialog();
                 }
             });
 
@@ -134,6 +133,62 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
         else
             holder.name.setText("No Data");
         return vi;
+    }
+
+    void showControlTypeDialog() {
+        DialogFragment newFragment = controlTypeDiologFragment.newInstance(R.string.controlMethod);
+        newFragment.show(activity.getFragmentManager(), "controlTypeDiologFragment");
+    }
+    public static class controlTypeDiologFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.controlMethod)
+                    .setNegativeButton(R.string.bluetooth, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            type = "bluetooth";
+                            toAPlace();
+                        }
+                    })
+                    .setPositiveButton(R.string.tcp, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            type = "tcp";
+                            toAPlace();
+                        }
+                    })
+                    .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Cancel
+                            type = "canceled";
+                        }
+                    });
+            return builder.create();
+        }
+
+        public static controlTypeDiologFragment newInstance(int title) {
+            controlTypeDiologFragment frag = new controlTypeDiologFragment();
+            Bundle args = new Bundle();
+            args.putInt("title", title);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        //Dialog Switching
+        public void toAPlace() {
+            if (type != null) {
+                if (type.compareTo("canceled") != 0) {
+                    Intent myIntent = new Intent(getActivity(), Joined_Controller.class);
+                    if (Main_Tabbed_View.model.deviceList.get(positionHold).getUseTemp()) {
+                        myIntent.putExtra("mode", "temp");
+                    } else {
+                        myIntent.putExtra("mode", "base");
+                    }
+                    myIntent.putExtra("selection", positionHold);
+                    myIntent.putExtra("type", type);
+                    getActivity().startActivity(myIntent);
+                }
+            }
+        }
     }
 
     @Override

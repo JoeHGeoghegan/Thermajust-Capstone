@@ -17,6 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import capstone.thermajust.Comms.bluetoothClient;
+import capstone.thermajust.Comms.client;
 import capstone.thermajust.Model.Device;
 import capstone.thermajust.Model.Main_Model;
 
@@ -67,7 +69,16 @@ public class Device_Setup extends AppCompatActivity {
         //Button OnClicks
         findBluetooth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                toBluetoothConnect();
+                client client = new bluetoothClient();
+                try {
+                    client.open();
+                    deviceID.setText(client.getName());
+
+                    //TODO All of the transfer stuff needs to be added on connection here
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
@@ -121,10 +132,5 @@ public class Device_Setup extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void toBluetoothConnect() {
-        Intent myIntent = new Intent(Device_Setup.this, bluetooth_connect.class);
-        Device_Setup.this.startActivity(myIntent);
     }
 }

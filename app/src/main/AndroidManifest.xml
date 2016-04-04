@@ -88,27 +88,20 @@
                 android:value=".Device_Setup" />
         </activity>
         <activity
-            android:name=".Base_Controller"
-            android:label="@string/title_activity_base_controller"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bluetooth_connect" />
-        </activity>
-        <activity
-            android:name=".therm_controller"
-            android:label="@string/title_activity_therm_controller"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bluetooth_connect" />
-        </activity>
-        <activity android:name=".Edit_Device"
+            android:name=".Edit_Device"
             android:label="@string/title_activity_device_edit"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main_Tabbed_View" />
+        </activity>
+        <activity
+            android:name=".Joined_Controller"
+            android:label="@string/title_activity_joined_controller"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bluetooth_connect" />
         </activity>
     </application>
 

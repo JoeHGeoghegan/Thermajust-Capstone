@@ -265,7 +265,7 @@ public class bluetooth_connect extends AppCompatActivity {
                                     {
                                         public void run()
                                         {
-                                            therm_controller.currentTemp.setText(data);
+//                                            therm_controller.currentTemp.setText(data);
                                         }
                                     });
                                 }
@@ -312,17 +312,19 @@ public class bluetooth_connect extends AppCompatActivity {
     }
 
     public void openController(int position) {
-        if (Main_Tabbed_View.model.deviceList.get(position).getUseTemp()) {
-            Intent myIntent = new Intent(bluetooth_connect.this, therm_controller.class);
-            myIntent.putExtra("selection", position);
-            myIntent.putExtra("connected", connected);
-            bluetooth_connect.this.startActivity(myIntent);
-        } else {
-            Intent myIntent = new Intent(bluetooth_connect.this, Base_Controller.class);
-            myIntent.putExtra("selection", position);
-            myIntent.putExtra("connected", connected);
-            bluetooth_connect.this.startActivity(myIntent);
-        }
+//        if (Main_Tabbed_View.model.deviceList.get(position).getUseTemp()) {
+//            Intent myIntent = new Intent(bluetooth_connect.this, therm_controller.class);
+//            myIntent.putExtra("selection", position);
+//            myIntent.putExtra("connected", connected);
+//            myIntent.putExtra("type","bluetooth");
+//            bluetooth_connect.this.startActivity(myIntent);
+//        } else {
+//            Intent myIntent = new Intent(bluetooth_connect.this, Base_Controller.class);
+//            myIntent.putExtra("selection", position);
+//            myIntent.putExtra("connected", connected);
+//            myIntent.putExtra("type","bluetooth");
+//            bluetooth_connect.this.startActivity(myIntent);
+//        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
