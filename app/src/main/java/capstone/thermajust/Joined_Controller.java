@@ -14,16 +14,20 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.util.ArrayList;
+
 import capstone.thermajust.Comms.bluetoothClient;
 import capstone.thermajust.Comms.client;
 import capstone.thermajust.Comms.tcpClient;
 import capstone.thermajust.Model.Device;
 
 public class Joined_Controller extends AppCompatActivity {
-    Device device;
-    private capstone.thermajust.Comms.client client;
+    ArrayList<Device> devices = new ArrayList<>();
+    private ArrayList<capstone.thermajust.Comms.client> clients = new ArrayList<>();
 
     static TextView currentTemp;
+    boolean tog;
+    String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +37,14 @@ public class Joined_Controller extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                device = null;
+                devices = null;
             } else {
+                if (extras.getBoolean("single")) {
+                    devices.add(Main_Tabbed_View.model.deviceList.get(extras.getInt("selection")));
+                }
+                else {
+                    devices = Main_Tabbed_View.model.groupList.get(extras.getInt("selection")).devices;
+                }
                 if (extras.getString("mode").compareTo("temp") != 0) {
                     setContentView(R.layout.activity_base_controller);
                     usingTempLayout = false;
@@ -43,16 +53,15 @@ public class Joined_Controller extends AppCompatActivity {
                     setContentView(R.layout.activity_therm_controller);
                     usingTempLayout = true;
                 }
-                device = Main_Tabbed_View.model.deviceList.get(extras.getInt("selection"));
                 String type = extras.getString("type");
                 if (type.compareTo("bluetooth") == 0) {
-                    client = new bluetoothClient();
+                    clients.add(new bluetoothClient());
                 }
                 else if (type.compareTo("tcp") == 0){
-                    client = new tcpClient();
+                    clients.add(new tcpClient());
                 }
                 else { //shouldn't happen but this should be default
-                    client = new tcpClient();
+                    clients.add(new tcpClient());
                 }
             }
         }
@@ -67,17 +76,19 @@ public class Joined_Controller extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
-                    device.setOnoff(true);
-                    sendMsg("LED ON");
+                    for (Device device: devices) { device.setOnoff(true); }
+                    tog = true;
+                    broadcast("LED ON");
                 } else {
                     // The toggle is disabled
-                    device.setOnoff(false);
-                    sendMsg("LED OFF");
+                    for (Device device: devices) { device.setOnoff(false); }
+                    tog = false;
+                    broadcast("LED OFF");
                 }
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
             }
         });
-        toggle.setChecked(device.getOnoff()); //sets the current mode
+        toggle.setChecked(tog); //sets the current mode
 
         if (usingTempLayout) {
             final TextView setTemp = (TextView) findViewById(R.id.textView_thermControl_setTemp);
@@ -89,23 +100,29 @@ public class Joined_Controller extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     //send data
-                    String message = "TEMP SET ";
+                    message = "TEMP SET ";
                     message += setTemp.getText().toString();
-                    sendMsg(message);
+                    broadcast(message);
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
                 }
             });
-            setTemp.setText("" + device.getTherm().getSetTemp());
+            if (devices.size() == 1) {
+                setTemp.setText("" + devices.get(0).getTherm().getSetTemp());
+            }
 
             ImageButton upTemp = (ImageButton) findViewById(R.id.button_thermControl_temp_up);
             upTemp.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     int temp = Integer.parseInt(setTemp.getText().toString());
                     temp++;
-                    device.getTherm().setSetTemp(temp);
+                    for (Device device: devices) {
+                        if (device.getUseTemp()) {
+                            device.getTherm().setSetTemp(temp);
+                        }
+                    }
                     setTemp.setText("" + temp);
                     //send data, should send due to text watcher
                 }
@@ -116,7 +133,11 @@ public class Joined_Controller extends AppCompatActivity {
                 public void onClick(View view) {
                     int temp = Integer.parseInt(setTemp.getText().toString());
                     temp--;
-                    device.getTherm().setSetTemp(temp);
+                    for (Device device: devices) {
+                        if (device.getUseTemp()) {
+                            device.getTherm().setSetTemp(temp);
+                        }
+                    }
                     setTemp.setText("" + temp);
                     //send data, should send due to text watcher
                 }
@@ -140,37 +161,61 @@ public class Joined_Controller extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     if (checkedId == R.id.radioButton_thermControl_radio_cooling) {
-                        device.getTherm().setMode("cool");
+                        for (Device device: devices) {
+                            if (device.getUseTemp()) {
+                                device.getTherm().setMode("cool");
+                            }
+                        }
                     } else if (checkedId == R.id.radioButton_thermControl_radio_heating) {
-                        device.getTherm().setMode("heat");
+                        for (Device device: devices) {
+                            if (device.getUseTemp()) {
+                                device.getTherm().setMode("heat");
+                            }
+                        }
                     } else if (checkedId == R.id.radioButton_thermControl_radio_coolheat) {
-                        device.getTherm().setMode("coolheat");
+                        for (Device device: devices) {
+                            if (device.getUseTemp()) {
+                                device.getTherm().setMode("coolheat");
+                            }
+                        }
                     }
                     Main_Tabbed_View.model.saveDevices(getApplicationContext());
                 }
             });
             //set mode
-            switch (device.getTherm().getMode()) {
-                case 1: //cool
-                    mode.check(R.id.radioButton_thermControl_radio_cooling);
-                    break;
-                case 2: //heat
-                    mode.check(R.id.radioButton_thermControl_radio_heating);
-                    break;
-                case 3: //coolheat
-                    mode.check(R.id.radioButton_thermControl_radio_coolheat);
-                    break;
+            if (devices.size() == 1) {
+                switch (devices.get(0).getTherm().getMode()) {
+                    case 1: //cool
+                        mode.check(R.id.radioButton_thermControl_radio_cooling);
+                        break;
+                    case 2: //heat
+                        mode.check(R.id.radioButton_thermControl_radio_heating);
+                        break;
+                    case 3: //coolheat
+                        mode.check(R.id.radioButton_thermControl_radio_coolheat);
+                        break;
+                }
             }
         }
     }
 
-    void sendMsg(String msg) {
+    void broadcast(String msg) {
+        for (int i = 0; i < clients.size() ; i++) {
+            sendMsg(clients.get(i), msg);
+        }
+    }
+    void sendMsg(client client, String msg) {
         client.send(msg);
     }
 
+    void promptMsg(client client, String msg) {
+        sendMsg(client, msg);
+        client.listen();
+    }
     void updateCurrentTemperature() {
-        sendMsg("GET TEMP");
-        client.listen(); //Return no implemented/handled
+        for (int i = 0; i < clients.size() ; i++) {
+            promptMsg(clients.get(i),"GET TEMP");
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

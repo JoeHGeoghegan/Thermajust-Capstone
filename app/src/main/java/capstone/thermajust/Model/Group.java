@@ -15,9 +15,9 @@ import java.util.Arrays;
 public class Group {
     public String name;
     public ArrayList<Device> devices;
-    private ArrayList<Integer> tempEnabled;
-    private ArrayList<Integer> micEnabled;
-    private ArrayList<Integer> vidEnabled;
+    private ArrayList<Integer> tempEnabled = new ArrayList<>();
+    private ArrayList<Integer> micEnabled = new ArrayList<>();
+    private ArrayList<Integer> vidEnabled = new ArrayList<>();
 
 
     public Group(String name, ArrayList<Device> devices) {

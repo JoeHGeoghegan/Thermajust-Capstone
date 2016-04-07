@@ -178,6 +178,7 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
             if (type != null) {
                 if (type.compareTo("canceled") != 0) {
                     Intent myIntent = new Intent(getActivity(), Joined_Controller.class);
+                    myIntent.putExtra("single", true);
                     if (Main_Tabbed_View.model.deviceList.get(positionHold).getUseTemp()) {
                         myIntent.putExtra("mode", "temp");
                     } else {

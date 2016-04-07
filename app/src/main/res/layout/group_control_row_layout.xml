@@ -17,7 +17,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton_device_row"
+        android:id="@+id/imageButton_group_row"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/switch_group_control_row_switch"
         android:layout_toStartOf="@+id/switch_group_control_row_switch"
