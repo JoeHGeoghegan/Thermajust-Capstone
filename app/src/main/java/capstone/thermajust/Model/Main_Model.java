@@ -71,7 +71,7 @@ public class Main_Model {
             loadOptions(context);
             loadDevice(context);
             loadGroup(context);
-//            loadSchedule(context);
+            loadSchedule(context);
 //            loadPower(context);
         }
         firstRun = false;

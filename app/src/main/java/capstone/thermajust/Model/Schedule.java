@@ -66,7 +66,7 @@ public class Schedule {
         this.thuE = Boolean.parseBoolean(tokens[num++]);
         this.friE = Boolean.parseBoolean(tokens[num++]);
         this.satE = Boolean.parseBoolean(tokens[num++]);
-        this.startHour = Integer.parseInt(tokens[num++]);
+        this.startHour = Integer.parseInt(tokens[num++]);////
         this.startMinute = Integer.parseInt(tokens[num++]);
         this.endHour = Integer.parseInt(tokens[num++]);
         this.endMinute = Integer.parseInt(tokens[num++]);
@@ -78,6 +78,7 @@ public class Schedule {
         this.endTempSet = Integer.parseInt(tokens[num++]);
 
         int numDev = Integer.parseInt(tokens[num++]);
+        this.applied = new ArrayList<Device>();
         for (int i = 0; i < numDev ; i++) {
             Device temp = Main_Tabbed_View.model.getDeviceByID(tokens[num++]);
             if (temp != null){
@@ -123,7 +124,7 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return name + "," +
+        return name +
                 "," + enabled +
                 "," + sunS +
                 "," + monS +

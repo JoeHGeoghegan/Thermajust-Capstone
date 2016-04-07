@@ -1,12 +1,16 @@
 package capstone.thermajust.Comms;
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 /**
  * Created by Joe Geoghegan on 3/22/2016.
  */
 public class tcpClient extends client{
     Socket clientSocket;
+    Scanner scanner;
+    static Thread workerThread;
+    static volatile boolean stopWorker;
 
     public tcpClient() {
         connected = open();
@@ -14,6 +18,7 @@ public class tcpClient extends client{
 
     public boolean open() {
         try {
+
             clientSocket = new Socket("127.0.0.1", 6789);
             return true;
         }catch (UnknownHostException e1) {
@@ -28,6 +33,7 @@ public class tcpClient extends client{
         if (connected) {
             try {
                 clientSocket.close();
+                workerThread.interrupt();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -51,7 +57,20 @@ public class tcpClient extends client{
     }
     public void listen() {
         if (connected) {
-
+            workerThread = new Thread(new Runnable() {
+                public void run() {
+                    while(!Thread.currentThread().isInterrupted() && !stopWorker) {
+                        try {
+                            scanner = new Scanner(clientSocket.getInputStream());
+                            String line = scanner.nextLine();
+                        }
+                        catch (Exception ex) {
+                            stopWorker = true;
+                        }
+                    }
+                }
+            });
+            workerThread.start();
         }
     }
 

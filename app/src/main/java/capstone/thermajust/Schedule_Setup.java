@@ -121,7 +121,7 @@ public class Schedule_Setup extends AppCompatActivity {
             thuS.setText((schedule.isThuS()) ? ThuU : "Thu");
             friS.setText((schedule.isFriS()) ? FriU : "Fri");
             satS.setText((schedule.isSatS()) ? SatU : "Sat");
-            tempS.setText(schedule.getStartTempSet());
+            tempS.setText((schedule.getStartTempSet() == -19807) ? "Keep" : String.valueOf(schedule.getStartTempSet()));
             powS.setChecked(schedule.isStartPower());
             sunE.setText((schedule.isSunE()) ? SunU : "Sun");
             monE.setText((schedule.isMonE()) ? MonU : "Mon");
@@ -130,7 +130,7 @@ public class Schedule_Setup extends AppCompatActivity {
             thuE.setText((schedule.isThuE()) ? ThuU : "Thu");
             friE.setText((schedule.isFriE()) ? FriU : "Fri");
             satE.setText((schedule.isSatE()) ? SatU : "Sat");
-            tempS.setText(schedule.getEndTempSet());
+            tempS.setText((schedule.getEndTempSet() == -19807) ? "Keep" : String.valueOf(schedule.getEndTempSet()));
             powE.setChecked(schedule.isEndPower());
         } else {
             schedule = new Schedule();
@@ -152,6 +152,8 @@ public class Schedule_Setup extends AppCompatActivity {
             friE.setText(FriU);
             satE.setText(SatU);
             powE.setChecked(true);
+            tempS.setText("Keep");
+            tempE.setText("Keep");
         }
 
         //fill list nodes
@@ -184,8 +186,19 @@ public class Schedule_Setup extends AppCompatActivity {
                 schedule.setEndHour(Integer.parseInt(timeE.getText().toString().split(":")[0]));
                 schedule.setEndMinute(Integer.parseInt(timeE.getText().toString().split(":")[1]));
 
-                schedule.setStartTempSet(Integer.parseInt(tempS.getText().toString()));
-                schedule.setEndTempSet(Integer.parseInt(tempE.getText().toString()));
+                if (tempS.getText().toString().compareTo("Keep") == 0) {
+                    schedule.setStartTempSet(-19807);
+                }
+                else {
+                    schedule.setStartTempSet(Integer.parseInt(tempS.getText().toString()));
+                }
+                if (tempE.getText().toString().compareTo("Keep") == 0) {
+                    schedule.setEndTempSet(-19807);
+                }
+                else {
+                    schedule.setEndTempSet(Integer.parseInt(tempE.getText().toString()));
+                }
+
                 switch (mode) {
                     case 0: //editing
                         Main_Tabbed_View.model.scheduleList.set(schedPos, schedule);
