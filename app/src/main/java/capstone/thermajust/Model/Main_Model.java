@@ -1,10 +1,6 @@
 package capstone.thermajust.Model;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteBindOrColumnIndexOutOfRangeException;
-import android.support.design.widget.Snackbar;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import capstone.thermajust.Main_Tabbed_View;
 
@@ -33,6 +29,8 @@ public class Main_Model {
     /*******************
      * ATTRIBUTES
      *******************/
+    final String fileVersion = "v1";
+
     Boolean firstRun = true;
 
     /* List Array attributes */
@@ -135,9 +133,14 @@ public class Main_Model {
             BufferedReader bufferedReader = new BufferedReader(isr);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                int num = 0;
                 //process line
                 String[] tokens = line.split(":"); //will split each line into identifier and value
+
+                //version control
+                if (tokens.length <= 1 || tokens[0].compareTo("version") == 0 && tokens[1].compareTo(fileVersion) != 0) {
+                    saveOptions(context);
+                    return;
+                }
                 String identifier = tokens[0];
                 String value = tokens[1];
                 if (!(value.compareTo("null")==0)) {
@@ -175,6 +178,12 @@ public class Main_Model {
                 String[] tokens = line.split(delim);
 
                 int num = 0;
+                String version = tokens[num++];
+                if (version.compareTo(fileVersion) != 0) {
+                    deviceList.clear();
+                    saveDevices(context);
+                    return;
+                }
                 String name = tokens[num++];
                 String idNum = tokens[num++];
                 Boolean onoff = Boolean.parseBoolean(tokens[num++]);
@@ -196,13 +205,14 @@ public class Main_Model {
 //                if (useVid) {
 //                    vid = new video();
 //                }
+                String ip = tokens[num++];
                 String wifiName = tokens[num++];
                 String wifiPassword = tokens[num++];
 
-                deviceList.add(new Device(name, idNum, onoff, useTemp, useMic, useVid, wifiName, wifiPassword, therm
+                deviceList.add(new Device(name, idNum, onoff, useTemp, useMic, useVid, wifiName, wifiPassword, therm,
 //                        , mic
 //                        , vid
-                ));
+                ip));
             }
         } catch (FileNotFoundException e0) {
             e0.printStackTrace();
@@ -231,6 +241,12 @@ public class Main_Model {
                 ArrayList<Device> devices = new ArrayList<Device>();
 
                 int num = 0;
+                String version = tokens[num++];
+                if (version.compareTo(fileVersion) != 0) {
+                    groupList.clear();
+                    saveGroups(context);
+                    return;
+                }
                 String name = tokens[num++];
                 int numDevices = Integer.parseInt(tokens[num++]);
                 for (int i = 0; i < numDevices ; i++) {
@@ -264,9 +280,13 @@ public class Main_Model {
             while ((line = bufferedReader.readLine()) != null) {
                 //process line
                 String[] tokens = line.split(delim);
-
-                //initialize groupCheck array
-                ArrayList<Device> devices = new ArrayList<Device>();
+                String version = tokens[0];
+                if (version.compareTo(fileVersion) != 0) {
+                    scheduleList.clear();
+                    saveSchedule(context);
+                    return;
+                }
+                tokens = Arrays.copyOfRange(tokens, 1, tokens.length); //remove versioning
 
                 Schedule schedule = new Schedule(tokens);
 
@@ -298,7 +318,7 @@ public class Main_Model {
         String fileName = "ThermajustOptionSave.txt";
         FileOutputStream outputStream;
 
-        saveWrite =
+        saveWrite = "version:" + fileVersion + "\n" +
                 "WiFiDefaultName:" + getWiFiDefaultName() + "\n" +
                 "WiFiDefaultPassword:" + getWiFiDefaultPassword() + "\n" +
                 "CurrentDebugID:" + getCurrentDebugID();
@@ -318,7 +338,7 @@ public class Main_Model {
         FileOutputStream outputStream;
 
         for (int i = 0; i < deviceList.size(); i++) {
-            saveWrite = saveWrite + deviceList.get(i).toString();
+            saveWrite = saveWrite + fileVersion + "," + deviceList.get(i).toString();
         }
 
         try {
@@ -336,7 +356,7 @@ public class Main_Model {
         FileOutputStream outputStream;
 
         for (int i = 0; i < groupList.size(); i++) {
-            saveWrite = saveWrite + groupList.get(i).toString();
+            saveWrite = saveWrite + fileVersion + "," +  groupList.get(i).toString();
         }
 
         try {
@@ -354,7 +374,7 @@ public class Main_Model {
         FileOutputStream outputStream;
 
         for (int i = 0; i < scheduleList.size(); i++) {
-            saveWrite = saveWrite + scheduleList.get(i).toString();
+            saveWrite = saveWrite + fileVersion + "," +  scheduleList.get(i).toString();
         }
 
         try {

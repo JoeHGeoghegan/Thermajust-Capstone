@@ -29,8 +29,10 @@ public class Device {
 //    private microphone mic;
 //    private video vid;
 
+    private String ip;
+
     public Device(String name, String idNum, boolean onoff, boolean useTemp, boolean useMic,
-                  boolean useVid, String wifiName, String wifiPassword, thermometer therm) {
+                  boolean useVid, String wifiName, String wifiPassword, thermometer therm, String ip) {
         this.name = name;
         this.idNum = idNum;
         this.onoff = onoff;
@@ -48,6 +50,7 @@ public class Device {
         } else {
             this.therm = therm;
         }
+        this.ip = ip;
     }
 
     //Getters and Setters
@@ -98,6 +101,8 @@ public class Device {
     }
     public void setWifiName(String wifiName) { this.wifiName = wifiName; }
     public thermometer getTherm() { return therm; }
+    public String getIp() { return ip; }
+    public void setIp(String ip) { this.ip = ip; }
 
     @Override
     public String toString() {
@@ -121,6 +126,7 @@ public class Device {
 //        if (getUseVid()) {
 //            write = write + getUseVid() + "," + vid.toString() + ",";
 //        }else { write = write + getUseVid() + ","; }
+        write = write + getIp();
         return write +
                 getWifiName() + "," +
                 getWifiPassword() + ",<!>end<!>\n";

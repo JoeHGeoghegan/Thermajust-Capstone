@@ -94,6 +94,7 @@ public class Edit_Device extends AppCompatActivity {
                         videoBool,
                         wifiName.getText().toString(),
                         wifiPassword.getText().toString(),
+                        null,
                         null
                 ));
 

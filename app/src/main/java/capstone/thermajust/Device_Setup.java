@@ -99,7 +99,8 @@ public class Device_Setup extends AppCompatActivity {
                         videoBool,
                         wifiName.getText().toString(),
                         wifiPassword.getText().toString(),
-                        null //therm object
+                        null, //therm object
+                        null
                 ));
 
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
