@@ -64,6 +64,7 @@
             android:id="@+id/textView_group_name" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_group_name" />

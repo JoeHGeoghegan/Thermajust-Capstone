@@ -44,6 +44,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:imeOptions="actionNext"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_schedule_name" />
@@ -205,6 +206,8 @@
                 android:text="Temp:" />
 
             <EditText
+                android:inputType="number"
+                android:imeOptions="actionNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_schedule_start_temp"
@@ -359,6 +362,8 @@
                 android:text="Temp:" />
 
             <EditText
+                android:inputType="number"
+                android:imeOptions="actionNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_schedule_end_temp"

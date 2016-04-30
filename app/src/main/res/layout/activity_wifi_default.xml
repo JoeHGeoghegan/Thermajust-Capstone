@@ -42,6 +42,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/wifi_hint"
@@ -55,6 +56,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/wifi_password_hint"

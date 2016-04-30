@@ -58,6 +58,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    static FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,7 +192,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
             View rootView;
-            String[] testList = {"I am a peach cobbler", "No wait I am mistaken", "I am a placeholder", "My apologies..."}; //palceholder list
 
             //layout Setup
             if (model.groupList.size() > 0 && sectionNumber - 1 == 0) {                             //groups do exist, and the tab is devices/group need two lists
@@ -277,7 +277,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                     //init list
                     list1.setAdapter(arrayAdapter);
                 }
-                else {                                                                              //power tab
+                else if (sectionNumber - 1 == 2){                                                   //power tab
                     CA_power_read arrayAdapter; //and the array adapter for the list
                     //edit text
                     text1.setText(getString(R.string.power_meter));
@@ -294,7 +294,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
                     list1.setAdapter(arrayAdapter);
                 }
             }
-
             return rootView;
         }
     }

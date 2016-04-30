@@ -60,6 +60,7 @@
             android:id="@+id/textView_deviceEdit_DeviceName" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_deviceEdit_DeviceName"

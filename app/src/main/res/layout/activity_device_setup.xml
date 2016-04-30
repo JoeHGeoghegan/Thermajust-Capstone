@@ -46,6 +46,7 @@
             android:id="@+id/textView_device_DeviceName" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_device_DeviceName"
@@ -101,6 +102,7 @@
             android:id="@+id/textView_device_wifi_label" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/wifi_hint"
@@ -113,6 +115,7 @@
             android:id="@+id/textView_device_wifi_password_label" />
 
         <EditText
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_device_wifi_password_field"
