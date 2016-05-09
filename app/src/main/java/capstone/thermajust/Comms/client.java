@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
  * Created by Joe Geoghegan on 3/22/2016.
  */
 public abstract class client {
+    public String txt = "";
     public boolean connected;
     abstract public boolean open() throws Exception;
     abstract public boolean close();

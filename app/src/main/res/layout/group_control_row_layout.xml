@@ -19,20 +19,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageButton_group_row"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/switch_group_control_row_switch"
-        android:layout_toStartOf="@+id/switch_group_control_row_switch"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="fitXY"
         android:src= "@drawable/control_group_button"/>
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/switch_group_control_row_switch" />
+    <!--<Switch-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:id="@+id/switch_group_control_row_switch" />-->
     </RelativeLayout>
 
 </LinearLayout>

@@ -37,7 +37,6 @@ public class bluetoothClient extends client{
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (btAdapter == null){
-//            myLabel.setText("Bluetooth not available");
             return false;
         }
 
@@ -48,10 +47,10 @@ public class bluetoothClient extends client{
         }
 
         else{
-            String mydeviceaddress = btAdapter.getAddress();
-            String mydevicename = btAdapter.getName();
+//            String mydeviceaddress = btAdapter.getAddress();
+//            String mydevicename = btAdapter.getName();
 
-            String status = mydevicename + " : " + mydeviceaddress;
+//            String status = mydevicename + " : " + mydeviceaddress;
 //            txt_bluetoothStatus.setText(status);
         }
 
@@ -60,8 +59,7 @@ public class bluetoothClient extends client{
         if (pairedDevices.size() > 0){
             for(BluetoothDevice device : pairedDevices){
                 String[] tokens = device.getName().split("-"); //Thermajust1-ID#
-                if(tokens[0].equals("dragon")){
-//                    tokens[1];
+                if(tokens[0].equals("HC")){
                     myDevice = device;
                     break;
                 }
@@ -142,7 +140,7 @@ public class bluetoothClient extends client{
                                 {
                                     public void run()
                                     {
-                                        //RETURNED TEXT HERE AS data
+                                        txt = data;
                                     }
                                 });
                             }
@@ -164,6 +162,7 @@ public class bluetoothClient extends client{
     public String getName() {
         String name;
         name = myDevice.getName();
+        name = name.split("-")[1];
         return name;
     }
 }

@@ -28,8 +28,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import capstone.thermajust.Comms.client;
+import capstone.thermajust.Comms.tcpClient;
 import capstone.thermajust.ListAdapterElements.CA_device_control;
 import capstone.thermajust.ListAdapterElements.CA_group_control;
 import capstone.thermajust.ListAdapterElements.CA_power_read;
@@ -92,7 +95,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                         toScheduleSetup(view);
                         break;
                     case 2:
-                        toPowerSetup(view);
+                        powerRefresh();
                         break;
                 }
             }
@@ -366,8 +369,20 @@ public class Main_Tabbed_View extends AppCompatActivity {
         Main_Tabbed_View.this.startActivity(myIntent);
     }
 
-    public void toPowerSetup(View view) {
-        Intent myIntent = new Intent(Main_Tabbed_View.this, Power_Setup.class);
-        Main_Tabbed_View.this.startActivity(myIntent);
+    public void powerRefresh() {
+        ArrayList<client> tcpClients = new ArrayList<>();
+        for (int i = 0; i < model.deviceList.size() ; i++) {
+            String[] ip = model.deviceList.get(i).getIp().split(":");
+            tcpClients.add(new tcpClient(ip[0], Integer.parseInt(ip[1])));
+            //listen for power
+        }
+        try {
+            wait(10000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < model.deviceList.size() ; i++) {
+            //i-th list item = tcpClients.get(i).txt
+        }
     }
 }

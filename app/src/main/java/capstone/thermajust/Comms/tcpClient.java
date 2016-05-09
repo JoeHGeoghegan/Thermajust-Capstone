@@ -12,14 +12,15 @@ public class tcpClient extends client{
     static Thread workerThread;
     static volatile boolean stopWorker;
 
-    public tcpClient() {
-        connected = open();
+    public boolean open() { return false; }
+    public tcpClient(String ip, int port) {
+        connected = open(ip, port);
     }
 
-    public boolean open() {
+    public boolean open(String ip, int port) {
         try {
 
-            clientSocket = new Socket("127.0.0.1", 6789);
+            clientSocket = new Socket(ip, port);
             return true;
         }catch (UnknownHostException e1) {
             e1.printStackTrace();
@@ -57,22 +58,23 @@ public class tcpClient extends client{
     }
     public void listen() {
         if (connected) {
-            workerThread = new Thread(new Runnable() {
-                public void run() {
-                    while(!Thread.currentThread().isInterrupted() && !stopWorker) {
-                        try {
-                            scanner = new Scanner(clientSocket.getInputStream());
-                            String line = scanner.nextLine();
-                        }
-                        catch (Exception ex) {
-                            stopWorker = true;
-                        }
-                    }
+            try {
+                txt = "buffering";
+                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                while (txt.compareTo("buffering") != 0) {
+                    txt = inFromServer.readLine();
                 }
-            });
-            workerThread.start();
+                clientSocket.close();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+//    public void listenFor(final String message) {
+//        if (connected) {
+//
+//        }
+//    }
 
     public String getName() {
         return null;

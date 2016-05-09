@@ -54,14 +54,18 @@ public class Joined_Controller extends AppCompatActivity {
                     usingTempLayout = true;
                 }
                 String type = extras.getString("type");
-                if (type.compareTo("bluetooth") == 0) {
-                    clients.add(new bluetoothClient());
-                }
-                else if (type.compareTo("tcp") == 0){
-                    clients.add(new tcpClient());
-                }
-                else { //shouldn't happen but this should be default
-                    clients.add(new tcpClient());
+                for (int i = 0; i < devices.size() ; i++) {
+                    if (type.compareTo("bluetooth") == 0) {
+                        clients.add(new bluetoothClient());
+                    }
+                    else if (type.compareTo("tcp") == 0){
+                        clients.add(new tcpClient(devices.get(i).getIp().split(":")[0],
+                                Integer.parseInt(devices.get(i).getIp().split(":")[1])));
+                    }
+                    else { //shouldn't happen but this should be default
+                        clients.add(new tcpClient(devices.get(i).getIp().split(":")[0],
+                                Integer.parseInt(devices.get(i).getIp().split(":")[1])));
+                    }
                 }
             }
         }
@@ -78,12 +82,12 @@ public class Joined_Controller extends AppCompatActivity {
                     // The toggle is enabled
                     for (Device device: devices) { device.setOnoff(true); }
                     tog = true;
-                    broadcast("LED ON");
+                    broadcast("LED_ON");
                 } else {
                     // The toggle is disabled
                     for (Device device: devices) { device.setOnoff(false); }
                     tog = false;
-                    broadcast("LED OFF");
+                    broadcast("LED_OFF");
                 }
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
             }
@@ -100,7 +104,7 @@ public class Joined_Controller extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     //send data
-                    message = "TEMP SET ";
+                    message = "TEMP_SET_";
                     message += setTemp.getText().toString();
                     broadcast(message);
                 }
@@ -214,7 +218,7 @@ public class Joined_Controller extends AppCompatActivity {
     }
     void updateCurrentTemperature() {
         for (int i = 0; i < clients.size() ; i++) {
-            promptMsg(clients.get(i),"GET TEMP");
+            promptMsg(clients.get(i),"GET_TEMP");
         }
     }
 

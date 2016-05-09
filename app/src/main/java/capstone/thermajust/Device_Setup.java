@@ -2,6 +2,10 @@ package capstone.thermajust;
 
 //import android.app.ActionBar;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +29,9 @@ import capstone.thermajust.Model.Main_Model;
 public class Device_Setup extends AppCompatActivity {
     boolean microphoneBool, thermometerBool, videoBool;
 //    int nextDevice;
+    String IP = null;
+    static String wifiInfo = "Scan not run yet";
+    client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +76,73 @@ public class Device_Setup extends AppCompatActivity {
         //Button OnClicks
         findBluetooth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                client client = new bluetoothClient();
-                try {
-                    client.open();
+                if (client == null) {
+                    client = new bluetoothClient();
+                }
+                if (client.connected) {
                     deviceID.setText(client.getName());
-
-                    //TODO All of the transfer stuff needs to be added on connection here
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    client.send("LED_ON");
+                    client.listen();
+                    Snackbar.make(view, client.txt, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                    client.send("WIFI_JOIN_UDel_Adamengelson1");
+//                    String msg;
+//                    client.listen();
+//                    boolean established = false;
+//                    if (client.txt.compareTo("Connected to " + wifiName.getText().toString())==0) {
+//                        established = true;
+//                    }
+//                    if (established) {
+//                        Snackbar.make(view, "Established Connection!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                        msg = "WIFI_INFO";
+//                        client.send(msg);
+//                        client.listen();
+//                        IP = client.txt;
+//                        IP = IP + ":80";
+//                    }
+//                    else {
+//                        Snackbar.make(view, "Failed to Establish Connection!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                        msg = "WIFI_SCAN";
+//                        client.send(msg);
+//                        client.listen();
+//                        openWifiHelp(client.txt);
+//                    }
+//                    String msg = "WIFI_SCAN";
+//                    client.send(msg);
+//                    client.txt="buffering";
+//                    client.listen();
+//                    while (client.txt.compareTo("buffering") == 0);
+//                    if (client.txt.compareTo(wifiName.getText().toString())!=0) {
+//                        openWifiHelp(client.txt);
+//                    }
+//                    Boolean established = false;
+//                    while (!established) {
+//                        msg = "WIFI_JOIN_"+
+//                                wifiName.getText().toString()+"_"+
+//                                wifiPassword.getText().toString();
+//                        client.send(msg);
+//                        client.listen();
+//                        if (client.txt.compareTo("Connected to " + wifiName.getText().toString())==0) {
+//                            established = true;
+//                        }
+//                    }
+//                    if (established) {
+//                        Snackbar.make(view, "Established Connection!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                        msg = "WIFI_INFO";
+//                        client.send(msg);
+//                        client.listen();
+//                        IP = client.txt;
+//                        IP = IP + ":80";
+//                    }
+//                    else {
+//                        Snackbar.make(view, "Failed to Establish Connection!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                        msg = "WIFI_SCAN";
+//                        client.send(msg);
+//                        client.listen();
+//                        openWifiHelp(client.txt);
+//                    }
+                }
+                else {
+                    Snackbar.make(view, "A device not connected correctly", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
@@ -100,7 +165,7 @@ public class Device_Setup extends AppCompatActivity {
                         wifiName.getText().toString(),
                         wifiPassword.getText().toString(),
                         null, //therm object
-                        null
+                        IP
                 ));
 
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
@@ -126,6 +191,7 @@ public class Device_Setup extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                client.close();
                 finish();
                 break;
 
@@ -133,5 +199,32 @@ public class Device_Setup extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openWifiHelp(String info) {
+        wifiInfo = info;
+        DialogFragment newFragment = helpWifi.newInstance(R.string.wifiInfo);
+        newFragment.show(getFragmentManager(), "helpWifi");
+    }
+    public static class helpWifi extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(wifiInfo)
+                    .setNeutralButton("Okay", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Cancel
+                        }
+                    });
+            return builder.create();
+        }
+
+        public static helpWifi newInstance(int title) {
+            helpWifi frag = new helpWifi();
+            Bundle args = new Bundle();
+            args.putInt("title", title);
+            frag.setArguments(args);
+            return frag;
+        }
     }
 }

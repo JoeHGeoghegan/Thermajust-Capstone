@@ -30,6 +30,7 @@
     <string name="power_meter">Power Meter</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="tcp">TCP</string>
+    <string name="wifiInfo">WiFi signals available to the Thermajust Unit</string>
 
     <!-- Setup Strings -->
     <string name="findBluetooth">Find BlueTooth</string>

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import capstone.thermajust.Model.Device;
+import capstone.thermajust.Model.Main_Model;
 
 public class Edit_Device extends AppCompatActivity {
     boolean microphoneBool, thermometerBool, videoBool;
@@ -107,6 +108,7 @@ public class Edit_Device extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Main_Tabbed_View.model.deviceList.remove(deviceSelected);
+                Main_Tabbed_View.model.saveDevices(getApplicationContext());
                 finish(); //closes device edit
             }
         });
