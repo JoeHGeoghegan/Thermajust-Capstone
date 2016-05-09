@@ -39,6 +39,8 @@ public class bluetoothClient2 extends client {
     ThreadConnectBTdevice myThreadConnectBTdevice;
     ThreadConnected myThreadConnected;
 
+    String name = "";
+
     @Override
     public boolean open() throws Exception {
         //using the well-known SPP UUID
@@ -49,18 +51,31 @@ public class bluetoothClient2 extends client {
             return false;
         }
 
-        String stInfo = bluetoothAdapter.getName() + "\n" +
-                bluetoothAdapter.getAddress();
+        //done, gets own devices name
+//        String stInfo = bluetoothAdapter.getName() + "\n" +
+//                bluetoothAdapter.getAddress();
 //        textInfo.setText(stInfo);
+//        name = bluetoothAdapter.getAddress();
 
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
             pairedDeviceArrayList = new ArrayList<BluetoothDevice>();
 
+            //done, this is for making and choosing the device, need to make a specific
+            //example, be sure to include setting name, and starting the threads
+            BluetoothDevice connectedDevice = null;
             for (BluetoothDevice device : pairedDevices) {
-                pairedDeviceArrayList.add(device);
+                if (device.getName().compareTo("HC-06")==0) {
+                    connectedDevice = device;
+                }
             }
-
+            if (connectedDevice != null) {
+                myThreadConnectBTdevice = new ThreadConnectBTdevice(connectedDevice);
+                myThreadConnectBTdevice.start();
+            }
+//            for (BluetoothDevice device : pairedDevices) {
+//                pairedDeviceArrayList.add(device);
+//            }
 //            pairedDeviceAdapter = new ArrayAdapter<BluetoothDevice>(this,
 //                    android.R.layout.simple_list_item_1, pairedDeviceArrayList);
 //            listViewPairedDevice.setAdapter(pairedDeviceAdapter);
@@ -115,7 +130,7 @@ public class bluetoothClient2 extends client {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     //Called in ThreadConnectBTdevice once connect successed
@@ -203,7 +218,6 @@ public class bluetoothClient2 extends client {
             try {
                 bluetoothSocket.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -259,7 +273,6 @@ public class bluetoothClient2 extends client {
 //                        }});
 
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
 
                     final String msgConnectionLost = "Connection lost:\n"
@@ -278,7 +291,6 @@ public class bluetoothClient2 extends client {
             try {
                 connectedOutputStream.write(buffer);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -287,7 +299,6 @@ public class bluetoothClient2 extends client {
             try {
                 connectedBluetoothSocket.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
