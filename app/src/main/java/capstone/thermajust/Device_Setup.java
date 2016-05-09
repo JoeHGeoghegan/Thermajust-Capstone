@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import capstone.thermajust.Comms.bluetoothClient;
+import capstone.thermajust.Comms.bluetoothClient2;
 import capstone.thermajust.Comms.client;
 import capstone.thermajust.Model.Device;
 import capstone.thermajust.Model.Main_Model;
@@ -77,13 +78,13 @@ public class Device_Setup extends AppCompatActivity {
         findBluetooth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (client == null) {
-                    client = new bluetoothClient();
+                    client = new bluetoothClient2(getBaseContext());
                 }
                 if (client.connected) {
                     deviceID.setText(client.getName());
                     client.send("LED_ON");
-                    client.listen();
-                    Snackbar.make(view, client.txt, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+//                    Snackbar.make(view, client.txt, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 //                    client.send("WIFI_JOIN_UDel_Adamengelson1");
 //                    String msg;
 //                    client.listen();

@@ -140,7 +140,7 @@ public class bluetoothClient extends client{
                                 {
                                     public void run()
                                     {
-                                        txt = data;
+//                                        txt = data;
                                     }
                                 });
                             }

@@ -57,18 +57,18 @@ public class tcpClient extends client{
         }
     }
     public void listen() {
-        if (connected) {
-            try {
-                txt = "buffering";
-                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                while (txt.compareTo("buffering") != 0) {
-                    txt = inFromServer.readLine();
-                }
-                clientSocket.close();
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (connected) {
+//            try {
+//                txt = "buffering";
+//                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//                while (txt.compareTo("buffering") != 0) {
+//                    txt = inFromServer.readLine();
+//                }
+//                clientSocket.close();
+//            } catch (java.io.IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 //    public void listenFor(final String message) {
 //        if (connected) {

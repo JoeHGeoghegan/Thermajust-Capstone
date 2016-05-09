@@ -3,15 +3,8 @@ package capstone.thermajust.Comms;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Intent;
-import android.view.View;
-import android.widget.AdapterView;
+import android.content.Context;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -40,6 +33,15 @@ public class bluetoothClient2 extends client {
     ThreadConnected myThreadConnected;
 
     String name = "";
+
+    public bluetoothClient2(Context context) {
+        this.context = context;
+        try {
+            open();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean open() throws Exception {
@@ -70,8 +72,10 @@ public class bluetoothClient2 extends client {
                 }
             }
             if (connectedDevice != null) {
+                name = connectedDevice.getAddress();
                 myThreadConnectBTdevice = new ThreadConnectBTdevice(connectedDevice);
                 myThreadConnectBTdevice.start();
+                connected = true;
             }
 //            for (BluetoothDevice device : pairedDevices) {
 //                pairedDeviceArrayList.add(device);
@@ -261,10 +265,13 @@ public class bluetoothClient2 extends client {
                 try {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
-                    final String msgReceived = String.valueOf(bytes) +
-                            " bytes received:\n"
-                            + strReceived;
-
+                    final String msgReceived = String.valueOf(bytes);
+                    processReceive(msgReceived);
+                    //done
+//                    final String msgReceived = String.valueOf(bytes) +
+//                            " bytes received:\n"
+//                            + strReceived;
+//
 //                    runOnUiThread(new Runnable(){
 //
 //                        @Override
@@ -302,5 +309,40 @@ public class bluetoothClient2 extends client {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void processReceive(String in) {
+//        if (in.contains("LED is ON")) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity.getBaseContext());
+//            builder.setMessage("On :P");
+//            builder.show();
+//        }
+//        else if (in.contains("LED is OFF")) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity.getBaseContext());
+//            builder.setMessage("D: Off!");
+//            builder.show();
+//        }
+//        else if (in.contains("Current Temp is")) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity.getBaseContext());
+//            builder.setMessage(in);
+//            builder.show();
+//        }
+//        else if (in.contains("New Temp is")) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity.getBaseContext());
+//            builder.setMessage(in);
+//            builder.show();
+//        }
+//        else if (in.contains("Connected to")) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(activity.getBaseContext());
+//            builder.setMessage(in);
+//            builder.show();
+//        }
+        if (in.isEmpty()) {
+
+        }
+        else {
+            Toast.makeText(context, in, Toast.LENGTH_LONG).show();
+        }
+
     }
 }
