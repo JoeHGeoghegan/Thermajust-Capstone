@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Main_Tabbed_View">
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-        android:onClick="toSettings" />
-    <item
         android:id="@+id/action_defaultWifi"
         android:title="@string/title_activity_wifi__default"
         android:orderInCategory="101"

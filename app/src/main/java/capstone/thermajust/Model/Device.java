@@ -32,7 +32,7 @@ public class Device {
     private String ip;
 
     public Device(String name, String idNum, boolean onoff, boolean useTemp, boolean useMic,
-                  boolean useVid, String wifiName, String wifiPassword, thermometer therm, String ip) {
+                  boolean useVid, String wifiName, String wifiPassword, String ip, thermometer therm) {
         this.name = name;
         this.idNum = idNum;
         this.onoff = onoff;
@@ -126,9 +126,9 @@ public class Device {
 //        if (getUseVid()) {
 //            write = write + getUseVid() + "," + vid.toString() + ",";
 //        }else { write = write + getUseVid() + ","; }
-        write = write + getIp();
+        write = write + getIp() + ",";
         return write +
                 getWifiName() + "," +
-                getWifiPassword() + ",<!>end<!>\n";
+                getWifiPassword() + "," + ",<!>end<!>\n";
     }
 }

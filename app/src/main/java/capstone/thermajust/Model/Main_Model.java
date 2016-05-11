@@ -29,7 +29,7 @@ public class Main_Model {
     /*******************
      * ATTRIBUTES
      *******************/
-    final String fileVersion = "v1";
+    final String fileVersion = "v2";
 
     Boolean firstRun = true;
 
@@ -209,10 +209,10 @@ public class Main_Model {
                 String wifiName = tokens[num++];
                 String wifiPassword = tokens[num++];
 
-                deviceList.add(new Device(name, idNum, onoff, useTemp, useMic, useVid, wifiName, wifiPassword, therm,
+                deviceList.add(new Device(name, idNum, onoff, useTemp, useMic, useVid, wifiName, wifiPassword, ip, therm
 //                        , mic
 //                        , vid
-                ip));
+                ));
             }
         } catch (FileNotFoundException e0) {
             e0.printStackTrace();

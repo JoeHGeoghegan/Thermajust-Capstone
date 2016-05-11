@@ -32,12 +32,29 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/findBluetooth"
-            android:id="@+id/button_device_Bluetooth"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/findBluetooth"
+                android:id="@+id/button_device_Bluetooth" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Status: " />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unconnected"
+                android:id="@+id/textView_device_status" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

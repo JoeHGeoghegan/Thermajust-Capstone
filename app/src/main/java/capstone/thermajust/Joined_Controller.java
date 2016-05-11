@@ -1,5 +1,6 @@
 package capstone.thermajust;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,18 +13,20 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
-import capstone.thermajust.Comms.bluetoothClient;
-import capstone.thermajust.Comms.client;
-import capstone.thermajust.Comms.tcpClient;
+import capstone.thermajust.clients.tcpClient;
 import capstone.thermajust.Model.Device;
 
 public class Joined_Controller extends AppCompatActivity {
+    private ArrayList<String> chatLog = new ArrayList<>();
+
+
     ArrayList<Device> devices = new ArrayList<>();
-    private ArrayList<capstone.thermajust.Comms.client> clients = new ArrayList<>();
+    private ArrayList<tcpClient> clients = new ArrayList<>();
 
     static TextView currentTemp;
     boolean tog;
@@ -34,6 +37,10 @@ public class Joined_Controller extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //getting and setting device
         boolean usingTempLayout = false;
+
+        // connect to the server
+        new connectTask().execute("");
+
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
@@ -55,17 +62,15 @@ public class Joined_Controller extends AppCompatActivity {
                 }
                 String type = extras.getString("type");
                 for (int i = 0; i < devices.size() ; i++) {
-                    if (type.compareTo("bluetooth") == 0) {
-                        clients.add(new bluetoothClient());
-                    }
-                    else if (type.compareTo("tcp") == 0){
                         clients.add(new tcpClient(devices.get(i).getIp().split(":")[0],
-                                Integer.parseInt(devices.get(i).getIp().split(":")[1])));
-                    }
-                    else { //shouldn't happen but this should be default
-                        clients.add(new tcpClient(devices.get(i).getIp().split(":")[0],
-                                Integer.parseInt(devices.get(i).getIp().split(":")[1])));
-                    }
+                                Integer.parseInt(devices.get(i).getIp().split(":")[1]), new tcpClient.OnMessageReceived() {
+                            @Override
+                            //here the messageReceived method is implemented
+                            public void messageReceived(String message) {
+                                //this method calls the onProgressUpdate
+//                                publishProgress(message);
+                            }
+                        }));
                 }
             }
         }
@@ -143,19 +148,19 @@ public class Joined_Controller extends AppCompatActivity {
                         }
                     }
                     setTemp.setText("" + temp);
-                    //send data, should send due to text watcher
+                    //send data, done by text watcher on change
                 }
             });
 
             Button updateTemp = (Button) findViewById(R.id.button_thermControl_tempUpdate);
             updateTemp.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    updateCurrentTemperature();
+//                    updateCurrentTemperature();
                 }
             });
 
             currentTemp = (TextView) findViewById(R.id.textView_thermControl_temp);
-            updateCurrentTemperature();
+//            updateCurrentTemperature();
 
             RadioGroup mode = (RadioGroup) findViewById(R.id.radioGroup_thermControl_group_mode);
 //        RadioButton cool = (RadioButton) findViewById(R.id.radioButton_thermControl_radio_cooling);
@@ -176,12 +181,6 @@ public class Joined_Controller extends AppCompatActivity {
                                 device.getTherm().setMode("heat");
                             }
                         }
-                    } else if (checkedId == R.id.radioButton_thermControl_radio_coolheat) {
-                        for (Device device: devices) {
-                            if (device.getUseTemp()) {
-                                device.getTherm().setMode("coolheat");
-                            }
-                        }
                     }
                     Main_Tabbed_View.model.saveDevices(getApplicationContext());
                 }
@@ -195,31 +194,19 @@ public class Joined_Controller extends AppCompatActivity {
                     case 2: //heat
                         mode.check(R.id.radioButton_thermControl_radio_heating);
                         break;
-                    case 3: //coolheat
-                        mode.check(R.id.radioButton_thermControl_radio_coolheat);
-                        break;
                 }
             }
         }
     }
 
     void broadcast(String msg) {
+        Toast.makeText(getApplicationContext(), "Sent: " + message, Toast.LENGTH_LONG);
         for (int i = 0; i < clients.size() ; i++) {
             sendMsg(clients.get(i), msg);
         }
     }
-    void sendMsg(client client, String msg) {
+    void sendMsg(tcpClient client, String msg) {
         client.send(msg);
-    }
-
-    void promptMsg(client client, String msg) {
-        sendMsg(client, msg);
-        client.listen();
-    }
-    void updateCurrentTemperature() {
-        for (int i = 0; i < clients.size() ; i++) {
-            promptMsg(clients.get(i),"GET_TEMP");
-        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -233,5 +220,36 @@ public class Joined_Controller extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class connectTask extends AsyncTask<String,String,tcpClient> {
+
+        @Override
+        protected tcpClient doInBackground(String... message) {
+            for (int i = 0; i < devices.size(); i++) {
+                //we create a TCPClient object and
+                String[] ipTemp = devices.get(i).getIp().split(":");
+                clients.add(new tcpClient(ipTemp[0], Integer.parseInt(ipTemp[1]),
+                        new tcpClient.OnMessageReceived() {
+                    @Override
+                    //here the messageReceived method is implemented
+                    public void messageReceived(String message) {
+                        //this method calls the onProgressUpdate
+                        publishProgress(message);
+                        Toast.makeText(getApplicationContext(), "Received: " + message, Toast.LENGTH_LONG);
+                    }
+                }));
+                clients.get(i).run();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+            //in the arrayList we add the messaged received from server
+            chatLog.add(values[0]);
+        }
     }
 }

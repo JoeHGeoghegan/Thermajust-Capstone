@@ -100,44 +100,40 @@
 
             <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Heating" android:id="@+id/radioButton_thermControl_radio_heating" />
-
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Cooling and Heating"
-                android:id="@+id/radioButton_thermControl_radio_coolheat" />
         </RadioGroup>
 
     </GridLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@android:color/holo_blue_dark"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Peripherals" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <!--<Button-->
+        <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:text="Open Microphone Viewer"-->
-            <!--android:id="@+id/button_term_control_mic_peripherals" />-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:text="Peripherals" />-->
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@android:color/holo_blue_dark"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true" />-->
 
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Open Video Viewer"-->
-            <!--android:id="@+id/button_vid_therm_control_peripherals" />-->
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Open Microphone Viewer"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/button_term_control_mic_peripherals" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Open Video Viewer"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/button_vid_therm_control_peripherals" />&ndash;&gt;-->
 
 
     </LinearLayout>

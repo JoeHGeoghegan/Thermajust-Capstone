@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="[Press Plus Button to Update]"
         android:id="@+id/textView_power_row_meter"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/space_power_row"
