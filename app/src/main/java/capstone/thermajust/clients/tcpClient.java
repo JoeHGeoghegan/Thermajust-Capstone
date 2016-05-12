@@ -15,8 +15,6 @@ import java.net.Socket;
  */
 public class tcpClient {
     private String serverMessage;
-//    public static final String SERVERIP = "192.168.0.102"; //your computer IP address
-//    public static final int SERVERPORT = 4444;
     private OnMessageReceived mMessageListener = null;
     private boolean mRun = false;
 
@@ -51,22 +49,14 @@ public class tcpClient {
         mRun = true;
 
         try {
-            //here you must put your computer's IP address.
             InetAddress serverAddr = InetAddress.getByName(ip);
-
-            Log.e("TCP Client", "C: Connecting...");
 
             //create a socket to make the connection with the server
             Socket socket = new Socket(serverAddr, port);
 
             try {
-
                 //send the message to the server
                 out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-
-                Log.e("TCP Client", "C: Sent.");
-
-                Log.e("TCP Client", "C: Done.");
 
                 //receive the message which the server sends back
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -84,16 +74,9 @@ public class tcpClient {
                 }
 
 
-                Log.e("RESPONSE FROM SERVER", "S: Received Message: '" + serverMessage + "'");
-
-
             } catch (Exception e) {
-
-                Log.e("TCP", "S: Error", e);
-
+                e.printStackTrace();
             } finally {
-                //the socket must be closed. It is not possible to reconnect to this socket
-                // after it is closed, which means a new socket instance has to be created.
                 socket.close();
             }
 

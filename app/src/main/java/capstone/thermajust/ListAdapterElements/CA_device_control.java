@@ -118,6 +118,13 @@ public class CA_device_control extends BaseAdapter implements View.OnClickListen
                     activity.startActivity(myIntent);
                 }
             });
+            holder.id.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(activity, Edit_Device.class);
+                    myIntent.putExtra("selectedDevice", position);
+                    activity.startActivity(myIntent);
+                }
+            });
             holder.controlButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     positionHold = position;

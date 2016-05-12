@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import java.util.ArrayList;
 
 import capstone.thermajust.clients.tcpClient;
@@ -29,6 +28,7 @@ public class Joined_Controller extends AppCompatActivity {
     private ArrayList<tcpClient> clients = new ArrayList<>();
 
     static TextView currentTemp;
+    boolean createStopper;
     boolean tog;
     String message;
 
@@ -37,6 +37,7 @@ public class Joined_Controller extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //getting and setting device
         boolean usingTempLayout = false;
+        createStopper = true;
 
         // connect to the server
         new connectTask().execute("");
@@ -61,17 +62,18 @@ public class Joined_Controller extends AppCompatActivity {
                     usingTempLayout = true;
                 }
                 String type = extras.getString("type");
-                for (int i = 0; i < devices.size() ; i++) {
-                        clients.add(new tcpClient(devices.get(i).getIp().split(":")[0],
-                                Integer.parseInt(devices.get(i).getIp().split(":")[1]), new tcpClient.OnMessageReceived() {
-                            @Override
-                            //here the messageReceived method is implemented
-                            public void messageReceived(String message) {
-                                //this method calls the onProgressUpdate
-//                                publishProgress(message);
-                            }
-                        }));
-                }
+//                DO NOT UNCOMMENT
+////                for (int i = 0; i < devices.size() ; i++) {
+////                        clients.add(new tcpClient(devices.get(i).getIp().split(":")[0],
+////                                Integer.parseInt(devices.get(i).getIp().split(":")[1]), new tcpClient.OnMessageReceived() {
+////                            @Override
+////                            //here the messageReceived method is implemented
+////                            public void messageReceived(String message) {
+////                                //this method calls the onProgressUpdate
+//////                                publishProgress(message);
+////                            }
+////                        }));
+////                }
             }
         }
 
@@ -81,6 +83,7 @@ public class Joined_Controller extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton_control_power);
+        toggle.setChecked(devices.get(0).getOnoff()); //sets the current mode
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -97,7 +100,6 @@ public class Joined_Controller extends AppCompatActivity {
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
             }
         });
-        toggle.setChecked(tog); //sets the current mode
 
         if (usingTempLayout) {
             final TextView setTemp = (TextView) findViewById(R.id.textView_thermControl_setTemp);
@@ -108,10 +110,13 @@ public class Joined_Controller extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    //send data
-                    message = "TEMP_SET_";
-                    message += setTemp.getText().toString();
-                    broadcast(message);
+                    if (!createStopper) {
+                        //send data
+                        message = "TEMP_SET_";
+                        message += setTemp.getText().toString();
+                        broadcast(message);
+                    }
+                    createStopper = false;
                 }
 
                 @Override
@@ -155,7 +160,7 @@ public class Joined_Controller extends AppCompatActivity {
             Button updateTemp = (Button) findViewById(R.id.button_thermControl_tempUpdate);
             updateTemp.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-//                    updateCurrentTemperature();
+                    broadcast("TEMP_GET");
                 }
             });
 
@@ -173,12 +178,14 @@ public class Joined_Controller extends AppCompatActivity {
                         for (Device device: devices) {
                             if (device.getUseTemp()) {
                                 device.getTherm().setMode("cool");
+//                                broadcast("MODE_COOL");
                             }
                         }
                     } else if (checkedId == R.id.radioButton_thermControl_radio_heating) {
                         for (Device device: devices) {
                             if (device.getUseTemp()) {
                                 device.getTherm().setMode("heat");
+//                                broadcast("MODE_HEAT");
                             }
                         }
                     }
@@ -200,11 +207,32 @@ public class Joined_Controller extends AppCompatActivity {
     }
 
     void broadcast(String msg) {
-        Toast.makeText(getApplicationContext(), "Sent: " + message, Toast.LENGTH_LONG);
+//        new connectTask().execute("");
+//        try {
+//            Thread.sleep(10000);
+//        }catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        Toast toast = Toast.makeText(getApplicationContext(), "Sent: " + msg, Toast.LENGTH_LONG);
+        toast.show();
         for (int i = 0; i < clients.size() ; i++) {
-            sendMsg(clients.get(i), msg);
+            Device device = devices.get(i);
+//            sendMsg(clients.get(i), "http://" + device.getIp() + "/" + msg);
+//            sendMsg(clients.get(i), device.getIp() + "/" + msg + "/");
+            sendMsg(clients.get(i), device.getIp() + "/" + msg);
+//            sendMsg(clients.get(i), msg);
         }
     }
+//    void broadcast(String msg) {
+//        Toast toast = Toast.makeText(getApplicationContext(), "Sent: " + msg, Toast.LENGTH_LONG);
+//        toast.show();
+//        clients.add(new tcpClient(devices.get(0).getIp().split(":")[0],
+//                Integer.parseInt(devices.get(0).getIp().split(":")[1]),
+//                        msg));
+//        Toast toastO = Toast.makeText(getApplicationContext(), "Received: " + clients.get(0).out, Toast.LENGTH_SHORT);
+//        toastO.show();
+//    }
+
     void sendMsg(tcpClient client, String msg) {
         client.send(msg);
     }
@@ -226,6 +254,10 @@ public class Joined_Controller extends AppCompatActivity {
 
         @Override
         protected tcpClient doInBackground(String... message) {
+//            for (int i = 0; i < clients.size(); i++) {
+//                clients.get(i).close();
+//            }
+//            clients.clear();
             for (int i = 0; i < devices.size(); i++) {
                 //we create a TCPClient object and
                 String[] ipTemp = devices.get(i).getIp().split(":");
@@ -233,10 +265,25 @@ public class Joined_Controller extends AppCompatActivity {
                         new tcpClient.OnMessageReceived() {
                     @Override
                     //here the messageReceived method is implemented
-                    public void messageReceived(String message) {
+                    public void messageReceived(final String message) {
                         //this method calls the onProgressUpdate
                         publishProgress(message);
-                        Toast.makeText(getApplicationContext(), "Received: " + message, Toast.LENGTH_LONG);
+
+                        runOnUiThread(new Runnable(){
+
+                            @Override
+                            public void run() {
+                                Toast toast = Toast.makeText(getApplicationContext(), "Received: " + message, Toast.LENGTH_SHORT);
+                                toast.show();
+
+                                if (message.contains("Current Temp is ")) {
+                                    currentTemp.setText(message.substring("Current Temp is ".length()));
+                                }
+
+
+                            }}
+                        );
+//                        clients.get(i).close();
                     }
                 }));
                 clients.get(i).run();
@@ -244,6 +291,7 @@ public class Joined_Controller extends AppCompatActivity {
             return null;
         }
 
+        //called by messageReceived()
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);

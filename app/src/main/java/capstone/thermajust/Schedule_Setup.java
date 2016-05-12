@@ -20,8 +20,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import capstone.thermajust.ListAdapterElements.CA_group_checklist;
 import capstone.thermajust.ListAdapterElements.CA_schedule_checklist;
@@ -210,6 +213,38 @@ public class Schedule_Setup extends AppCompatActivity {
 
                 //and save the model
                 Main_Tabbed_View.model.saveSchedule(getApplicationContext());
+
+                //and send to the device
+                //EVENT,[name];[start date],[start time]-[commands];[end date],[end time],-[commands]
+//                Calendar c = Calendar.getInstance();
+//                c.get(Calendar.DATE);
+//                int startByte = 0;
+//                if (schedule.isSunS()) { startByte |= 1<<0;}
+//                if (schedule.isMonS()) { startByte |= 1<<1;}
+//                if (schedule.isTueS()) { startByte |= 1<<2;}
+//                if (schedule.isWedS()) { startByte |= 1<<3;}
+//                if (schedule.isThuS()) { startByte |= 1<<4;}
+//                if (schedule.isFriS()) { startByte |= 1<<5;}
+//                if (schedule.isSatS()) { startByte |= 1<<6;}
+//                if (schedule.isStartPower()) { startByte |= 1<<7;}
+//                int endByte = 0;
+//                if (schedule.isSunE()) { endByte |= 1<<0;}
+//                if (schedule.isMonE()) { endByte |= 1<<1;}
+//                if (schedule.isTueE()) { endByte |= 1<<2;}
+//                if (schedule.isWedE()) { endByte |= 1<<3;}
+//                if (schedule.isThuE()) { endByte |= 1<<4;}
+//                if (schedule.isFriE()) { endByte |= 1<<5;}
+//                if (schedule.isSatE()) { endByte |= 1<<6;}
+//                if (schedule.isEndPower()) { endByte |= 1<<7;}
+
+//                String toSend;
+//                if (schedule.isSunS()) {
+//                    toSend = compileEvent(name.getText().toString(), "sun",
+//                            schedule.getStartHour() + ":" + schedule.getStartMinute(),
+//                            schedule.isStartPower(), tempS.getText().toString()
+//                            );
+//                    sendMsg(toSend);
+//                }
             }
         });
 //        timeS
@@ -476,5 +511,24 @@ public class Schedule_Setup extends AppCompatActivity {
             TextView timeE = (TextView) getActivity().findViewById(R.id.textView_schedule_timeEnd);
             timeE.setText(hourOfDay + ":" + minute);
         }
+    }
+
+    //EVENT,[name];[start date],[start time]-[commands];[end date],[end time],-[commands]
+    public String compileEvent(String name,
+                                  String startDay, String startTime, boolean startPower, String startTemp,
+                                  String endDay, String endTime, boolean endPower, String endTemp) {
+        String msg = "EVENT," + name + ";" + startDay + "," + startTime + "," + startPower;
+        if (startTemp.compareTo("Keep")!=0) {
+            msg = msg +  "," + startTemp + ";";
+        }
+
+        msg = msg + endDay + "," + endTime + "," + endPower;
+        if (endTemp.compareTo("Keep")!=0) {
+            msg = msg + "," + endTemp;
+        }
+        return msg;
+    }
+    public void sendMsg(String msg) {
+
     }
 }

@@ -103,6 +103,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bluetooth_connect" />
         </activity>
+        <activity android:name=".Schedule_SetupV2"></activity>
     </application>
 
 </manifest>

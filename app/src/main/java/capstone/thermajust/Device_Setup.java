@@ -44,6 +44,7 @@ public class Device_Setup extends AppCompatActivity {
             "00001101-0000-1000-8000-00805F9B34FB";
     ThreadConnectBTdevice myThreadConnectBTdevice;
     ThreadConnected myThreadConnected;
+    static boolean threadRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class Device_Setup extends AppCompatActivity {
                 if (deviceID.getText().toString().isEmpty()) { //if there is no bluetooth established
                     deviceIDadjusted = "Debug" +
                             Main_Tabbed_View.model.getCurrentDebugID_increment(getApplicationContext()); //generate a debug ID
+                    IP = "128.4.94.94:52007"; //A computer IP
                 } else {
                     deviceIDadjusted = deviceID.getText().toString();//else put in devices ID
                 }
@@ -163,6 +165,7 @@ public class Device_Setup extends AppCompatActivity {
 
     public void openBT() throws Exception {
         //using the well-known SPP UUID
+        threadRun = true;
         myUUID = UUID.fromString(UUID_STRING_WELL_KNOWN_SPP);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -200,6 +203,10 @@ public class Device_Setup extends AppCompatActivity {
         return;
     }
     public boolean closeBT() {
+        threadRun = false;
+        if (myThreadConnected!=null) {
+            myThreadConnected.cancel();
+        }
         if(myThreadConnectBTdevice!=null){
             myThreadConnectBTdevice.cancel();
         }
@@ -304,7 +311,7 @@ public class Device_Setup extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
 
-            while (true) {
+            while (threadRun) {
                 try {
 
                     bytes = connectedInputStream.read(buffer);
@@ -321,13 +328,18 @@ public class Device_Setup extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (strReceived.contains("\n") && !strReceived.isEmpty()) {
+                                try {
+                                    strReceived = strReceived.split("GMT\r\n")[1];
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    //do nothing, we did not receive time
+                                }
                                 status.setText(strReceived);
 
                                 //Add response code here
                                 if (strReceived.contains("Connected to ")) {
                                     sendBT("WIFI_INFO");
                                 } else if (strReceived.contains("IP:")) {
-                                    IP = strReceived.trim() + ":80";
+                                    IP = strReceived.trim().split(":")[1] + ":80";
                                 }
 
                                 strReceived = "";
@@ -337,13 +349,13 @@ public class Device_Setup extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
 
-                    final String msgConnectionLost = "Connection lost:\n"
-                            + e.getMessage();
+//                    final String msgConnectionLost = "Connection lost:\n"
+//                            + e.getMessage();
 //                    runOnUiThread(new Runnable(){
 //
 //                        @Override
 //                        public void run() {
-//                            textStatus.setText(msgConnectionLost);
+//                            status.setText(msgConnectionLost);
 //                        }});
                 }
             }

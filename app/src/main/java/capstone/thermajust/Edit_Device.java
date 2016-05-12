@@ -109,6 +109,7 @@ public class Edit_Device extends AppCompatActivity {
             public void onClick(View view) {
                 Main_Tabbed_View.model.deviceList.remove(deviceSelected);
                 Main_Tabbed_View.model.saveDevices(getApplicationContext());
+                
                 finish(); //closes device edit
             }
         });

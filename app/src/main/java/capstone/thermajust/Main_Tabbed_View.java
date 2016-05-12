@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                         toScheduleSetup(view);
                         break;
                     case 2:
-                        powerRefresh();
+//                        powerRefresh();
                         break;
                 }
             }
@@ -119,9 +121,9 @@ public class Main_Tabbed_View extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_setting) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -188,7 +190,6 @@ public class Main_Tabbed_View extends AppCompatActivity {
 
         public ListholderFragment() {
         }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -286,7 +287,7 @@ public class Main_Tabbed_View extends AppCompatActivity {
                     //edit list 1
                     ArrayList<node.powerRead> powerReadNodes = new ArrayList<node.powerRead>();
                     for (int i = 0; i < model.deviceList.size() ; i++) {
-                        powerReadNodes.add(new node.powerRead(model.deviceList.get(i).getName(), "0", "W", i));
+                        powerReadNodes.add(new node.powerRead(model.deviceList.get(i).getName(), "Unmeasured", "W", i));
                     }
                     arrayAdapter = new CA_power_read(getActivity(),
                             powerReadNodes,
@@ -366,14 +367,5 @@ public class Main_Tabbed_View extends AppCompatActivity {
     public void toScheduleSetup(View view) {
         Intent myIntent = new Intent(Main_Tabbed_View.this, Schedule_Setup.class);
         Main_Tabbed_View.this.startActivity(myIntent);
-    }
-
-    public void powerRefresh() {
-//        ArrayList<tcpClient> tcpClients = new ArrayList<>();
-//        for (int i = 0; i < model.deviceList.size() ; i++) {
-//            String[] ip = model.deviceList.get(i).getIp().split(":");
-//            tcpClients.add(new tcpClient(ip[0], Integer.parseInt(ip[1])));
-//            //listen for power
-//        }
     }
 }
